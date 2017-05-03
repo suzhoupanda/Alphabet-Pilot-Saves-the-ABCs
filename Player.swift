@@ -38,6 +38,7 @@ class Player: GKEntity{
         let texture = SKTexture(image: #imageLiteral(resourceName: "planeRed1"))
         let renderComponent = RenderComponent(position: .zero, autoRemoveEnabled: false)
         renderComponent.node = SKSpriteNode(texture: texture, color: .clear, size: texture.size())
+        renderComponent.node.name = "player"
         addComponent(renderComponent)
       
         let startPos = renderComponent.node.position

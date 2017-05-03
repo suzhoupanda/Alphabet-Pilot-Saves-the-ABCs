@@ -37,4 +37,51 @@ extension Alien{
             
             ])
         ]
+    
+    static func getActiveAnimationName(alienColor: AlienColor) -> String{
+        
+        
+        var activeAnimationName = String()
+        
+        switch(alienColor){
+        case .Beige:
+            activeAnimationName = "mannedBeige"
+            break
+        case .Blue:
+            activeAnimationName = "mannedBlue"
+            break
+        case .Pink:
+            activeAnimationName = "mannedPink"
+            break
+        case .Yellow:
+            activeAnimationName = "mannedYellow"
+            break
+        }
+        
+        return activeAnimationName
+    }
+    
+    static func getInactiveAnimationName(alienColor: AlienColor) -> String{
+        
+        
+        var inactiveAnimationName = String()
+        
+        switch(alienColor){
+        case .Beige:
+            inactiveAnimationName = "unmannedBeige"
+            break
+        case .Blue:
+            inactiveAnimationName = "unmannedBlue"
+            break
+        case .Pink:
+            inactiveAnimationName = "unmannedPink"
+            break
+        case .Yellow:
+            inactiveAnimationName = "unmannedYellow"
+            break
+        }
+        
+        return inactiveAnimationName
+    }
+
 }

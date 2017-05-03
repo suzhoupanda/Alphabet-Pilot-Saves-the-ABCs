@@ -38,7 +38,6 @@ class AlienAttackState: GKState{
         
         self.alienEntity = alienEntity
         super.init()
-        registerForNotifications()
         
     }
     
@@ -147,18 +146,9 @@ class AlienAttackState: GKState{
     }
     
     
-    /**  If the alien contacts the player, send a notification so that alien is forced to transition back to the inactive state and  pathfinding is suspended.
- 
-    **/
     
-    func registerForNotifications(){
-       // NotificationCenter.default.addObserver(self, selector: #selector(AlienAttackState.ChangeEnemyToInactiveState(notification:)), name: Notification.Name.PlayerDidTakeDamageNotification, object: nil)
-        
-    }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
+   
     
 }
 

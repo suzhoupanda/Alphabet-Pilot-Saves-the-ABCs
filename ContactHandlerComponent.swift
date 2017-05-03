@@ -51,6 +51,27 @@ class ContactHandlerComponent: GKComponent{
     //MARK: A notification is posted when a physics body of a given category type makes contact with another physics body; the contact handler is then called as a callback
     func didMakeContact(notification: Notification){
         
+        /** The node name of either bodyA or bodyB must match the node name of the current entity's sprite node in order for the contact event to be handled
+ 
+        **/
+        
+        guard let currentEntityNodeName = entity?.component(ofType: RenderComponent.self)?.node.name else {
+            return
+        }
+        
+        guard let nodeNameA = notification.userInfo?[ContactInfoKeys.PhysicsBodyANodeNameKey] as? String else {
+            return
+        }
+        
+        guard let nodeNameB = notification.userInfo?[ContactInfoKeys.PhysicsBodyBNodeNameKey] as? String else {
+            return
+        }
+        
+        guard currentEntityNodeName == nodeNameA || currentEntityNodeName == nodeNameB else { return }
+        
+    
+        
+        
         guard let (otherBodyCategoryBitMask, otherBodyNodeName) = getOtherBodyInfoFromPhysicsContact(notification: notification) else {
             
                 print("Error: Failed to obtain physics contact info for other body")
@@ -70,6 +91,23 @@ class ContactHandlerComponent: GKComponent{
     
     func didEndContact(notification: Notification){
         
+        guard let currentEntityNodeName = entity?.component(ofType: RenderComponent.self)?.node.name else {
+            return
+        }
+        
+        guard let nodeNameA = notification.userInfo?[ContactInfoKeys.PhysicsBodyANodeNameKey] as? String else {
+            return
+        }
+        
+        guard let nodeNameB = notification.userInfo?[ContactInfoKeys.PhysicsBodyBNodeNameKey] as? String else {
+            return
+        }
+        
+        guard currentEntityNodeName == nodeNameA || currentEntityNodeName == nodeNameB else { return }
+        
+    
+        
+        
         guard let (otherBodyCategoryBitMask, otherBodyNodeName) = getOtherBodyInfoFromPhysicsContact(notification: notification) else {
             
                 print("Error: Failed to obtain physics contact info for other body")
@@ -86,6 +124,8 @@ class ContactHandlerComponent: GKComponent{
         }
         
     }
+    
+  
 
     /**  MARK:  ********* Convenience Method for getting the category bitmask and node name for the physics body other than that of the current physics body from a notification broadcast during a collision event
  

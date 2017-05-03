@@ -124,7 +124,7 @@ extension BaseScene{
                 let positionValue = node.userData?.value(forKey: "position") as! NSValue
                 let position = positionValue.cgPointValue
                 
-                let alien = Alien(alienColor: .Pink, position: position, nodeName: "alien\(position)", targetNode: targetNode, minimumProximityDistance: 400.0, scalingFactor: 0.50)
+                let alien = Alien(alienColor: .Beige, position: position, nodeName: "alien\(position)", targetNode: targetNode, minimumProximityDistance: 400.0, scalingFactor: 0.50)
                 entityManager.addToWorld(alien)
                 
             }

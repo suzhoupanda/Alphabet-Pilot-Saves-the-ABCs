@@ -41,7 +41,9 @@ class AlienActiveState: GKState{
                 animationComponent.animationNode?.removeAction(forKey: "inactiveAnimation")
             }
             
-            animationComponent.runAnimation(withAnimationNameOf: "mannedPink", andWithAnimationKeyOf: "activeAnimation", repeatForever: false)
+            let activeAnimationName = Alien.getActiveAnimationName(alienColor: alienEntity.alienColor)
+            
+            animationComponent.runAnimation(withAnimationNameOf: activeAnimationName, andWithAnimationKeyOf: "activeAnimation", repeatForever: false)
             break
         case is AlienAttackState:
             print("Alien is entering the active state from the attack state...")
@@ -53,12 +55,6 @@ class AlienActiveState: GKState{
         default:
             break
         }
-        
-      
-
-        
-        
-        
         
         
     }
@@ -94,5 +90,5 @@ class AlienActiveState: GKState{
                 return false
         }
     }
-    
+ 
 }

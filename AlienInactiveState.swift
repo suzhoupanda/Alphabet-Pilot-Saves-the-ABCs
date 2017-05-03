@@ -25,27 +25,13 @@ class AlienInactiveState: GKState{
     override func update(deltaTime seconds: TimeInterval) {
         super.update(deltaTime: seconds)
         
-        frameCount += seconds
-        
-        if frameCount > inactiveInterval{
-            
-            print("Alien about to enter the active state...")
-            stateMachine?.enter(AlienActiveState.self)
-            frameCount = 0.00
-        }
-    }
-    
-    override func didEnter(from previousState: GKState?) {
-        super.didEnter(from: previousState)
-        print("Alien has entered the inactive state. Setting inactive framecount to zero...")
+        /** While in the inactive state, if the alien is not in its original position, then it will gradually lerp back towards that position. This occurs when the alien enters the inactive state while chasing the player in attack mode.
+         **/
         
         guard let renderComponent = alienEntity.component(ofType: RenderComponent.self) else {
             print("Error: failed to load the render component for \(alienEntity) upon entering the \(stateMachine?.currentState)")
             return
         }
-        
-        /** While in the inactive state, if the alien is not in its original position, then it will gradually lerp back towards that position. This occurs when the alien enters the inactive state while chasing the player in attack mode.
-         **/
         
         let originalPosition = renderComponent.originalPosition
         
@@ -53,6 +39,20 @@ class AlienInactiveState: GKState{
             renderComponent.node.lerpToPoint(targetPoint: originalPosition, withLerpFactor: 0.05)
         }
         
+        frameCount += seconds
+        
+        if frameCount > inactiveInterval{
+            
+            stateMachine?.enter(AlienActiveState.self)
+            frameCount = 0.00
+        }
+    }
+    
+    override func didEnter(from previousState: GKState?) {
+        super.didEnter(from: previousState)
+        
+      
+       
         guard let animationComponent = alienEntity.component(ofType: BasicAnimationComponent.self) else {
             print("Error: state machine failed to enter \(stateMachine?.currentState) from \(previousState)")
             return }
@@ -66,11 +66,15 @@ class AlienInactiveState: GKState{
         }
         
         //Run any inactive animations
-        animationComponent.runAnimation(withAnimationNameOf: "unmannedPink", andWithAnimationKeyOf: "inactiveAnimation", repeatForever: false)
+        
+        let inactiveAnimationName = Alien.getInactiveAnimationName(alienColor: alienEntity.alienColor)
+        
+        animationComponent.runAnimation(withAnimationNameOf: inactiveAnimationName, andWithAnimationKeyOf: "inactiveAnimation", repeatForever: false)
         
         
     }
     
+
     override func isValidNextState(_ stateClass: AnyClass) -> Bool {
         super.isValidNextState(stateClass)
         
@@ -82,4 +86,6 @@ class AlienInactiveState: GKState{
         }
         
     }
+    
+   
 }
