@@ -12,6 +12,9 @@ import SpriteKit
 extension BaseScene: SKPhysicsContactDelegate{
     
     func didBegin(_ contact: SKPhysicsContact) {
+        
+        /** These variables may be required later for implementing contact logic between different combinations of non-player entities: 
+         
         guard let playerPhysicsBody = player.component(ofType: PhysicsComponent.self)?.physicsBody else { return }
         
         let playerBody = (contact.bodyA.categoryBitMask & CollisionConfiguration.Player.categoryMask > 0) ? contact.bodyA : contact.bodyB
@@ -21,6 +24,7 @@ extension BaseScene: SKPhysicsContactDelegate{
         let enemyBody = (contact.bodyA.categoryBitMask & CollisionConfiguration.Enemy.categoryMask > 0) ? contact.bodyA : contact.bodyB
         
         let nonEnemyBody = (contact.bodyA.categoryBitMask & CollisionConfiguration.Enemy.categoryMask > 0) ? contact.bodyB : contact.bodyA
+        **/
         
         //NodeNames corresponding to physics bodies A and B
         
@@ -40,6 +44,9 @@ extension BaseScene: SKPhysicsContactDelegate{
     
     
     func didEnd(_ contact: SKPhysicsContact) {
+        
+        /** These variables may be required later for implementing contact logic among different combinations of non-player entities: 
+         
         guard let playerPhysicsBody = player.component(ofType: PhysicsComponent.self)?.physicsBody else { return }
         
         
@@ -50,6 +57,7 @@ extension BaseScene: SKPhysicsContactDelegate{
         let enemyBody = (contact.bodyA.categoryBitMask & CollisionConfiguration.Enemy.categoryMask > 0) ? contact.bodyA : contact.bodyB
         
         let nonEnemyBody = (contact.bodyA.categoryBitMask & CollisionConfiguration.Enemy.categoryMask > 0) ? contact.bodyB : contact.bodyA
+        **/
         
         //NodeNames corresponding to physics bodies A and B
         

@@ -37,7 +37,7 @@ extension BaseScene{
          **/
         
         //initializePlaceholderGraph(rootNode: rootNode)
-        //initializeObstacleGraph(rootNode: rootNode)
+        initializeObstacleGraph(rootNode: rootNode)
         
         
         /**  Loop through all the child nodes of the root node, and if the placeholder node name contains specific keyword names, add letters, enemies, etc.
@@ -46,12 +46,9 @@ extension BaseScene{
         
         
         for node in rootNode.children{
-            if var node = node as? SKNode{
-                
-
-                addEnemy(node: node)
-                addLetterEntity(node: node)
-            }
+            addEnemy(node: node)
+            addLetterEntity(node: node)
+            
         }
         
         
@@ -87,13 +84,17 @@ extension BaseScene{
     }
     
     func initializeObstacleGraph(rootNode: SKNode){
-        /**
+        
         var obstacleNodes = [SKNode]()
         
         for node in rootNode.children{
             
-            if let node = node as? SKSpriteNode, node.name == "Island"{
-                obstacleNodes.append(node)
+            if let node = node as? SKSpriteNode, let nodeName = node.name{
+                
+                if nodeName.contains("Barrier/") && nodeName.contains("Spike"){
+                    obstacleNodes.append(node)
+                    print("Added a spike to the obstacle graph....")
+                }
                 
             }
         }
@@ -101,9 +102,9 @@ extension BaseScene{
         let obstacleGraphNodes = SKNode.obstacles(fromNodeBounds: obstacleNodes)
         
         
-        obstacleGraph = GKObstacleGraph(obstacles: obstacleGraphNodes, bufferRadius: 20.00)
+        obstacleGraph = GKObstacleGraph(obstacles: obstacleGraphNodes, bufferRadius: 10.00)
         
-        **/
+        
         
     }
     
@@ -118,7 +119,13 @@ extension BaseScene{
             
             if nodeName.contains("Alien"){
                 print("Adding an alien to the scene")
-              
+                
+                let targetNode = player.renderComponent.node
+                let positionValue = node.userData?.value(forKey: "position") as! NSValue
+                let position = positionValue.cgPointValue
+                
+                let alien = Alien(alienColor: .Pink, position: position, nodeName: "alien\(position)", targetNode: targetNode, minimumProximityDistance: 400.0, scalingFactor: 0.50)
+                entityManager.addToWorld(alien)
                 
             }
         }

@@ -121,8 +121,8 @@ class LetterNode: SKSpriteNode{
     }
     
     convenience init(letter: LetterCategory, position: CGPoint, scalingFactor: CGFloat?) {
-        var texture = letter.texture
-        var textureSize = texture.size()
+        let texture = letter.texture
+        let textureSize = texture.size()
         
         self.init(texture: texture, color: .clear, size: textureSize)
         

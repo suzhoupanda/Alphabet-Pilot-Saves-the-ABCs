@@ -22,6 +22,8 @@ class EntityManager{
         
         let renderComponent = GKComponentSystem(componentClass: RenderComponent.self)
         
+        let graphNodeComponent = GKComponentSystem(componentClass: GraphNodeComponent.self)
+        
         let playerPositionBroadcasterComponent = GKComponentSystem(componentClass: PlayerPositionBroadcasterComponent.self)
         
         //Physics Components
@@ -32,9 +34,11 @@ class EntityManager{
         
         let inputComponent = GKComponentSystem(componentClass: LandscapeMotionResponderComponentY.self)
         
+        let targetDetectionComponent = GKComponentSystem(componentClass: TargetDetectionComponent.self)
+        
         let intelligenceComponent = GKComponentSystem(componentClass: IntelligenceComponent.self)
         
-        return [renderComponent, physicsComponent, inputComponent, velocityComponent, intelligenceComponent]
+        return [renderComponent, graphNodeComponent, physicsComponent, inputComponent, velocityComponent, targetDetectionComponent, intelligenceComponent]
         
     }()
     

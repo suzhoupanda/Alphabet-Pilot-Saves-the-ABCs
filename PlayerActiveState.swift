@@ -35,6 +35,7 @@ class PlayerActiveState: GKState{
         
         print("Entering the player active state...")
         
+        /**
         guard let playerNode = playerEntity.component(ofType: RenderComponent.self)?.node else {
             print("Error: playyer must have a render component")
             return
@@ -44,6 +45,7 @@ class PlayerActiveState: GKState{
             print("Error: player must have a health component ")
             return
         }
+        **/
         
         guard let playerPhysicsComponent = playerEntity.component(ofType: PhysicsComponent.self) else {
             print("Error: player must have a velocity component")
@@ -153,7 +155,6 @@ class PlayerActiveState: GKState{
             print("Error: unable to retrieve player's health")
             return }
 
-        print("The player's current health is \(updatedHealth)")
         
         if(updatedHealth <= 0){
             stateMachine?.enter(PlayerDeadState.self)

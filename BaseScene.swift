@@ -74,21 +74,16 @@ class BaseScene: SKScene {
         /** Enttiy manager is added after the world node has been added to the scene **/
         entityManager = EntityManager(scene: self)
         
-      
+        /** Add player to the entity manager; retain a reference to the player in the scene itself for convenience; player is added prior to loading nodes from the SKScene file in order that its node can be used as a target node for certain enemies **/
+        player = Player()
+        entityManager.addToWorld(player)
+        
         
         /** Add enemies, obstacles, and backgrounds to world from SKScene file. The player must be initialized before the smart enemies (i.e. those that use the player as a target agent) to be initialized from the scene file **/
         loadNodesFromSKSceneFile()
         
-        /** Add player to the entity manager; retain a reference to the player in the scene itself for convenience **/
-        player = Player()
-        entityManager.addToWorld(player)
         
-        if let playerNode = player.component(ofType: RenderComponent.self)?.node{
-            playerNode.run(SKAction.repeatForever(SKAction.sequence([
-                SKAction.fadeAlpha(to: 0.70, duration: 1.00),
-                SKAction.fadeAlpha(to: 1.00, duration: 1.00)
-                ])))
-        }
+        
         
         
         NotificationCenter.default.addObserver(self, selector: #selector(BaseScene.reportPlayerRangePosition(notification:)), name: Notification.Name.PlayerEnteredPredefinedRange, object: nil)

@@ -67,6 +67,8 @@ class Letter: GKEntity{
         
     }
     
+    /**  Contact handler for the letter entity:
+     
     func addContactHandlerComponent(letterCategory: LetterNode.LetterCategory){
         let contactHandlerComponent = ContactHandlerComponent(categoryBeginContactHandler:  {
             
@@ -104,10 +106,10 @@ class Letter: GKEntity{
         } , nodeBeginContactHandler: nil, categoryEndContactHandler: nil, nodeEndContactHandler: nil)
         
         addComponent(contactHandlerComponent)
-        
     }
     
-    
+     **/
+
     //MARK: The agent used when pathfinding to a target tile at a certain ground location
     
    // let agent: GKAgent2D
