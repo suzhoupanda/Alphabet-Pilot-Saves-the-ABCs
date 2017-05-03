@@ -1,8 +1,8 @@
 //
-//  PlayerDeadState.swift
+//  PlayerSuccessState.swift
 //  BadBoy Bunny Alphabet Learner
 //
-//  Created by Aleksander Makedonski on 5/2/17.
+//  Created by Aleksander Makedonski on 5/3/17.
 //  Copyright © 2017 AlexMakedonski. All rights reserved.
 //
 
@@ -10,7 +10,7 @@ import Foundation
 import GameplayKit
 import SpriteKit
 
-class PlayerDeadState: GKState{
+class PlayerSuccessState: GKState{
     
     let playerEntity: Player
     
@@ -23,14 +23,9 @@ class PlayerDeadState: GKState{
     
     override func didEnter(from previousState: GKState?) {
         super.didEnter(from: previousState)
-        
-        guard let playerPhysicsBody = playerEntity.component(ofType: PhysicsComponent.self)?.physicsBody else {
-            print("Error: player must have a physics body in order to run the die animation")
-            return
-        }
-        
-        playerPhysicsBody.velocity = CGVector.zero
-        playerPhysicsBody.affectedByGravity = true
+    
+        print("Player has entered the success state...")
+       
         
         guard let playerAnimationComponent = playerEntity.component(ofType: BasicAnimationComponent.self) else {
             print("Error: player must have an animation component in order to run die animation")
@@ -39,8 +34,7 @@ class PlayerDeadState: GKState{
         
         playerAnimationComponent.animationNode?.run(SKAction.wait(forDuration: 2.00), completion: {
             
-            playerAnimationComponent.runAnimation(withAnimationNameOf: "dead", andWithAnimationKeyOf: "deadAnimation", repeatForever: false)
-        
+            //Run any success animations
         })
         
         
@@ -55,8 +49,8 @@ class PlayerDeadState: GKState{
         super.isValidNextState(stateClass)
         
         switch stateClass{
-            default:
-                return false
+        default:
+            return false
         }
     }
 }

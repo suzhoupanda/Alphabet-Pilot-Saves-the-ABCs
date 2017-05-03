@@ -27,13 +27,12 @@ class BaseScene: SKScene {
     /**  The letter is attained when the player flies past the x-position of the letter.  Upon attaining the letter, the scene's state machine enter the LevelSceneSuccessState
  
     **/
-    var letterAttained: Bool = false
     
     lazy var stateMachine : GKStateMachine = GKStateMachine(states: [
-       // LevelSceneFailState(levelScene: self),
-       // LevelSceneActiveState(levelScene: self),
-       // LevelSceneSuccessState(levelScene: self),
-       // LevelScenePauseState(levelScene: self)
+            LevelSceneFailState(levelScene: self),
+            LevelSceneActiveState(levelScene: self),
+            LevelSceneSuccessState(levelScene: self),
+            LevelScenePauseState(levelScene: self)
         ])
     
     
@@ -44,6 +43,8 @@ class BaseScene: SKScene {
     init(sksFileName: String, size: CGSize){
         self.skSceneFileName = sksFileName
         super.init(size: size)
+        
+        registerNotifications()
         
     }
     
@@ -83,10 +84,11 @@ class BaseScene: SKScene {
         loadNodesFromSKSceneFile()
         
         
-        
-        
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(BaseScene.reportPlayerRangePosition(notification:)), name: Notification.Name.PlayerEnteredPredefinedRange, object: nil)
+        /** Switch the state machine into the active state
+ 
+        **/
+        stateMachine.enter(LevelSceneActiveState.self)
+    
         
     }
     
@@ -202,6 +204,17 @@ class BaseScene: SKScene {
             
             saveSpriteInformation(rootNode: node)
         }
+    }
+    
+   
+    func registerNotifications(){
+         NotificationCenter.default.addObserver(self, selector: #selector(BaseScene.reportPlayerRangePosition(notification:)), name: Notification.Name.PlayerEnteredPredefinedRange, object: nil)
+        
+       
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
 }

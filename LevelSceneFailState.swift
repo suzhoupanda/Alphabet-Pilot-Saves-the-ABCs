@@ -12,4 +12,9 @@ import SpriteKit
 
 class LevelSceneFailState: GKState{
     
+    let levelScene: BaseScene
+    
+    init(levelScene: BaseScene){
+        self.levelScene = levelScene
+    }
 }

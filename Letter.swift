@@ -42,7 +42,7 @@ class Letter: GKEntity{
         let startPos = CGPoint(x: startXPos, y: startYPos)
         **/
         
-        let letterNode = LetterNode(letter: letterCategory, position: position, scalingFactor: 0.60)
+        let letterNode = LetterNode(letter: letterCategory, position: position, scalingFactor: 1.00)
         
         let renderComponent = RenderComponent(spriteNode: letterNode)
         

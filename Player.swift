@@ -122,7 +122,8 @@ class Player: GKEntity{
                 break
             case CollisionConfiguration.Letter.categoryMask:
                 print("Player contacted letter")
-                NotificationCenter.default.post(name: Notification.Name.PlayerDidContactLetterNotification, object: nil, userInfo: nil)
+                self.component(ofType: IntelligenceComponent.self)?.stateMachine?.enter(PlayerSuccessState.self)
+         
                 break
             case CollisionConfiguration.NonCollidingEnemy.categoryMask:
                 print("Player contacted non-colliding enemy")
