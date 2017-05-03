@@ -11,7 +11,7 @@ import Foundation
 import GameplayKit
 import SpriteKit
 
-class Alien: GKEntity{
+class Alien: Enemy{
     
     enum AlienColor{
         case Yellow, Blue, Pink, Beige

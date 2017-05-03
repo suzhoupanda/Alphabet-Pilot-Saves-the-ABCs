@@ -1,24 +1,29 @@
 //
-//  AlienInactiveState.swift
+//  EnemyInactiveState.swift
 //  BadBoy Bunny Alphabet Learner
 //
-//  Created by Aleksander Makedonski on 5/2/17.
+//  Created by Aleksander Makedonski on 5/3/17.
 //  Copyright © 2017 AlexMakedonski. All rights reserved.
 //
+
+/**  Enemy States (i.e. EnemyInactiveState, EnemyAttackState, EnemyActiveState) all implemented common state management functionality that can be subclassed for different enemies; each enemy can subclass and override the didEnter(from previousState:) function to customize the animations that are activated and removed for different states
+ 
+
+ **/
 
 import Foundation
 import GameplayKit
 import SpriteKit
 
-class AlienInactiveState: GKState{
+class EnemyInactiveState: GKState{
     
-    let alienEntity: Alien
+    let enemyEntity: Enemy
     
     var frameCount: TimeInterval = 0.00
     var inactiveInterval : TimeInterval = 2.00
     
-    init(alienEntity: Alien){
-        self.alienEntity = alienEntity
+    init(enemyEntity: Enemy){
+        self.enemyEntity = enemyEntity
         super.init()
     }
     
@@ -30,7 +35,7 @@ class AlienInactiveState: GKState{
         if frameCount > inactiveInterval{
             
             print("Alien about to enter the active state...")
-            stateMachine?.enter(AlienActiveState.self)
+            stateMachine?.enter(EnemyActiveState.self)
             frameCount = 0.00
         }
     }
@@ -39,8 +44,8 @@ class AlienInactiveState: GKState{
         super.didEnter(from: previousState)
         print("Alien has entered the inactive state. Setting inactive framecount to zero...")
         
-        guard let renderComponent = alienEntity.component(ofType: RenderComponent.self) else {
-            print("Error: failed to load the render component for \(alienEntity) upon entering the \(stateMachine?.currentState)")
+        guard let renderComponent = enemyEntity.component(ofType: RenderComponent.self) else {
+            print("Error: failed to load the render component for \(enemyEntity) upon entering the \(stateMachine?.currentState)")
             return
         }
         
@@ -53,13 +58,13 @@ class AlienInactiveState: GKState{
             renderComponent.node.lerpToPoint(targetPoint: originalPosition, withLerpFactor: 0.05)
         }
         
-        guard let animationComponent = alienEntity.component(ofType: BasicAnimationComponent.self) else {
+        guard let animationComponent = enemyEntity.component(ofType: BasicAnimationComponent.self) else {
             print("Error: state machine failed to enter \(stateMachine?.currentState) from \(previousState)")
             return }
         
         frameCount = 0.00
         
-       
+        
         //Remove any active animations
         if animationComponent.animationNode?.action(forKey: "activeAnimation") != nil{
             animationComponent.animationNode?.removeAction(forKey: "activeAnimation")
@@ -75,10 +80,10 @@ class AlienInactiveState: GKState{
         super.isValidNextState(stateClass)
         
         switch(stateClass){
-            case is AlienActiveState.Type:
-                return true
-            default:
-                return false
+        case is EnemyActiveState.Type:
+            return true
+        default:
+            return false
         }
         
     }
