@@ -13,6 +13,9 @@ import GameplayKit
 
 class AlienAttackState: GKState{
     
+    /** Get a reference to the alien entity and its target node
+ 
+    **/
     
     let alienEntity: Alien
     var targetNode: SKSpriteNode?
@@ -31,7 +34,6 @@ class AlienAttackState: GKState{
             return nil
         }
     }
-    
     
     
     init(alienEntity: Alien){
@@ -85,14 +87,11 @@ class AlienAttackState: GKState{
                 /** Connect both the starting graph node and target graph node to the obstacle graph in order to perform pathfinding
                 **/
                 
-                print("Connecting start and end nodes to obstacle graph...")
         
                 obstacleGraph.connectUsingObstacles(node: startGraphNode)
                 obstacleGraph.connectUsingObstacles(node: targetGraphNode)
                 
                 
-                
-                print("Determining attack path...")
                 
                 let attackPath = obstacleGraph.findPath(from: startGraphNode, to: targetGraphNode)
                 
@@ -100,10 +99,10 @@ class AlienAttackState: GKState{
                     
                     let graphNode = graphNode as! GKGraphNode2D
                     
-                    let nextPoint = graphNode.getCGPointFromGraphNodeCoordinates()
-                    let moveToNextPointAction = SKAction.move(to: nextPoint, duration: 1.00)
                     
-                    print("Executing move to next point in path..")
+                    let nextPoint = graphNode.getCGPointFromGraphNodeCoordinates()
+                    let moveToNextPointAction = SKAction.move(to: nextPoint, duration: 2.00)
+                    
                     node.run(moveToNextPointAction)
                 }
                 
@@ -121,7 +120,6 @@ class AlienAttackState: GKState{
     
     override func didEnter(from previousState: GKState?) {
         super.didEnter(from: previousState)
-        print("Enemy has entered the attack state, setting target node...")
         
         guard let animationComponent = alienEntity.component(ofType: BasicAnimationComponent.self) else {
             print("Error: failed to load the animation component while entering \(stateMachine?.currentState) from the \(previousState)")

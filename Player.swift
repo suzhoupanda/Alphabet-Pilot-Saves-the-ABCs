@@ -115,7 +115,6 @@ class Player: GKEntity{
                 print("Player contacted barrier")
                 break
             case CollisionConfiguration.Enemy.categoryMask:
-                print("Player contacted enemy")
                 NotificationCenter.default.post(name: Notification.Name.PlayerDidTakeDamageNotification, object: nil, userInfo: nil)
                 break
             case CollisionConfiguration.Collectible.categoryMask:
@@ -123,6 +122,7 @@ class Player: GKEntity{
                 break
             case CollisionConfiguration.Letter.categoryMask:
                 print("Player contacted letter")
+                NotificationCenter.default.post(name: Notification.Name.PlayerDidContactLetterNotification, object: nil, userInfo: nil)
                 break
             case CollisionConfiguration.NonCollidingEnemy.categoryMask:
                 print("Player contacted non-colliding enemy")

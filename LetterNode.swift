@@ -135,10 +135,10 @@ class LetterNode: SKSpriteNode{
         
         //Configure node physics properties
         self.physicsBody = SKPhysicsBody(texture: texture, size: textureSize)
-        self.physicsBody?.affectedByGravity = true
-        self.physicsBody?.isDynamic = true
+        self.physicsBody?.affectedByGravity = false
+        self.physicsBody?.isDynamic = false
         self.physicsBody?.categoryBitMask = CollisionConfiguration.Letter.categoryMask
-        self.physicsBody?.collisionBitMask = 0
+        self.physicsBody?.collisionBitMask = CollisionConfiguration.Letter.collisionMask
         self.physicsBody?.contactTestBitMask = CollisionConfiguration.Letter.contactMask
         
         //Configure node scaling

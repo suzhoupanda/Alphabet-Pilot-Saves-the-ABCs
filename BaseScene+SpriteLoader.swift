@@ -93,7 +93,6 @@ extension BaseScene{
                 
                 if nodeName.contains("Barrier/") && nodeName.contains("Spike"){
                     obstacleNodes.append(node)
-                    print("Added a spike to the obstacle graph....")
                 }
                 
             }
@@ -112,19 +111,35 @@ extension BaseScene{
         if let nodeName = node.name,nodeName.contains("Enemy/"){
             
             if nodeName.contains("BladeIsland"){
-                print("Adding a blade island based on placeholder position...")
                 
             }
             
             
             if nodeName.contains("Alien"){
-                print("Adding an alien to the scene")
+                
+                var alienColor: Alien.AlienColor = .Pink
+                
+                if nodeName.contains("Beige"){
+                    alienColor = .Beige
+                }
+                
+                if nodeName.contains("Yellow"){
+                    alienColor = .Yellow
+                }
+                
+                if nodeName.contains("Blue"){
+                    alienColor = .Blue
+                }
+                
+                if nodeName.contains("Pink"){
+                    alienColor = .Pink
+                }
                 
                 let targetNode = player.renderComponent.node
                 let positionValue = node.userData?.value(forKey: "position") as! NSValue
                 let position = positionValue.cgPointValue
                 
-                let alien = Alien(alienColor: .Beige, position: position, nodeName: "alien\(position)", targetNode: targetNode, minimumProximityDistance: 400.0, scalingFactor: 0.50)
+                let alien = Alien(alienColor: alienColor, position: position, nodeName: "alien\(position)", targetNode: targetNode, minimumProximityDistance: 200.0, scalingFactor: 0.50)
                 entityManager.addToWorld(alien)
                 
             }

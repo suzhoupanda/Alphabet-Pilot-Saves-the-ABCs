@@ -61,6 +61,10 @@ class Letter: GKEntity{
         
         let physicsBody = letterNode.physicsBody ?? SKPhysicsBody(texture: letterTexture, size: letterTextureSize)
         physicsBody.mass = letterMass
+        physicsBody.affectedByGravity = false
+        physicsBody.isDynamic = false
+        physicsBody.allowsRotation = false
+        
         let physicsComponent = PhysicsComponent(physicsBody: physicsBody, collisionConfiguration: CollisionConfiguration.Letter)
         addComponent(physicsComponent)
         

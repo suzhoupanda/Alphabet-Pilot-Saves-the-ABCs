@@ -24,7 +24,6 @@ class AlienActiveState: GKState{
     
     override func didEnter(from previousState: GKState?) {
         super.didEnter(from: previousState)
-        print("Alien has entered the active state...")
         
         frameCount = 0.0
         
@@ -36,7 +35,6 @@ class AlienActiveState: GKState{
         switch(previousState){
         
         case is AlienInactiveState:
-            print("Aien is entering active state from the inactive state...")
             if animationComponent.animationNode?.action(forKey: "inactiveAnimation") != nil{
                 animationComponent.animationNode?.removeAction(forKey: "inactiveAnimation")
             }
@@ -46,7 +44,6 @@ class AlienActiveState: GKState{
             animationComponent.runAnimation(withAnimationNameOf: activeAnimationName, andWithAnimationKeyOf: "activeAnimation", repeatForever: false)
             break
         case is AlienAttackState:
-            print("Alien is entering the active state from the attack state...")
             //Remove attack mode animation
             if animationComponent.animationNode?.action(forKey: "attackAnimation") != nil{
                     animationComponent.animationNode?.removeAction(forKey: "attackAnimation")
