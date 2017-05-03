@@ -16,6 +16,9 @@ class BaseScene: SKScene {
     
     var player: Player!
     var worldNode: SKSpriteNode!
+    var overlayNode: SKSpriteNode!
+    
+    var gameIsPaused: Bool = false
     
     var placeholderGraph: GKMeshGraph<GKGraphNode2D>?
     var obstacleGraph: GKObstacleGraph<GKGraphNode2D>?
@@ -65,12 +68,39 @@ class BaseScene: SKScene {
         self.physicsWorld.contactDelegate = self
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         
+
+        
         /** Add the world node **/
         worldNode = SKSpriteNode()
         worldNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         worldNode.position = .zero
         worldNode.scale(to: view.bounds.size)
         addChild(worldNode)
+        
+        /** Add the overlay node **/
+        overlayNode = SKSpriteNode()
+        overlayNode.zPosition = 15
+        overlayNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        overlayNode.position = .zero
+        overlayNode.scale(to: view.bounds.size)
+        addChild(overlayNode)
+        
+        let pauseGroup = SKScene(fileNamed: "OverlayButtons")?.childNode(withName: "PauseGroup")
+        
+        if let pauseButton = pauseGroup?.childNode(withName: "PauseButton"), let resumeButton = pauseGroup?.childNode(withName: "ResumeButton"){
+            pauseButton.isHidden = false
+            resumeButton.isHidden = true
+            
+            
+        }
+    
+        let paddingLeft = ScreenSizeConstants.HalfScreenWidth*0.20
+        let paddingBottom = ScreenSizeConstants.HalfScreenHeight*0.15
+        let xPos = ScreenPoints.BottomLeftCorner.x + paddingLeft
+        let yPos = ScreenPoints.BottomLeftCorner.y + paddingBottom
+        
+        pauseGroup?.position = CGPoint(x: xPos, y: yPos)
+        pauseGroup!.move(toParent: overlayNode)
         
         /** Enttiy manager is added after the world node has been added to the scene **/
         entityManager = EntityManager(scene: self)
@@ -112,44 +142,7 @@ class BaseScene: SKScene {
     }
     
     
-    func touchDown(atPoint pos : CGPoint) {
-      
-    }
-    
-    func touchMoved(toPoint pos : CGPoint) {
-      
-    }
-    
-    func touchUp(atPoint pos : CGPoint) {
-       
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        let touch = touches.first! as UITouch
-        let touchLocation = touch.location(in: worldNode)
-        
-        /** When the user touch is to the right of the player, velocity is increased; when it is to the left, velocity is decreased
- 
-        **/
-        if let playerNode = player.component(ofType: RenderComponent.self)?.node{
-            
-            let velocityUpdateNotification: Notification.Name = touchLocation.x > playerNode.position.x ? Notification.Name.DidIncreasePlayerVelocityNotification :Notification.Name.DidDecreasePlayerVelocityNotification
-                
-            NotificationCenter.default.post(Notification(name: velocityUpdateNotification, object: nil, userInfo: nil))
-            
-        }
-        
-    }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-    }
-    
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-    }
+  
     
     
     //MARK: ********** GAME LOOP FUNCTIONS

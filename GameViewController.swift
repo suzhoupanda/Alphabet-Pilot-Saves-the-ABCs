@@ -26,6 +26,8 @@ class GameViewController: UIViewController {
         let skView = self.view as! SKView
         
         let screenSize = UIScreen.main.bounds.size
+        
+       
         let planeScene1 = BaseScene(sksFileName: "PlaneScene1", size: screenSize)
         
         skView.presentScene(planeScene1)
