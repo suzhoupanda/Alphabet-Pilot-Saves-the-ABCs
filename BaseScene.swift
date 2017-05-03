@@ -86,13 +86,6 @@ class BaseScene: SKScene {
         addChild(overlayNode)
         
         let pauseGroup = SKScene(fileNamed: "OverlayButtons")?.childNode(withName: "PauseGroup")
-        
-        if let pauseButton = pauseGroup?.childNode(withName: "PauseButton"), let resumeButton = pauseGroup?.childNode(withName: "ResumeButton"){
-            pauseButton.isHidden = false
-            resumeButton.isHidden = true
-            
-            
-        }
     
         let paddingLeft = ScreenSizeConstants.HalfScreenWidth*0.20
         let paddingBottom = ScreenSizeConstants.HalfScreenHeight*0.15
@@ -150,6 +143,12 @@ class BaseScene: SKScene {
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         
+        stateMachine.update(deltaTime: currentTime)
+
+        if stateMachine.currentState is LevelScenePauseState {
+            print("Game is paused: cannot run updates on entity manager or component systems")
+            return }
+        
         // Initialize _lastUpdateTime if it has not already been
         if (self.lastUpdateTime == 0) {
             self.lastUpdateTime = currentTime
@@ -159,7 +158,6 @@ class BaseScene: SKScene {
         let dt = currentTime - self.lastUpdateTime
         
         
-        stateMachine.update(deltaTime: currentTime)
         
         entityManager.update(dt)
       
@@ -168,6 +166,7 @@ class BaseScene: SKScene {
     
     override func didSimulatePhysics() {
         super.didSimulatePhysics()
+        
         
         guard let playerNode = player.component(ofType: RenderComponent.self)?.node else { return }
         centerOnNode(node: playerNode)

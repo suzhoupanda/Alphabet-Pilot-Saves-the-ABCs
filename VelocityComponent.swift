@@ -66,6 +66,7 @@ class VelocityComponent: GKComponent{
     override func update(deltaTime seconds: TimeInterval) {
         super.update(deltaTime: seconds)
         
+        
         if let physicsBody = self.physicsBody{
             physicsBody.velocity.dx = velocityX
         }

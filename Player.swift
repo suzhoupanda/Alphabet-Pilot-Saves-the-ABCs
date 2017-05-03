@@ -82,7 +82,8 @@ class Player: GKEntity{
         let intelligenceComponent = IntelligenceComponent(states: [
             PlayerActiveState(playerEntity: self),
             PlayerDamagedState(playerEntity: self),
-            PlayerDeadState(playerEntity: self)
+            PlayerDeadState(playerEntity: self),
+            PlayerPauseState(playerEntity: self)
             ])
         addComponent(intelligenceComponent)
         intelligenceComponent.stateMachine?.enter(PlayerActiveState.self)

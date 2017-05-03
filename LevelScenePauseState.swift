@@ -17,4 +17,23 @@ class LevelScenePauseState: GKState{
     init(levelScene: BaseScene){
         self.levelScene = levelScene
     }
+    
+    
+    override func didEnter(from previousState: GKState?) {
+        super.didEnter(from: previousState)
+        
+      
+    
+    }
+    
+    override func isValidNextState(_ stateClass: AnyClass) -> Bool {
+        super.isValidNextState(stateClass)
+        
+        switch stateClass{
+            case is LevelSceneActiveState.Type:
+                return true
+            default:
+                return false
+        }
+    }
 }

@@ -50,6 +50,12 @@ class EntityManager{
     
     
     func update(_ deltaTime: CFTimeInterval){
+        
+        if scene.stateMachine.currentState is LevelScenePauseState {
+            print("Game is paused: cannot run updates on the entity manager or component systems")
+            return
+        }
+        
         for componentSystem in componentSystems{
             componentSystem.update(deltaTime: deltaTime)
         }

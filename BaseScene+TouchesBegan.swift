@@ -31,72 +31,72 @@ extension BaseScene{
                 
                 if button.name == "PauseGroup" && button.contains(touchLocationUI){
                     
-                    print("Pause Group has been touched...")
+        
                     
-                    
-                    
-                    if let pauseButton = button.childNode(withName: "PauseButton") as? SKSpriteNode, let resumeButton = button.childNode(withName: "ResumeButton") as? SKSpriteNode{
+                    if let pauseButton = button.childNode(withName: "PauseButton") as? SKSpriteNode, let pauseButtonLabel = pauseButton.childNode(withName: "PauseButton") as? SKLabelNode{
                         
                         let touchLocationPauseGroup = touch.location(in: button)
                         
                         if pauseButton.contains(touchLocationPauseGroup){
                             
-                            if(gameIsPaused) { return }
-                            
-                            gameIsPaused = true
-                            
-                            print("Pause Button has been touched...")
-                            
-                            
-                            pauseButton.isHidden = true
-                            resumeButton.isHidden = false
-                            
-                            
-                            if let optionsGroup = SKScene(fileNamed: "OverlayButtons")?.childNode(withName: "OptionsGroup"){
-                                optionsGroup.move(toParent: overlayNode)
+                            if(stateMachine.currentState is LevelSceneActiveState){
+                                
+                                
+                                if let optionsGroup = SKScene(fileNamed: "OverlayButtons")?.childNode(withName: "OptionsGroup"){
+                                    optionsGroup.move(toParent: overlayNode)
+                                    optionsGroup.position = .zero
+                                }
+                                
+                                pauseButtonLabel.text = "Resume"
+                                worldNode.isPaused = true
+                                stateMachine.enter(LevelScenePauseState.self)
+                                
+                            } else {
+                                
+                                if let optionsGroup = overlayNode.childNode(withName: "OptionsGroup"){
+                                    optionsGroup.removeFromParent()
+                                }
+                                
+                                pauseButtonLabel.text = "Pause"
+                                worldNode.isPaused = false
+                                stateMachine.enter(LevelSceneActiveState.self)
                             }
+                            
+                          
                             
                         }
                         
-                        if  resumeButton.contains(touchLocationPauseGroup){
-                            
-                            if(!gameIsPaused) { return }
-                            
-                            gameIsPaused = false
-                            
-                            print("Resume Button has been touched...")
-                            
-                            resumeButton.isHidden = true
-                            pauseButton.isHidden = false
-                            
-                            
-                            
-                            
-                            if let optionsGroup = overlayNode.childNode(withName: "OptionsGroup"){
-                                optionsGroup.removeFromParent()
-                            }
-                        }
+        
                         
                     }
-                    
-                    
-                    
+    
                     
                 }
                 
                 
-                if button.name == "OptionGroup" && button.contains(touchLocationUI){
+                if button.name == "OptionsGroup" && button.contains(touchLocationUI){
                     
-                    if let restartButton = button.childNode(withName: "Restart"){
-                        
+                    let touchLocationInOptionGroup = touch.location(in: button)
+                    
+                    if let restartButton = button.childNode(withName: "Restart") as? SKSpriteNode, restartButton.contains(touchLocationInOptionGroup){
+                        print("Restarting level...")
                     }
                     
                     
-                    if let mainMenuButton = button.childNode(withName: "MainMenu"){
-                        
+                    if let mainMenuButton = button.childNode(withName: "MainMenu") as? SKSpriteNode, mainMenuButton.contains(touchLocationInOptionGroup){
+                        print("Returning to main menu...")
                     }
                     
-                    if let recordButtonGroup = button.childNode(withName: "RecordGameplay"){
+                    if let recordButtonGroup = button.childNode(withName: "RecordGameplay") as? SKSpriteNode, recordButtonGroup.contains(touchLocationInOptionGroup){
+                        
+                        print("Showing restart buttons...")
+
+                        button.removeFromParent()
+                        
+                            if let recordGroup = SKScene(fileNamed: "OverlayButtons")?.childNode(withName: "RecordGroup"){
+                                recordGroup.move(toParent: overlayNode)
+                                recordGroup.position = .zero
+                            }
                         
                         
                         

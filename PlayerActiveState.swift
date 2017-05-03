@@ -271,7 +271,7 @@ class PlayerActiveState: GKState{
         super.isValidNextState(stateClass)
         
         switch stateClass{
-            case is PlayerDamagedState.Type, is PlayerDeadState.Type, is PlayerSuccessState.Type:
+            case is PlayerDamagedState.Type, is PlayerDeadState.Type, is PlayerSuccessState.Type, is PlayerPauseState.Type:
                 return true
             default:
                 return false
