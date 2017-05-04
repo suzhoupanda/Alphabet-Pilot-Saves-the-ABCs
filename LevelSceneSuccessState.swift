@@ -18,4 +18,24 @@ class LevelSceneSuccessState: GKState{
         self.levelScene = levelScene
     }
     
+    override func didEnter(from previousState: GKState?) {
+        super.didEnter(from: previousState)
+        
+        if let optionsGroup = SKScene(fileNamed: "OverlayButtons")?.childNode(withName: "GameSuccessGroup"){
+            optionsGroup.move(toParent: levelScene.overlayNode)
+            optionsGroup.position = .zero
+        }
+        
+        levelScene.isPaused = true
+    }
+    
+    override func isValidNextState(_ stateClass: AnyClass) -> Bool {
+        super.isValidNextState(stateClass)
+        
+            switch stateClass{
+                default:
+                    return false
+            }
+        }
+    
 }

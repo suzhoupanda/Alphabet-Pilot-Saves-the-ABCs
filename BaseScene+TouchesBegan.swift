@@ -49,6 +49,7 @@ extension BaseScene{
                                 
                                 pauseButtonLabel.text = "Resume"
                                 worldNode.isPaused = true
+                                self.isPaused = true
                                 stateMachine.enter(LevelScenePauseState.self)
                                 
                             } else {
@@ -57,8 +58,13 @@ extension BaseScene{
                                     optionsGroup.removeFromParent()
                                 }
                                 
+                                if let recordButtonGroup = overlayNode.childNode(withName: "RecordGroup"){
+                                    recordButtonGroup.removeFromParent()
+                                }
+                                
                                 pauseButtonLabel.text = "Pause"
                                 worldNode.isPaused = false
+                                self.isPaused = false
                                 stateMachine.enter(LevelSceneActiveState.self)
                             }
                             
@@ -117,6 +123,16 @@ extension BaseScene{
                     
                     if let replayButton = button.childNode(withName: "ReplayButton"){
                         
+                        
+                    }
+                    
+                    if let backButton = button.childNode(withName: "BackButton"){
+                        button.removeFromParent()
+                        
+                        if let optionsGroup = SKScene(fileNamed: "OverlayButtons")?.childNode(withName: "OptionsGroup"){
+                            optionsGroup.move(toParent: overlayNode)
+                            optionsGroup.position = .zero
+                        }
                         
                     }
                     
