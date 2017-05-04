@@ -40,6 +40,8 @@ class PlayerDeadState: GKState{
         playerAnimationComponent.animationNode?.run(SKAction.wait(forDuration: 2.00), completion: {
             
             playerAnimationComponent.runAnimation(withAnimationNameOf: "dead", andWithAnimationKeyOf: "deadAnimation", repeatForever: false)
+            
+           // NotificationCenter.default.post(name: Notification.Name.PlayerHasDiedNotification, object: nil, userInfo: nil)
         
         })
         

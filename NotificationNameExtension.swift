@@ -26,7 +26,7 @@ extension Notification.Name{
     static let PlayerEnteredPredefinedRange = Notification.Name(rawValue: "playerEnteredPredefinedRange")
     static let DidIncreasePlayerVelocityNotification = Notification.Name(rawValue: "didIncreasePlayerVelocityNotification")
     static let DidDecreasePlayerVelocityNotification = Notification.Name(rawValue: "didDecreasePlayerVelocityNotification")
-    
+    static let PlayerHasDiedNotification = Notification.Name(rawValue: "playerHasDiedNotification")
     
   
     /**

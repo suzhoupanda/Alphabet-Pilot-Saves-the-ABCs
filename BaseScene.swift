@@ -99,7 +99,12 @@ class BaseScene: SKScene {
         entityManager = EntityManager(scene: self)
         
         /** Add player to the entity manager; retain a reference to the player in the scene itself for convenience; player is added prior to loading nodes from the SKScene file in order that its node can be used as a target node for certain enemies **/
-        player = Player()
+        player = Player(planeColor: .Yellow)
+        if let playerNode = player.component(ofType: RenderComponent.self)?.node{
+            playerNode.xScale *= 0.50
+            playerNode.yScale *= 0.50
+        }
+        
         entityManager.addToWorld(player)
         
         
@@ -148,6 +153,7 @@ class BaseScene: SKScene {
         if stateMachine.currentState is LevelScenePauseState {
             print("Game is paused: cannot run updates on entity manager or component systems")
             return }
+        
         
         // Initialize _lastUpdateTime if it has not already been
         if (self.lastUpdateTime == 0) {

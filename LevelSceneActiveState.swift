@@ -31,12 +31,15 @@ class LevelSceneActiveState: GKState{
     override func update(deltaTime seconds: TimeInterval) {
         super.update(deltaTime: seconds)
         
+        if levelScene.player.hasAttainedLetter{
+            stateMachine?.enter(LevelSceneSuccessState.self)
+        }
+        
         if let playerState = levelScene.player.component(ofType: IntelligenceComponent.self)?.stateMachine?.currentState{
             
             switch(playerState){
-                case is PlayerDeadState.Type:
-                    break
-                case is PlayerSuccessState.Type:
+                case is PlayerDeadState:
+                    stateMachine?.enter(LevelSceneFailState.self)
                     break
                 default:
                     break

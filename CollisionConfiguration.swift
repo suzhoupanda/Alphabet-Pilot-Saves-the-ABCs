@@ -75,7 +75,7 @@ extension CollisionConfiguration: OptionSet{
         CollisionConfiguration.Other : [CollisionConfiguration.NoCategory],
         
         CollisionConfiguration.NonCollidingEnemy : [CollisionConfiguration.NoCategory],
-        CollisionConfiguration.Letter : [CollisionConfiguration.Barrier, CollisionConfiguration.Other]
+        CollisionConfiguration.Letter : [CollisionConfiguration.Other]
     ]
     
     static let definedContacts: [CollisionConfiguration:[CollisionConfiguration]] = [
@@ -84,7 +84,7 @@ extension CollisionConfiguration: OptionSet{
         CollisionConfiguration.Barrier : [CollisionConfiguration.Player],
         CollisionConfiguration.NonCollidingEnemy:
             [CollisionConfiguration.Player],
-        CollisionConfiguration.Letter : [ CollisionConfiguration.Player, CollisionConfiguration.Barrier],
+        CollisionConfiguration.Letter : [ CollisionConfiguration.Player],
         CollisionConfiguration.Portal :      [CollisionConfiguration.Player],
         CollisionConfiguration.Other : [CollisionConfiguration.Player]
     ]

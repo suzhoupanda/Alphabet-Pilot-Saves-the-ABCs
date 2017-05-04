@@ -123,13 +123,13 @@ class PlayerActiveState: GKState{
             print("Setting new velocity animation...")
             switch(velocityCategory){
                 case .High:
-                    playerAnimation.runAnimation(withAnimationNameOf: "highVelocityRed", andWithAnimationKeyOf: "velocityAnimation", repeatForever: true)
+                    playerAnimation.runAnimation(withAnimationNameOf: "highVelocity", andWithAnimationKeyOf: "velocityAnimation", repeatForever: true)
                     break
                 case .Medium:
-                    playerAnimation.runAnimation(withAnimationNameOf: "mediumVelocityRed", andWithAnimationKeyOf: "velocityAnimation", repeatForever: true)
+                    playerAnimation.runAnimation(withAnimationNameOf: "mediumVelocity", andWithAnimationKeyOf: "velocityAnimation", repeatForever: true)
                     break
                 case .Low:
-                    playerAnimation.runAnimation(withAnimationNameOf: "lowVelocityRed", andWithAnimationKeyOf: "velocityAnimation", repeatForever: true)
+                    playerAnimation.runAnimation(withAnimationNameOf: "lowVelocity", andWithAnimationKeyOf: "velocityAnimation", repeatForever: true)
                     break
                 case .None:
                     playerAnimation.runAnimation(withAnimationNameOf: "mediumVelocityRed", andWithAnimationKeyOf: "velocityAnimation", repeatForever: true)
@@ -142,6 +142,7 @@ class PlayerActiveState: GKState{
         super.update(deltaTime: seconds)
         
         
+      
         /** Prior to update the velocity animation, check player health. If player health has fallen to zero, the player enter the PlayerDead state, whereupon the die animation is executed
  
         **/
@@ -251,16 +252,16 @@ class PlayerActiveState: GKState{
         
         switch(updatedVelocityCategory){
             case .High:
-                playerAnimation.runAnimation(withAnimationNameOf: "highVelocityRed", andWithAnimationKeyOf: "velocityAnimation", repeatForever: true)
+                playerAnimation.runAnimation(withAnimationNameOf: "highVelocity", andWithAnimationKeyOf: "velocityAnimation", repeatForever: true)
                 break
             case .Medium:
-                 playerAnimation.runAnimation(withAnimationNameOf: "mediumVelocityRed", andWithAnimationKeyOf: "velocityAnimation", repeatForever: true)
+                 playerAnimation.runAnimation(withAnimationNameOf: "mediumVelocity", andWithAnimationKeyOf: "velocityAnimation", repeatForever: true)
                 break
             case .Low:
-                 playerAnimation.runAnimation(withAnimationNameOf: "lowVelocityRed", andWithAnimationKeyOf: "velocityAnimation", repeatForever: true)
+                 playerAnimation.runAnimation(withAnimationNameOf: "lowVelocity", andWithAnimationKeyOf: "velocityAnimation", repeatForever: true)
                 break
             case .None:
-                playerAnimation.runAnimation(withAnimationNameOf: "mediumVelocityRed", andWithAnimationKeyOf: "velocityAnimation", repeatForever: true)
+                playerAnimation.runAnimation(withAnimationNameOf: "mediumVelocity", andWithAnimationKeyOf: "velocityAnimation", repeatForever: true)
         
             }
     

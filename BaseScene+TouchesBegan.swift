@@ -27,6 +27,14 @@ extension BaseScene{
         
         if overlayNode.contains(generalTouchLocation){
             
+            /** User is not allowed to pause the scene upon achieving the success state.  If the game is currently in record mode, then the recording must stop
+             
+            **/
+            
+            if player.hasAttainedLetter {
+                //TODO: Execute code to end any currently on-going gameplay recording
+                return }
+            
             for button in overlayNode.children{
                 
                 if button.name == "PauseGroup" && button.contains(touchLocationUI){

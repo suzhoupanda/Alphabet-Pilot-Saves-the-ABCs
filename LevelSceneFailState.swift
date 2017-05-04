@@ -21,12 +21,19 @@ class LevelSceneFailState: GKState{
     override func didEnter(from previousState: GKState?) {
         super.didEnter(from: previousState)
         
-        if let optionsGroup = SKScene(fileNamed: "OverlayButtons")?.childNode(withName: "GameFailGroup"){
-            optionsGroup.move(toParent: levelScene.overlayNode)
-            optionsGroup.position = .zero
-        }
+        /** Since the player has just entered the dead state, the player needs time to run it's die animation.  Upon entering the level fail state, a short delay is allowed to elapse before pausing the scene and shwoing the GameFailGroup buttons
+        **/
         
-        levelScene.isPaused = true
+        levelScene.run(SKAction.wait(forDuration: 6.00), completion: {
+            if let optionsGroup = SKScene(fileNamed: "OverlayButtons")?.childNode(withName: "GameFailGroup"){
+                optionsGroup.move(toParent: self.levelScene.overlayNode)
+                optionsGroup.position = .zero
+            }
+            
+            self.levelScene.isPaused = true
+        
+        })
+        
     }
     
     override func isValidNextState(_ stateClass: AnyClass) -> Bool {

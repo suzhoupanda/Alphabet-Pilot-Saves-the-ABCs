@@ -13,6 +13,11 @@ import GameplayKit
 
 class Player: GKEntity{
     
+    enum PlaneColor{
+        case Red, Yellow, Green, Blue
+    }
+    
+    var planeColor: PlaneColor = .Red
     
     //MARK: Properties 
     let mainMotionManager = MainMotionManager.sharedMotionManager
@@ -28,30 +33,70 @@ class Player: GKEntity{
 
     }
     
+    
+    var hasAttainedLetter: Bool = false
+    
     //MARK: Initializers
+    
+    
+    convenience init(planeColor: PlaneColor) {
+        
+        self.init()
+        addPlayerComponents(forPlaneColor: planeColor)
+        
+    }
     
     override init() {
         super.init()
+       
+       
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    func addPlayerComponents(forPlaneColor planeColor: PlaneColor){
+        
+        guard let texture = Player.getPlaneTexture(forPlaneColor: planeColor) else { return }
         
         /** Add the render component with the appropriate SKTexture derived from the Bunny base image
-        **/
-        let texture = SKTexture(image: #imageLiteral(resourceName: "planeRed1"))
+         **/
+        
+        addRenderNodeAndGraphNodeComponent(texture: texture)
+        addPlayerPositionBroadcastingComponent()
+        addPhysicsComponent(texture: texture)
+        addVelocityComponent()
+        addMotionResponderComponent()
+        addAnimationComponent(forPlaneColor: planeColor)
+        addHealthComponent()
+        addIntelligenceComponent()
+        addContactHandlerComponent()
+        
+    }
+    
+    func addRenderNodeAndGraphNodeComponent(texture: SKTexture){
+        
         let renderComponent = RenderComponent(position: .zero, autoRemoveEnabled: false)
         renderComponent.node = SKSpriteNode(texture: texture, color: .clear, size: texture.size())
         renderComponent.node.name = "player"
         addComponent(renderComponent)
-      
+        
         let startPos = renderComponent.node.position
         let graphNodeComponent = GraphNodeComponent(cgPosition: startPos)
         addComponent(graphNodeComponent)
         
-        
+    }
+    
+    func addPlayerPositionBroadcastingComponent(){
         let playerPositionBroadcastingComponent = PlayerPositionBroadcasterComponent()
         addComponent(playerPositionBroadcastingComponent)
+        
+    }
     
-        /**  Add a physics body component whose physics body dimensions are based on that of the node texture
- 
-        **/
+    func addPhysicsComponent(texture: SKTexture){
+        
         let physicsBody = SKPhysicsBody(texture: texture, size: texture.size())
         physicsBody.affectedByGravity = false
         physicsBody.allowsRotation = false
@@ -62,22 +107,40 @@ class Player: GKEntity{
         addComponent(physicsComponent)
         
         
+    }
+    
+    func addVelocityComponent(){
+
         let velocityComponent = VelocityComponent(velocityX: 50.0)
         addComponent(velocityComponent)
+    }
+    
+    
+    func addMotionResponderComponent(){
         
         let motionResponderComponent = LandscapeMotionResponderComponentY(motionManager: mainMotionManager)
         addComponent(motionResponderComponent)
         
-        addContactHandlerComponent()
+    }
+
+    func addHealthComponent(){
         
-        //The player is scaled down after the physics body is added so that the physics body scaled down along with the node texture
-        
-        
-        let animationComponent = BasicAnimationComponent(animationsDict: Player.AnimationsDict)
-        addComponent(animationComponent)
-        
-        let healthComponent = HealthComponent(startingHealth: 5)
+        let healthComponent = HealthComponent(startingHealth: 6)
         addComponent(healthComponent)
+        
+    }
+    
+    
+    func addAnimationComponent(forPlaneColor planeColor: PlaneColor){
+        
+        let animationsDict = Player.getPlaneAnimationsDict(forPlaneColor: planeColor)
+        
+        let animationComponent = BasicAnimationComponent(animationsDict: animationsDict)
+        
+        addComponent(animationComponent)
+    }
+    
+    func addIntelligenceComponent(){
         
         let intelligenceComponent = IntelligenceComponent(states: [
             PlayerActiveState(playerEntity: self),
@@ -89,18 +152,7 @@ class Player: GKEntity{
         
         
         addComponent(intelligenceComponent)
-        
-        renderComponent.node.xScale *= 0.50
-        renderComponent.node.yScale *= 0.50
-        
-       
     }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    
   
     func addContactHandlerComponent(){
     
@@ -122,8 +174,7 @@ class Player: GKEntity{
                 break
             case CollisionConfiguration.Letter.categoryMask:
                 print("Player contacted letter")
-                self.component(ofType: IntelligenceComponent.self)?.stateMachine?.enter(PlayerSuccessState.self)
-         
+                self.hasAttainedLetter = true
                 break
             case CollisionConfiguration.NonCollidingEnemy.categoryMask:
                 print("Player contacted non-colliding enemy")
