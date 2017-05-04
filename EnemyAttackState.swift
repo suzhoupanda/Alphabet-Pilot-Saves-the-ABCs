@@ -119,16 +119,8 @@ class EnemyAttackState: GKState{
     
     override func didEnter(from previousState: GKState?) {
         super.didEnter(from: previousState)
-        print("Enemy has entered the attack state, setting target node...")
         
-        guard let animationComponent = enemyEntity.component(ofType: BasicAnimationComponent.self) else {
-            print("Error: failed to load the animation component while entering \(stateMachine?.currentState) from the \(previousState)")
-            return
-        }
-        
-        //Run any attack mode animations
-        
-        animationComponent.runAnimation(withAnimationNameOf: "attack", andWithAnimationKeyOf: "attackAnimation", repeatForever: true)
+       
         
     }
     

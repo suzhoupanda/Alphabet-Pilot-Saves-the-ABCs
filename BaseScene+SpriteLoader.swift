@@ -114,6 +114,16 @@ extension BaseScene{
                 
             }
             
+            if nodeName.contains("Bee"){
+                
+                let targetNode = player.renderComponent.node
+                let positionValue = node.userData?.value(forKey: "position") as! NSValue
+                let position = positionValue.cgPointValue
+                
+                let bee = Bee(position: position, nodeName: "bee\(position)", targetNode: targetNode, minimumProximityDistance: 300.00, scalingFactor: 0.50)
+                entityManager.addToWorld(bee)
+                
+            }
             
             if nodeName.contains("Alien"){
                 

@@ -30,6 +30,8 @@ class EntityManager{
         
         let physicsComponent = GKComponentSystem(componentClass: PhysicsComponent.self)
      
+        let orientationComponent = GKComponentSystem(componentClass: OrientationComponent.self)
+        
         let velocityComponent = GKComponentSystem(componentClass: VelocityComponent.self)
         
         let inputComponent = GKComponentSystem(componentClass: LandscapeMotionResponderComponentY.self)
@@ -38,7 +40,7 @@ class EntityManager{
         
         let intelligenceComponent = GKComponentSystem(componentClass: IntelligenceComponent.self)
         
-        return [renderComponent, graphNodeComponent, physicsComponent, inputComponent, velocityComponent, targetDetectionComponent, intelligenceComponent]
+        return [renderComponent, graphNodeComponent, physicsComponent, orientationComponent, inputComponent, velocityComponent, targetDetectionComponent, intelligenceComponent]
         
     }()
     

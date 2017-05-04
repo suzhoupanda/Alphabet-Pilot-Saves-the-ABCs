@@ -34,7 +34,6 @@ class EnemyInactiveState: GKState{
         
         if frameCount > inactiveInterval{
             
-            print("Alien about to enter the active state...")
             stateMachine?.enter(EnemyActiveState.self)
             frameCount = 0.00
         }
@@ -42,14 +41,13 @@ class EnemyInactiveState: GKState{
     
     override func didEnter(from previousState: GKState?) {
         super.didEnter(from: previousState)
-        print("Alien has entered the inactive state. Setting inactive framecount to zero...")
-        
+       
         guard let renderComponent = enemyEntity.component(ofType: RenderComponent.self) else {
             print("Error: failed to load the render component for \(enemyEntity) upon entering the \(stateMachine?.currentState)")
             return
         }
         
-        /** While in the inactive state, if the alien is not in its original position, then it will gradually lerp back towards that position. This occurs when the alien enters the inactive state while chasing the player in attack mode.
+        /** While in the inactive state, if the enemy is not in its original position, then it will gradually lerp back towards that position. This occurs when the enemy enters the inactive state while chasing the player in attack mode.
          **/
         
         let originalPosition = renderComponent.originalPosition
@@ -57,23 +55,10 @@ class EnemyInactiveState: GKState{
         if !renderComponent.node.position.equalTo(originalPosition){
             renderComponent.node.lerpToPoint(targetPoint: originalPosition, withLerpFactor: 0.05)
         }
-        
-        guard let animationComponent = enemyEntity.component(ofType: BasicAnimationComponent.self) else {
-            print("Error: state machine failed to enter \(stateMachine?.currentState) from \(previousState)")
-            return }
-        
+      
         frameCount = 0.00
         
-        
-        //Remove any active animations
-        if animationComponent.animationNode?.action(forKey: "activeAnimation") != nil{
-            animationComponent.animationNode?.removeAction(forKey: "activeAnimation")
-        }
-        
-        //Run any inactive animations
-        animationComponent.runAnimation(withAnimationNameOf: "unmannedPink", andWithAnimationKeyOf: "inactiveAnimation", repeatForever: false)
-        
-        
+      
     }
     
     override func isValidNextState(_ stateClass: AnyClass) -> Bool {
