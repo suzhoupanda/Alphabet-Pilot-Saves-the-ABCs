@@ -1,5 +1,5 @@
 //
-//  Bee.swift
+//  EvilSun.swift
 //  BadBoy Bunny Alphabet Learner
 //
 //  Created by Aleksander Makedonski on 5/4/17.
@@ -11,21 +11,26 @@ import GameplayKit
 import SpriteKit
 
 
-class Bee: Enemy{
+import Foundation
+import GameplayKit
+import SpriteKit
+
+
+class EvilSun: Enemy{
     
- 
+    
     /** Initializer for an enemy that uses a target node component to detect player proximity; doesn't rely on pathfinding algorithms to move around obstalces, and doesn't rely on the agent/goal simulation from GameplayKit **/
     
     convenience init(position: CGPoint, nodeName: String, targetNode: SKSpriteNode, minimumProximityDistance: Double, scalingFactor: CGFloat?) {
         self.init()
         
-      
-       
         
-        let beeTexture = SKTexture(image: #imageLiteral(resourceName: "bee"))
+        
+        
+        let sunTexture = SKTexture(image: #imageLiteral(resourceName: "sun1"))
         //The selected alien texture is used to initialize the sprite node for the render component as well as the physics body for the physics body component; position arguments is used to initialize the graph node component as well as to set the initial position of the render component
         
-        let node = SKSpriteNode(texture: beeTexture)
+        let node = SKSpriteNode(texture: sunTexture)
         node.position = position
         node.name = nodeName
         
@@ -37,7 +42,7 @@ class Bee: Enemy{
         
         
         
-        let physicsBody = SKPhysicsBody(texture: beeTexture, size: beeTexture.size())
+        let physicsBody = SKPhysicsBody(texture: sunTexture, size: sunTexture.size())
         physicsBody.affectedByGravity = false
         physicsBody.allowsRotation = false
         
@@ -45,9 +50,6 @@ class Bee: Enemy{
         
         addComponent(physicsComponent)
         
-        
-        let orientationComponent = OrientationComponent(currentOrientation: .Left)
-        addComponent(orientationComponent)
         
         //Animations Component is initialized with an animations dictionary, which is stored on the Alien class as a static type property
         
@@ -62,11 +64,11 @@ class Bee: Enemy{
         
         let cgRect = CGRect(x: 0.00, y: 0.00, width: 50.00, height: 50.00)
         let path = CGPath(ellipseIn: cgRect, transform: nil)
-        let pathAnimation = SKAction.follow(path, asOffset: true, orientToPath: false, duration: 2.00)
+        let pathAnimation = SKAction.follow(path, asOffset: false, orientToPath: false, duration: 2.00)
         
         //Initialize the animation component by combining the pre-configured animations dict with a new dictionary whose actions are dynamically determined based on starting position
         
-        let combinedDict = [["moveAnimation": moveAnimation, "pathAnimation":pathAnimation], Bee.AnimationsDict]
+        let combinedDict = [["moveAnimation": moveAnimation, "pathAnimation":pathAnimation], EvilSun.AnimationsDict]
         
         var animationsDict = [String: SKAction]()
         
@@ -75,10 +77,10 @@ class Bee: Enemy{
                 animationsDict[key] = value
             }
         }
-
+        
         let animationComponent = BasicAnimationComponent(animationsDict: animationsDict)
         addComponent(animationComponent)
-        animationComponent.runAnimation(withAnimationNameOf: "moveAnimation", andWithAnimationKeyOf: "moveAnimation", repeatForever: true)
+        animationComponent.runAnimation(withAnimationNameOf: "pathAnimation", andWithAnimationKeyOf: "pathAnimation", repeatForever: true)
         
         //The target node argument is used to initialize the target detection component; typically, the player node is passed in as an argument for the target detection component to provide a target for pathfinding, smart enemies
         
@@ -86,7 +88,7 @@ class Bee: Enemy{
         addComponent(targetDetectonComponent)
         
         
-      
+        
         //Contact handler component: an attacking enemy enters the inactive state upon contact with the player; ensure that a reference to the entity-level state machine is captured in the contact handler expression
         
         let contactHandlerComponent = ContactHandlerComponent(categoryBeginContactHandler: {
@@ -124,4 +126,3 @@ class Bee: Enemy{
     
     
 }
-

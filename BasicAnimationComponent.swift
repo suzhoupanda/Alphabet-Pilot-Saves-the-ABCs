@@ -38,6 +38,24 @@ class BasicAnimationComponent: GKComponent{
         animationNode = nil
     }
     
+    func runAnimation(withAnimationNameOf animationName: String, andWithAnimationKeyOf animationKey: String, onChildNodeWithName childNodeName: String, repeatForever: Bool = true){
+        
+        guard let node = animationNode else {
+            print("Error: An animation node must be initialized in order to run an animation")
+            return }
+        
+        
+        guard let requestedAnimation = animationsDict[animationName] else {
+            print("Errror: The requested animations could not be retrieved from the animations dictionary")
+            return }
+        
+        let adjustedAnimation = repeatForever ? SKAction.repeatForever(requestedAnimation) : requestedAnimation
+        
+        let finalAnimation = SKAction.run(adjustedAnimation, onChildWithName: childNodeName)
+        
+        node.run(finalAnimation)
+    }
+    
     func runAnimation(withAnimationNameOf animationName: String, andWithAnimationKeyOf animationKey: String, repeatForever: Bool = true){
         
         guard let node = animationNode else {

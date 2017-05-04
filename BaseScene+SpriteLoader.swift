@@ -111,7 +111,12 @@ extension BaseScene{
         if let nodeName = node.name,nodeName.contains("Enemy/"){
             
             if nodeName.contains("BladeIsland"){
+                let targetNode = player.renderComponent.node
+                let positionValue = node.userData?.value(forKey: "position") as! NSValue
+                let position = positionValue.cgPointValue
                 
+                let bladeIsland = BladeIsland(position: position, nodeName: "bladeIsland\(position)", targetNode: targetNode, minimumProximityDistance: 300.0, scalingFactor: 1.0)
+                entityManager.addToWorld(bladeIsland)
             }
             
             if nodeName.contains("Bee"){
@@ -122,6 +127,16 @@ extension BaseScene{
                 
                 let bee = Bee(position: position, nodeName: "bee\(position)", targetNode: targetNode, minimumProximityDistance: 300.00, scalingFactor: 0.50)
                 entityManager.addToWorld(bee)
+                
+            }
+            
+            if nodeName.contains("EvilSun"){
+                let targetNode = player.renderComponent.node
+                let positionValue = node.userData?.value(forKey: "position") as! NSValue
+                let position = positionValue.cgPointValue
+                
+                let evilSun = EvilSun(position: position, nodeName: "evilSun\(position)", targetNode: targetNode, minimumProximityDistance: 300.0, scalingFactor: 0.50)
+                entityManager.addToWorld(evilSun)
                 
             }
             
