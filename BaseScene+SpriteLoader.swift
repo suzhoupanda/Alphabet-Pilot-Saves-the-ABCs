@@ -130,14 +130,26 @@ extension BaseScene{
                 
             }
             
-            if nodeName.contains("EvilSun"){
-                let targetNode = player.renderComponent.node
+            
+            if nodeName.contains("Spikeball"){
+                
                 let positionValue = node.userData?.value(forKey: "position") as! NSValue
                 let position = positionValue.cgPointValue
                 
-                let evilSun = EvilSun(position: position, nodeName: "evilSun\(position)", targetNode: targetNode, minimumProximityDistance: 300.0, scalingFactor: 0.50)
+                let spikeball = Spikeball(position: position, nodeName: "spikeball\(position)", scalingFactor: 0.50)
+                entityManager.addToWorld(spikeball)
+                
+            }
+            
+            if nodeName.contains("EvilSun"){
+                /**
+                let positionValue = node.userData?.value(forKey: "position") as! NSValue
+                let position = positionValue.cgPointValue
+                
+                let evilSun = EvilSun(position: position, nodeName: "evilSun\(position)", scalingFactor: 0.50)
                 entityManager.addToWorld(evilSun)
                 
+                **/
             }
             
             if nodeName.contains("Alien"){
