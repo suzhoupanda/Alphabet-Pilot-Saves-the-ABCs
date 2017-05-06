@@ -26,7 +26,6 @@ class SunVerticalMoveState: GKState{
     override func didEnter(from previousState: GKState?) {
         super.didEnter(from: previousState)
         
-        print("Sun entered vertical move state...")
 
         frameCount = 0.00
         stateDurationInterval = Double(arc4random_uniform(UInt32(10))) + 5.00
