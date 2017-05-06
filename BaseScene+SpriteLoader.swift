@@ -47,6 +47,7 @@ extension BaseScene{
         
         for node in rootNode.children{
             addEnemy(node: node)
+            addCollectibles(node: node)
             addLetterEntity(node: node)
             
         }
@@ -105,6 +106,33 @@ extension BaseScene{
         
         
         
+    }
+    
+    func addCollectibles(node: SKNode){
+        if let nodeName = node.name,nodeName.contains("Coin/"){
+            
+            let positionValue = node.userData?.value(forKey: "position") as! NSValue
+            let position = positionValue.cgPointValue
+            
+            if nodeName.contains("Gold"){
+               
+                let coin = Coin(coinType: .Gold, position: position, nodeName: "coin/gold/\(position)", scalingFactor: 0.50)
+                entityManager.addToWorld(coin)
+                
+                }
+            
+            if nodeName.contains("Silver"){
+                let coin = Coin(coinType: .Silver, position: position, nodeName: "coin/silver/\(position)", scalingFactor: 0.50)
+                entityManager.addToWorld(coin)
+                
+            }
+            
+            if nodeName.contains("Bronze"){
+                let coin = Coin(coinType: .Bronze, position: position, nodeName: "coin/bronze/\(position)", scalingFactor: 0.50)
+                entityManager.addToWorld(coin)
+                
+            }
+        }
     }
     
     func addEnemy(node: SKNode){

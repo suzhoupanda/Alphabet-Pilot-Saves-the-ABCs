@@ -27,6 +27,7 @@ extension Notification.Name{
     static let DidIncreasePlayerVelocityNotification = Notification.Name(rawValue: "didIncreasePlayerVelocityNotification")
     static let DidDecreasePlayerVelocityNotification = Notification.Name(rawValue: "didDecreasePlayerVelocityNotification")
     static let PlayerHasDiedNotification = Notification.Name(rawValue: "playerHasDiedNotification")
+    static let PlayerContactedCoinNotification = Notification.Name(rawValue: "playerContactedCoinNotification")
     
   
     /**

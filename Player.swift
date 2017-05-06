@@ -44,6 +44,9 @@ class Player: GKEntity{
         self.init()
         addPlayerComponents(forPlaneColor: planeColor)
         
+        let collectibleStorageComponent = CollectibleStorageComponent(lifeThreshold: 20)
+        addComponent(collectibleStorageComponent)
+        
     }
     
     override init() {
@@ -186,7 +189,30 @@ class Player: GKEntity{
                 print("No contact logic implemented")
             }
             
-        }, nodeBeginContactHandler: nil, categoryEndContactHandler: {
+        }, nodeBeginContactHandler: {
+            
+            (_ otherBodyNodeName: String) in
+            
+            if otherBodyNodeName.contains("coin"){
+                
+                if otherBodyNodeName.contains("gold"){
+                    let userInfo = ["coinType":"gold", "coinNodeName":otherBodyNodeName]
+                    NotificationCenter.default.post(name: Notification.Name.PlayerContactedCoinNotification, object: nil, userInfo: userInfo)
+                }
+                
+                if otherBodyNodeName.contains("silver"){
+                    let userInfo = ["coinType":"silver", "coinNodeName":otherBodyNodeName]
+                    NotificationCenter.default.post(name: Notification.Name.PlayerContactedCoinNotification, object: nil, userInfo: userInfo)
+                }
+                
+                if otherBodyNodeName.contains("bronze"){
+                    let userInfo = ["coinType":"bronze", "coinNodeName":otherBodyNodeName]
+                    NotificationCenter.default.post(name: Notification.Name.PlayerContactedCoinNotification, object: nil, userInfo: userInfo)
+                }
+                
+            }
+        
+        }, categoryEndContactHandler: {
             
               //MARK: ******** Handler for contact termination with physics bodies of various category bitmasks 
             

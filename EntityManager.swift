@@ -24,6 +24,8 @@ class EntityManager{
         
         let graphNodeComponent = GKComponentSystem(componentClass: GraphNodeComponent.self)
         
+        let collectibleCoinComponent = GKComponentSystem(componentClass: CollectibleStorageComponent.self)
+        
         let playerPositionBroadcasterComponent = GKComponentSystem(componentClass: PlayerPositionBroadcasterComponent.self)
         
         //Physics Components
@@ -42,7 +44,7 @@ class EntityManager{
         
         let intelligenceComponent = GKComponentSystem(componentClass: IntelligenceComponent.self)
         
-        return [renderComponent, graphNodeComponent, physicsComponent, randomImpulseComponent, orientationComponent, inputComponent, velocityComponent, targetDetectionComponent, intelligenceComponent]
+        return [renderComponent, graphNodeComponent, collectibleCoinComponent, physicsComponent, randomImpulseComponent, orientationComponent, inputComponent, velocityComponent, targetDetectionComponent, intelligenceComponent]
         
     }()
     
