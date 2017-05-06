@@ -130,6 +130,17 @@ extension BaseScene{
                 
             }
             
+            if nodeName.contains("Fly"){
+                
+                let positionValue = node.userData?.value(forKey: "position") as! NSValue
+                let position = positionValue.cgPointValue
+                
+                let fly = Fly(position: position, nodeName: "fly\(position)", scalingFactor: 0.80)
+                entityManager.addToWorld(fly)
+                
+            }
+            
+            
             
             if nodeName.contains("Spikeball"){
                 
