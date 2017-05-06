@@ -41,6 +41,7 @@ class EvilSun: Enemy{
         let physicsBody = SKPhysicsBody(texture: sunTexture, size: sunTexture.size())
         physicsBody.affectedByGravity = false
         physicsBody.allowsRotation = false
+        physicsBody.isDynamic = false
         
         let physicsComponent = PhysicsComponent(physicsBody: physicsBody, collisionConfiguration: CollisionConfiguration.Enemy)
         
@@ -56,17 +57,18 @@ class EvilSun: Enemy{
         
         let animationComponent = BasicAnimationComponent(animationsDict: animationsDict)
         addComponent(animationComponent)
-        animationComponent.runAnimation(withAnimationNameOf: "pathAnimation", andWithAnimationKeyOf: "pathAnimation", repeatForever: true)
+        animationComponent.runAnimation(withAnimationNameOf: "turnAnimation", andWithAnimationKeyOf: "turnAnimation", repeatForever: true)
         
         //Add an intelligence movement to manage the different animation states of the Evil Sun 
         
         let intelligenceComponent = IntelligenceComponent(states: [
-                HorizontalMovementState(evilSunEntity: self),
-                VerticalMovementState(evilSunEntity: self),
-                PathMovementState(evilSunEntity: self)
+                SunHorizontalMoveState(enemyEntity: self),
+                SunVerticalMoveState(enemyEntity: self),
+                SunPathMoveState(enemyEntity: self),
             ])
+        
         addComponent(intelligenceComponent)
-        intelligenceComponent.stateMachine?.enter(HorizontalMovementState.self)
+        intelligenceComponent.stateMachine?.enter(SunHorizontalMoveState.self)
         
     
         
@@ -90,59 +92,62 @@ class EvilSun: Enemy{
     
     func getAnimationsDictionary(position: CGPoint) -> [String: SKAction]{
         
-        //Configure Back-and-Forth Move Animation (position offsets and movement time are randomized)
         
-        let offsetRight = CGFloat(arc4random_uniform(UInt32(90))) + 10.00
-        let offsetLeft =  CGFloat(arc4random_uniform(UInt32(90))) + 10.00
         
-        let randomMoveTime1 = Double(arc4random_uniform(UInt32(5))) + 2.00
-        let randomMoveTime2 = Double(arc4random_uniform(UInt32(5))) + 2.00
-        let randomMoveTime3 = Double(arc4random_uniform(UInt32(5))) + 2.00
+        let offsetRight = CGFloat(arc4random_uniform(UInt32(20))) + 20.00
+        let offsetLeft = CGFloat(arc4random_uniform(UInt32(20))) + 20.00
+        let randomDuration1 = 0.50
         
-        let secondPos = CGPoint(x: position.x + offsetRight, y: position.y)
-        let thirdPos = CGPoint(x: position.x - offsetLeft, y: position.y)
+        let movePoint1 = CGPoint(x: position.x + offsetRight, y: position.y)
+        let movePoint2 = CGPoint(x: position.x + offsetLeft, y: position.y)
+        
+        let moveAction1 = SKAction.move(to: movePoint1, duration: randomDuration1)
+        let moveAction2 = SKAction.move(to: movePoint2, duration: randomDuration1)
+        let moveAction3 = SKAction.move(to: position, duration: randomDuration1)
         
         let horizontalMoveAnimation = SKAction.sequence([
-            SKAction.move(to: secondPos, duration: randomMoveTime1),
-            SKAction.move(to: thirdPos, duration: randomMoveTime2),
-            SKAction.move(to: position, duration: randomMoveTime3)
+            moveAction1,
+            moveAction2,
+            moveAction3
             ])
         
-        //Configure Up-and-Down Move Animation (position offsets and movement time are randomzied)
         
-        let offsetUp = CGFloat(arc4random_uniform(UInt32(90))) + 10.00
-        let offsetDown = CGFloat(arc4random_uniform(UInt32(90))) + 10.00
+        let offsetUp = CGFloat(arc4random_uniform(UInt32(20))) + 20.00
+        let offsetDown = CGFloat(arc4random_uniform(UInt32(20))) + 20.00
+        let randomDuration2 = 0.50
         
-        let secondPosVert = CGPoint(x: position.x, y: position.y + offsetUp)
-        let thirdPosVert = CGPoint(x: position.x, y: position.y - offsetDown)
+        let vertMovePoint1 = CGPoint(x: position.x, y: position.y + offsetUp)
+        let vertMovePoint2 = CGPoint(x: position.x, y: position.y + offsetDown)
         
-      
+        let vertMoveAction1 = SKAction.move(to: vertMovePoint1, duration: randomDuration2)
+        let vertMoveAction2 = SKAction.move(to: vertMovePoint2, duration: randomDuration2)
+        let vertMoveAction3 = SKAction.move(to: position, duration: randomDuration2)
+        
         let verticalMoveAnimation = SKAction.sequence([
-            SKAction.move(to: secondPosVert, duration: 2.00),
-            SKAction.move(to: thirdPosVert, duration: 2.00),
-            SKAction.move(to: position, duration: 2.00)
+            vertMoveAction1,
+            vertMoveAction2,
+            vertMoveAction3
             ])
         
-        //Configure elliptical path animation
         
-        let randomWidth = Double(arc4random_uniform(UInt32(40))) + 10.00
-        let randomHeight =  Double(arc4random_uniform(UInt32(40))) + 10.00
-        let randomPathTime =  Double(arc4random_uniform(UInt32(5))) + 2
-
-        let cgRect = CGRect(x: 0.00, y: 0.00, width: randomWidth, height: randomHeight)
+        let randomWidth = Double(arc4random_uniform(UInt32(40))) + 30.00
+        let randomHeight = Double(arc4random_uniform(UInt32(40))) + 30.00
+        let randomDuration = 0.50
         
+        let cgRect = CGRect(x: Double(position.x), y: Double(position.y), width: randomWidth, height: randomHeight)
         let path = CGPath(ellipseIn: cgRect, transform: nil)
-        let pathAnimation = SKAction.follow(path, asOffset: false, orientToPath: false, duration: randomPathTime)
-        
-        //Initialize the animation component by combining the pre-configured animations dict with a new dictionary whose actions are dynamically determined based on starting position
+        let pathAnimation = SKAction.follow(path, asOffset: false, orientToPath: false, duration: randomDuration)
         
         let combinedDict = [
-            ["horizontalMoveAnimation": horizontalMoveAnimation,
-             "verticalMoveAnimation": verticalMoveAnimation,
-             "pathAnimation":pathAnimation
-            ],
             
-            EvilSun.AnimationsDict]
+            ["pathMoveAnimation" : pathAnimation,
+             "horizontalMoveAnimation" : horizontalMoveAnimation,
+             "verticalMoveAnimation" : verticalMoveAnimation]
+            ,
+            
+            EvilSun.AnimationsDict
+        ]
+
         
         var animationsDict = [String: SKAction]()
         

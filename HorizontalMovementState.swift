@@ -11,31 +11,33 @@ import GameplayKit
 import SpriteKit
 
 
-class HorizontalMovementState: GKState{
+class SunHorizontalMoveState: GKState{
     
-    var evilSunEntity: EvilSun
+    var enemyEntity: Enemy
     
     var frameCount: TimeInterval = 0.00
     var stateDurationInterval = 10.00
-    var stateIntervalDistribution = GKRandomDistribution(lowestValue: 5, highestValue: 10)
+    var stateIntervalDistribution = 7.00
     
-    init(evilSunEntity: EvilSun){
-        self.evilSunEntity = evilSunEntity
+    init(enemyEntity: Enemy){
+        self.enemyEntity = enemyEntity
     }
     
     override func didEnter(from previousState: GKState?) {
         super.didEnter(from: previousState)
         
-        frameCount = 0.00
-        stateDurationInterval = Double(stateIntervalDistribution.nextUniform())
+        print("Sun entered horizontal move state...")
         
-        guard let animationComponent = evilSunEntity.component(ofType: BasicAnimationComponent.self), let animationNode = animationComponent.animationNode else {
+        frameCount = 0.00
+        stateDurationInterval = Double(arc4random_uniform(UInt32(10))) + 5.00
+        
+        guard let animationComponent = enemyEntity.component(ofType: BasicAnimationComponent.self), let animationNode = animationComponent.animationNode else {
                 print("Error: failed to load the animation component after entering \(previousState) state")
                 return
             }
         
-        if animationNode.action(forKey: "pathAnimation") != nil{
-            animationNode.removeAction(forKey: "pathAnimation")
+        if animationNode.action(forKey: "pathMoveAnimation") != nil{
+            animationNode.removeAction(forKey: "pathMoveAnimation")
         }
         
         animationComponent.runAnimation(withAnimationNameOf: "horizontalMoveAnimation", andWithAnimationKeyOf: "horizontalMoveAnimation", repeatForever: true)
@@ -48,14 +50,14 @@ class HorizontalMovementState: GKState{
         frameCount += seconds
         
         if frameCount > stateDurationInterval{
-            stateMachine?.enter(VerticalMovementState.self)
+            stateMachine?.enter(SunVerticalMoveState.self)
             frameCount = 0.00
         }
     }
     
     override func isValidNextState(_ stateClass: AnyClass) -> Bool {
         switch stateClass{
-            case is VerticalMovementState.Type:
+            case is SunVerticalMoveState.Type:
                 return true
             default:
                 return false

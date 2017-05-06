@@ -142,14 +142,14 @@ extension BaseScene{
             }
             
             if nodeName.contains("EvilSun"){
-                /**
+                
                 let positionValue = node.userData?.value(forKey: "position") as! NSValue
                 let position = positionValue.cgPointValue
                 
                 let evilSun = EvilSun(position: position, nodeName: "evilSun\(position)", scalingFactor: 0.50)
                 entityManager.addToWorld(evilSun)
                 
-                **/
+ 
             }
             
             if nodeName.contains("Alien"){

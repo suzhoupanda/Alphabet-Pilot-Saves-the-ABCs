@@ -12,7 +12,12 @@ import GameplayKit
 
 extension EvilSun{
     
-    static let AnimationsDict: [String: SKAction] = [String: SKAction]()
+    static let AnimationsDict: [String: SKAction] = [
+        "turnAnimation" : SKAction.animate(with: [
+            SKTexture(image: #imageLiteral(resourceName: "sun1")),
+            SKTexture(image: #imageLiteral(resourceName: "sun2"))
+            ], timePerFrame: 0.20)
+    ]
 
     
 }

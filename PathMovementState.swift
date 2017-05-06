@@ -10,27 +10,29 @@ import Foundation
 import GameplayKit
 import SpriteKit
 
-class PathMovementState: GKState{
+class SunPathMoveState: GKState{
     
-    var evilSunEntity: EvilSun
+    var enemyEntity: Enemy
     
     var frameCount: TimeInterval = 0.00
     var stateDurationInterval = 10.00
-    var stateIntervalDistribution = GKRandomDistribution(lowestValue: 5, highestValue: 10)
+    var stateIntervalDistribution = 7.00
     
     
-    init(evilSunEntity: EvilSun){
-        self.evilSunEntity = evilSunEntity
+    init(enemyEntity: Enemy){
+        self.enemyEntity = enemyEntity
     }
     
     
     override func didEnter(from previousState: GKState?) {
         super.didEnter(from: previousState)
         
+        print("Sun entered path move state...")
+
         frameCount = 0.00
-        stateDurationInterval = Double(stateIntervalDistribution.nextUniform())
+        stateDurationInterval = Double(arc4random_uniform(UInt32(10))) + 5.00
         
-        guard let animationComponent = evilSunEntity.component(ofType: BasicAnimationComponent.self), let animationNode = animationComponent.animationNode else {
+        guard let animationComponent = enemyEntity.component(ofType: BasicAnimationComponent.self), let animationNode = animationComponent.animationNode else {
             print("Error: failed to load the animation component after entering \(previousState) state")
             return
         }
@@ -39,16 +41,18 @@ class PathMovementState: GKState{
             animationNode.removeAction(forKey: "verticalMoveAnimation")
         }
         
-        animationComponent.runAnimation(withAnimationNameOf: "pathAnimation", andWithAnimationKeyOf: "pathAnimation", repeatForever: true)
+        animationComponent.runAnimation(withAnimationNameOf: "pathMoveAnimation", andWithAnimationKeyOf: "pathMoveAnimation", repeatForever: true)
         
     }
     
     override func update(deltaTime seconds: TimeInterval) {
         super.update(deltaTime: seconds)
         
+        frameCount += seconds
+        
         if frameCount > stateDurationInterval{
             
-            stateMachine?.enter(HorizontalMovementState.self)
+            stateMachine?.enter(SunHorizontalMoveState.self)
             
             frameCount = 0.00
             
@@ -59,7 +63,7 @@ class PathMovementState: GKState{
         super.isValidNextState(stateClass)
         
         switch stateClass{
-            case is HorizontalMovementState.Type:
+            case is SunHorizontalMoveState.Type:
                 return true
             default:
                 return false

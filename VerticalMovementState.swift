@@ -10,26 +10,28 @@ import Foundation
 import GameplayKit
 import SpriteKit
 
-class VerticalMovementState: GKState{
+class SunVerticalMoveState: GKState{
     
-    var evilSunEntity: EvilSun
+    var enemyEntity: Enemy
     
     var frameCount: TimeInterval = 0.00
     var stateDurationInterval = 10.00
-    var stateIntervalDistribution = GKRandomDistribution(lowestValue: 5, highestValue: 10)
+    var stateIntervalDistribution = 7.00
     
     
-    init(evilSunEntity: EvilSun){
-        self.evilSunEntity = evilSunEntity
+    init(enemyEntity: Enemy){
+        self.enemyEntity = enemyEntity
     }
     
     override func didEnter(from previousState: GKState?) {
         super.didEnter(from: previousState)
         
+        print("Sun entered vertical move state...")
+
         frameCount = 0.00
-        stateDurationInterval = Double(stateIntervalDistribution.nextUniform())
+        stateDurationInterval = Double(arc4random_uniform(UInt32(10))) + 5.00
         
-        guard let animationComponent = evilSunEntity.component(ofType: BasicAnimationComponent.self), let animationNode = animationComponent.animationNode else {
+        guard let animationComponent = enemyEntity.component(ofType: BasicAnimationComponent.self), let animationNode = animationComponent.animationNode else {
             print("Error: failed to load the animation component after entering \(previousState) state")
             return
         }
@@ -46,9 +48,11 @@ class VerticalMovementState: GKState{
     override func update(deltaTime seconds: TimeInterval) {
         super.update(deltaTime: seconds)
         
+        frameCount += seconds
+        
         if frameCount > stateDurationInterval{
             
-            stateMachine?.enter(PathMovementState.self)
+            stateMachine?.enter(SunPathMoveState.self)
         
             frameCount = 0.00
         
@@ -59,7 +63,7 @@ class VerticalMovementState: GKState{
         super.isValidNextState(stateClass)
         
         switch stateClass{
-            case is PathMovementState.Type:
+            case is SunPathMoveState.Type:
                 return true
             default:
                 return false
