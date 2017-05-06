@@ -17,6 +17,7 @@ class BaseScene: SKScene {
     var player: Player!
     var worldNode: SKSpriteNode!
     var overlayNode: SKSpriteNode!
+    var hudManager = HUDManager.sharedHUDManager
     
     var gameIsPaused: Bool = false
     
@@ -84,6 +85,26 @@ class BaseScene: SKScene {
         overlayNode.position = .zero
         overlayNode.scale(to: view.bounds.size)
         addChild(overlayNode)
+        
+        guard let heartDisplay = hudManager.getMainHealthMeter() else {
+            print("Error: failed to load the main health meter")
+            return
+        }
+        
+        heartDisplay.move(toParent: overlayNode)
+        hudManager.setHUDPosition(position: nil)
+        hudManager.resetHUD()
+        
+        guard let coinMeter = hudManager.getCoinMeter() else {
+            print("Error: failed to load the coin meter")
+            return
+        }
+        
+        /** TODO: consider adding a coin meter, or providing the user with the option of viewing the coin meter, or with checking the coin count in another display
+        coinMeter.move(toParent: overlayNode)
+        hudManager.setCoinMeterPosition(position: nil)
+        hudManager.resetCoinMeter()
+        **/
         
         let pauseGroup = SKScene(fileNamed: "OverlayButtons")?.childNode(withName: "PauseGroup")
     

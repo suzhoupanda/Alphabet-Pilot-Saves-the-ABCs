@@ -17,10 +17,19 @@ class CollectibleStorageComponent: GKComponent{
     var lifeThreshold = 20
     var processedNodeNames = [String]()
     
+    var goldCoinCount: Int = 0
+    var silverCoinCount: Int = 0
+    var bronzeCoinCount: Int = 0
+    
+    let hudManager = HUDManager.sharedHUDManager
+    
     convenience init(lifeThreshold: Int) {
         self.init()
         
         self.lifeThreshold = lifeThreshold
+        self.goldCoinCount = 0
+        self.silverCoinCount = 0
+        self.bronzeCoinCount = 0
     }
     
     override init() {
@@ -74,6 +83,17 @@ class CollectibleStorageComponent: GKComponent{
         }
         
         totalCoinValue += contactedCoinType.coinValue
+        
+        switch(contactedCoinType){
+            case .Gold:
+                goldCoinCount += 1
+            case .Silver:
+                silverCoinCount += 1
+            case .Bronze:
+                bronzeCoinCount += 1
+        }
+        
+        hudManager.updateCoinMeter(numberOfGoldCoins: goldCoinCount, numberOfSilverCoins: silverCoinCount, numberOfBronzeCoins: bronzeCoinCount)
         
     }
     

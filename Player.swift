@@ -128,7 +128,7 @@ class Player: GKEntity{
 
     func addHealthComponent(){
         
-        let healthComponent = HealthComponent(startingHealth: 6)
+        let healthComponent = HealthComponent(startingHealth: 8)
         addComponent(healthComponent)
         
     }

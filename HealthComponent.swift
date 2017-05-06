@@ -17,6 +17,7 @@ class HealthComponent: GKComponent{
     let startingHealth: Int
     var currentHealth: Int
     
+    let hudManager = HUDManager.sharedHUDManager
     
     init(startingHealth: Int){
         self.startingHealth = startingHealth
@@ -31,13 +32,18 @@ class HealthComponent: GKComponent{
     
     func decreasePlayerHealth(amount: Int){
         currentHealth -= amount
+        hudManager.updateHUD(forHealthLevel: currentHealth)
     }
     
     func increasePlayerHealth(amount: Int){
         currentHealth += amount
+        hudManager.updateHUD(forHealthLevel: currentHealth)
+
     }
     
     func restoreFullPlayerHealth(){
         currentHealth = startingHealth
+        hudManager.resetHUD()
+
     }
 }
