@@ -32,7 +32,6 @@ class SpikemanJumpState: GKState{
         
         jumpStarted = false
         
-        print("Entered the Jump State (for spikeman)...")
 
         guard let physicsBody = spikemanEntity.component(ofType: PhysicsComponent.self)?.physicsBody else {
             print("Error: failed to load the physics body while performing update on spikeman normal state")

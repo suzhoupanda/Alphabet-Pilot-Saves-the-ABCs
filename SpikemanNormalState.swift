@@ -116,7 +116,6 @@ class SpikemanNormalState: GKState{
         
         frameCount += seconds
         
-        print("FrameCount for the jump timer is \(frameCount)")
         
         if frameCount > jumpInterval{
             
