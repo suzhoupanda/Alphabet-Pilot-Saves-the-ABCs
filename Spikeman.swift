@@ -80,7 +80,8 @@ class Spikeman: GKEntity{
         animationComponent.runAnimation(withAnimationNameOf: "walkLeft", andWithAnimationKeyOf: "walkAnimation", repeatForever: true)
         
         let intelligenceComponent = IntelligenceComponent(states: [
-            SpikemanNormalState(spikeManEntity: self)
+            SpikemanNormalState(spikeManEntity: self),
+            SpikemanJumpState(spikeManEntity: self)
             ])
         addComponent(intelligenceComponent)
         intelligenceComponent.stateMachine?.enter(SpikemanNormalState.self)

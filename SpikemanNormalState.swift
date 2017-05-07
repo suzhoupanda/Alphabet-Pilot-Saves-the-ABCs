@@ -16,6 +16,9 @@ class SpikemanNormalState: GKState{
     
     var previousOrientation: Orientation = .Left
     
+    var frameCount: TimeInterval = 0.00
+    var jumpInterval: TimeInterval = 5.00
+    
     init(spikeManEntity: Spikeman) {
         self.spikemanEntity = spikeManEntity
         super.init()
@@ -24,6 +27,8 @@ class SpikemanNormalState: GKState{
     override func didEnter(from previousState: GKState?) {
         super.didEnter(from: previousState)
         
+       
+        frameCount = 0.00
         
         guard let updatedOrientation = spikemanEntity.component(ofType: OrientationComponent.self)?.currentOrientation else {
             print("Error: failed to load the orientation component while performing update on spikeman normal state")
@@ -35,6 +40,12 @@ class SpikemanNormalState: GKState{
             return
         }
         
+        if previousState != nil && previousState is SpikemanJumpState{
+            animationNode.removeAction(forKey: "jumpAnimation")
+            
+        }
+        
+       
         
         if previousOrientation != updatedOrientation{
             
@@ -48,6 +59,8 @@ class SpikemanNormalState: GKState{
             
             previousOrientation = updatedOrientation
         }
+        
+    
 
         
     }
@@ -90,13 +103,27 @@ class SpikemanNormalState: GKState{
             return
         }
         
+        //Update veloctiy to constant value, either the default value or that specified duriing initialization
+        
         let absoluteVelocity = abs(normalVelocity)
         
         let updatedHorizontalVelocity = previousOrientation == .Left ? -absoluteVelocity : absoluteVelocity
         
         physicsBody.velocity = CGVector(dx: updatedHorizontalVelocity, dy: 0.00)
         
-
+        //Update the jump interval timer; if jump interval has elapsed, enter the jump state
+        
+        
+        frameCount += seconds
+        
+        print("FrameCount for the jump timer is \(frameCount)")
+        
+        if frameCount > jumpInterval{
+            
+            stateMachine?.enter(SpikemanJumpState.self)
+            
+            frameCount = 0.00
+        }
         
     }
     
@@ -104,6 +131,8 @@ class SpikemanNormalState: GKState{
         super.isValidNextState(stateClass)
         
         switch stateClass{
+            case is SpikemanJumpState.Type:
+                return true
             default:
                 return false
         }
