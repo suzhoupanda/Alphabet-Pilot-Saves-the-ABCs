@@ -23,7 +23,7 @@ class Spikeman: GKEntity{
         
         
         let spikemanTexture = SKTexture(image: #imageLiteral(resourceName: "spikeMan_stand"))
-        //The selected alien texture is used to initialize the sprite node for the render component as well as the physics body for the physics body component; position arguments is used to initialize the graph node component as well as to set the initial position of the render component
+       
         
         let node = SKSpriteNode(texture: spikemanTexture)
         node.position = position

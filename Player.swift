@@ -105,6 +105,7 @@ class Player: GKEntity{
         physicsBody.allowsRotation = false
         physicsBody.mass = 1.00
         physicsBody.linearDamping = 0.00
+        physicsBody.fieldBitMask = 0b1 << 0
         
         let physicsComponent = PhysicsComponent(physicsBody: physicsBody, collisionConfiguration: CollisionConfiguration.Player)
         addComponent(physicsComponent)
