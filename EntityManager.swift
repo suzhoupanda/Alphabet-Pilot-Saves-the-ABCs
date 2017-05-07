@@ -31,6 +31,8 @@ class EntityManager{
         //Physics Components
         
         let physicsComponent = GKComponentSystem(componentClass: PhysicsComponent.self)
+        
+        let rockSpawningComponent = GKComponentSystem(componentClass: RockSpawningComponent.self)
      
         let randomImpulseComponent = GKComponentSystem(componentClass: RandomImpulseComponent.self)
         
@@ -46,7 +48,7 @@ class EntityManager{
         
         let intelligenceComponent = GKComponentSystem(componentClass: IntelligenceComponent.self)
         
-        return [renderComponent, graphNodeComponent, collectibleCoinComponent, physicsComponent, randomImpulseComponent, orientationComponent, inputComponent, velocityComponent, targetDetectionComponent, bulletFiringComponent, intelligenceComponent]
+        return [renderComponent, graphNodeComponent, collectibleCoinComponent, physicsComponent, randomImpulseComponent, orientationComponent, inputComponent, velocityComponent, targetDetectionComponent, rockSpawningComponent, bulletFiringComponent, intelligenceComponent]
         
     }()
     

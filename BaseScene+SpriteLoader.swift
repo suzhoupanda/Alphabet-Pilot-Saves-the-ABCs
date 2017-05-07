@@ -168,11 +168,50 @@ extension BaseScene{
             }
         }
         **/
+        
+        
+        if let nodeName = node.name,nodeName.contains("RockGenerator/"){
+
+            let targetNode = player.renderComponent.node
+            
+            if nodeName.contains("Stone/"){
+                
+                let rockSize: FallingRock.RockSize = nodeName.contains("Large") ? .Large: .Small
+                
+                
+                let rockGenerator = RockGenerator(rockType: .Stone, rockSize: rockSize, position: position, nodeName: "rockGenerator\(position)", targetNode: targetNode, proximityDistance: 500.00, scalingFactor: 1.00)
+                
+                entityManager.addToWorld(rockGenerator)
+                
+                print("Added a \(rockSize) stone rock to the world")
+            }
+            
+            if nodeName.contains("Dirt/"){
+                let rockSize: FallingRock.RockSize = nodeName.contains("Large") ? .Large: .Small
+                
+                let rockGenerator = RockGenerator(rockType: .Dirt, rockSize: rockSize, position: position, nodeName: "rockGenerator\(position)", targetNode: targetNode, proximityDistance: 500.00, scalingFactor: 1.00)
+                
+                entityManager.addToWorld(rockGenerator)
+                
+                print("Added a \(rockSize) stone rock to the world")
+                
+            }
+        }
+        
+
+        
+        
         if let nodeName = node.name,nodeName.contains("Enemy/"){
             
             let positionValue = node.userData?.value(forKey: "position") as! NSValue
             let position = positionValue.cgPointValue
             
+            
+            if nodeName.contains("Bomb"){
+                let bomb = Bomb(position: position, nodeName: "bomb\(position)", scalingFactor: 0.90)
+                
+                entityManager.addToWorld(bomb)
+            }
             
             if nodeName.contains("BladeIsland"){
                 let targetNode = player.renderComponent.node
@@ -180,7 +219,6 @@ extension BaseScene{
                 let bladeIsland = BladeIsland(position: position, nodeName: "bladeIsland\(position)", targetNode: targetNode, minimumProximityDistance: 300.0, scalingFactor: 1.0)
                 entityManager.addToWorld(bladeIsland)
             }
-            
             
             if nodeName.contains("LaserGun"){
                 let targetNode = player.renderComponent.node

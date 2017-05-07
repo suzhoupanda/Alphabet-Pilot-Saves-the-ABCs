@@ -45,7 +45,6 @@ class CollectibleStorageComponent: GKComponent{
     override func update(deltaTime seconds: TimeInterval) {
         super.update(deltaTime: seconds)
         
-        print("The total coin value is \(totalCoinValue)")
         
         guard let healthComponent = entity?.component(ofType: HealthComponent.self) else {
             print("Error: Entity must have health component in order to perform update on CollectibleStorageComponent")
