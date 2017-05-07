@@ -32,7 +32,7 @@ class LaserGun: GKEntity{
     
         let node = SKSpriteNode(texture: gunTexture)
         
-        node.anchorPoint = CGPoint(x: 0.5, y: 0.00)
+        node.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         node.position = position
         node.name = nodeName
         

@@ -29,6 +29,7 @@ class BulletFiringComponent: GKComponent{
         self.firingInterval = firingInterval
         self.frameCount = 0.00
         
+        self.bulletSpeed = bulletSpeed
         self.bulletColor = bulletColor
         self.shootingDirection = shootingDirection
         
@@ -55,6 +56,11 @@ class BulletFiringComponent: GKComponent{
             return
         }
         
+        guard let animationComponent = entity?.component(ofType: BasicAnimationComponent.self) else {
+            print("Error: enemy must have an animation component in order for the bullet firing component to be functional")
+            return
+        }
+        
         let renderNode = renderComponent.node
         
         if targetDetectionComponent.playerHasEnteredProximity{
@@ -67,9 +73,32 @@ class BulletFiringComponent: GKComponent{
             
                 if let laserBullet = LaserBullet(laserColor: bulletColor, laserOrientation: laserOrientation, shootingDirection: shootingDirection, bulletSpeed: bulletSpeed, scalingFactor: 0.80), let worldNode = renderNode.parent{
                     
-                    laserBullet.zPosition = 2
+                    laserBullet.zPosition = -1
                     laserBullet.position = renderNode.position
+                   
+                    animationComponent.runAnimation(withAnimationNameOf: "fireAnimation", andWithAnimationKeyOf: "fireAnimation", repeatForever: false)
+                    
                     worldNode.addChild(laserBullet)
+                    
+                    
+                    var firingVelocity: CGVector = .zero
+                    
+                    switch shootingDirection{
+                        case .Up:
+                            firingVelocity = CGVector(dx: 0.00, dy: bulletSpeed)
+                        case .Down:
+                            firingVelocity = CGVector(dx: 0.00, dy: -bulletSpeed)
+                        case .Right:
+                            firingVelocity = CGVector(dx: bulletSpeed, dy: 0.0)
+                        case .Left:
+                            firingVelocity = CGVector(dx: -bulletSpeed, dy: 0.0)
+                    }
+                    
+                    laserBullet.physicsBody?.velocity = firingVelocity
+                    
+                    laserBullet.run(SKAction.fadeOut(withDuration: 4.00), completion: {
+                        laserBullet.removeFromParent()
+                    })
                 
                     
                     

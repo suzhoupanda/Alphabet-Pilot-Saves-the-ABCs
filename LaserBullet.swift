@@ -36,34 +36,17 @@ class LaserBullet: SKSpriteNode{
         self.init(texture: laserTexture, color: .clear, size: laserTexture.size())
         
         
-        self.physicsBody = SKPhysicsBody(rectangleOf: laserTexture.size())
+        self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         
-        self.physicsBody?.affectedByGravity = false
-        self.physicsBody?.allowsRotation = false
-        self.physicsBody?.linearDamping = 0.00
+        physicsBody = SKPhysicsBody(rectangleOf: laserTexture.size())
         
-        self.physicsBody?.categoryBitMask = CollisionConfiguration.Enemy.categoryMask
-        self.physicsBody?.collisionBitMask = CollisionConfiguration.Player.categoryMask
-        self.physicsBody?.contactTestBitMask = CollisionConfiguration.Player.categoryMask
+        physicsBody?.affectedByGravity = false
+        physicsBody?.allowsRotation = false
+        physicsBody?.linearDamping = 0.00
         
-        
-        var firingVelocity = CGVector.zero
-        
-        let adjustedBulletSpeed = abs(bulletSpeed)
-        
-        switch shootingDirection{
-            case .Up:
-                firingVelocity = CGVector(dx: 0.00, dy: adjustedBulletSpeed)
-            case .Down:
-                firingVelocity = CGVector(dx: 0.00, dy: -adjustedBulletSpeed)
-            case .Right:
-                firingVelocity = CGVector(dx: adjustedBulletSpeed, dy: 0.00)
-            case .Left:
-                firingVelocity = CGVector(dx: -adjustedBulletSpeed, dy: 0.00)
-        }
-        
-        self.physicsBody?.velocity = firingVelocity
-        
+        physicsBody?.categoryBitMask = CollisionConfiguration.Enemy.categoryMask
+        physicsBody?.collisionBitMask = 0
+        physicsBody?.contactTestBitMask = CollisionConfiguration.Player.categoryMask
         
         
         if let scalingFactor = scalingFactor{
