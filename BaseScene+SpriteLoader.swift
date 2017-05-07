@@ -207,6 +207,12 @@ extension BaseScene{
             let position = positionValue.cgPointValue
             
             
+            if nodeName.contains("Spikeman"){
+                let spikeman = Spikeman(position: position, nodeName: "spikeman\(position)", horizontalVelocity: -80, scalingFactor: 0.50)
+                
+                entityManager.addToWorld(spikeman)
+            }
+            
             if nodeName.contains("Bomb"){
                 let bomb = Bomb(position: position, nodeName: "bomb\(position)", scalingFactor: 0.90)
                 
