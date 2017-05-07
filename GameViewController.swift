@@ -29,8 +29,9 @@ class GameViewController: UIViewController {
         
        
         let planeScene1 = BaseScene(sksFileName: "PlaneScene1", size: screenSize)
+        let metalScene2 = BaseScene(sksFileName: "MetalScene2", size: screenSize)
         
-        skView.presentScene(planeScene1)
+        skView.presentScene(metalScene2)
         
         
     }

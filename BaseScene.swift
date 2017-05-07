@@ -126,11 +126,12 @@ class BaseScene: SKScene {
             playerNode.yScale *= 0.50
         }
         
-        entityManager.addToWorld(player)
+       entityManager.addToWorld(player)
         
         
         /** Add enemies, obstacles, and backgrounds to world from SKScene file. The player must be initialized before the smart enemies (i.e. those that use the player as a target agent) to be initialized from the scene file **/
         loadNodesFromSKSceneFile()
+        
         
         
         /** Switch the state machine into the active state

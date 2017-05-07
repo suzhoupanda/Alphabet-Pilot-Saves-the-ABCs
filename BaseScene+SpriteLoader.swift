@@ -136,44 +136,90 @@ extension BaseScene{
     }
     
     func addEnemy(node: SKNode){
-        if let nodeName = node.name,nodeName.contains("Enemy/"){
-            
-            if nodeName.contains("BladeIsland"){
-                let targetNode = player.renderComponent.node
+        /**
+        if let nodeName = node.name, nodeName.contains("Barrier/HasEnemy"){
+            let targetNode = player.renderComponent.node
+
+            if let node = node.childNode(withName: "Enemy/LaserGun/Bottom"){
                 let positionValue = node.userData?.value(forKey: "position") as! NSValue
                 let position = positionValue.cgPointValue
                 
+                let laserGun = LaserGun(laserGunOrientation: .Bottom, position: position, nodeName: "laserGun\(position)", targetNode: targetNode, proximityDistance: 300.00, scalingFactor: 1.00)
+                entityManager.addToWorld(laserGun)
+            
+            }
+            
+            if let node = node.childNode(withName: "Enemy/LaserGun/Top"){
+                let positionValue = node.userData?.value(forKey: "position") as! NSValue
+                let position = positionValue.cgPointValue
+                
+                let laserGun = LaserGun(laserGunOrientation: .Top, position: position, nodeName: "laserGun\(position)", targetNode: targetNode, proximityDistance: 300.00, scalingFactor: 1.00)
+                entityManager.addToWorld(laserGun)
+                
+            }
+            
+            if let node = node.childNode(withName: "Enemy/LaserGun/Left"){
+                let positionValue = node.userData?.value(forKey: "position") as! NSValue
+                let position = positionValue.cgPointValue
+                
+                let laserGun = LaserGun(laserGunOrientation: .Left, position: position, nodeName: "laserGun\(position)", targetNode: targetNode, proximityDistance: 300.00, scalingFactor: 1.00)
+                entityManager.addToWorld(laserGun)
+                
+            }
+        }
+        **/
+        if let nodeName = node.name,nodeName.contains("Enemy/"){
+            
+            let positionValue = node.userData?.value(forKey: "position") as! NSValue
+            let position = positionValue.cgPointValue
+            
+            
+            if nodeName.contains("BladeIsland"){
+                let targetNode = player.renderComponent.node
+            
                 let bladeIsland = BladeIsland(position: position, nodeName: "bladeIsland\(position)", targetNode: targetNode, minimumProximityDistance: 300.0, scalingFactor: 1.0)
                 entityManager.addToWorld(bladeIsland)
+            }
+            
+            
+            if nodeName.contains("LaserGun"){
+                let targetNode = player.renderComponent.node
+                
+                if nodeName.contains("Left"){
+                    let laserGun = LaserGun(laserGunOrientation: .Left, position: position, nodeName: "laserGun\(position)", targetNode: targetNode, proximityDistance: 300.0, bulletSpeed: 200.0, bulletColor: .Blue, scalingFactor: 1.00)
+                    entityManager.addToWorld(laserGun)
+                }
+                
+                if nodeName.contains("Top"){
+                     let laserGun = LaserGun(laserGunOrientation: .Top, position: position, nodeName: "laserGun\(position)", targetNode: targetNode, proximityDistance: 300.0, bulletSpeed: 200.0, bulletColor: .Blue, scalingFactor: 1.00)
+                    entityManager.addToWorld(laserGun)
+                }
+                
+                if nodeName.contains("Bottom"){
+                     let laserGun = LaserGun(laserGunOrientation: .Bottom, position: position, nodeName: "laserGun\(position)", targetNode: targetNode, proximityDistance: 300.0, bulletSpeed: 200.0, bulletColor: .Blue, scalingFactor: 1.00)
+                    entityManager.addToWorld(laserGun)
+                }
+                
             }
             
             if nodeName.contains("Bee"){
                 
                 let targetNode = player.renderComponent.node
-                let positionValue = node.userData?.value(forKey: "position") as! NSValue
-                let position = positionValue.cgPointValue
-                
+              
                 let bee = Bee(position: position, nodeName: "bee\(position)", targetNode: targetNode, minimumProximityDistance: 300.00, scalingFactor: 0.50)
                 entityManager.addToWorld(bee)
                 
             }
             
             if nodeName.contains("Fly"){
-                
-                let positionValue = node.userData?.value(forKey: "position") as! NSValue
-                let position = positionValue.cgPointValue
-                
+            
                 let fly = Fly(position: position, nodeName: "fly\(position)", scalingFactor: 0.80)
                 entityManager.addToWorld(fly)
                 
             }
             
-            
-            
+        
             if nodeName.contains("Spikeball"){
-                
-                let positionValue = node.userData?.value(forKey: "position") as! NSValue
-                let position = positionValue.cgPointValue
                 
                 let spikeball = Spikeball(position: position, nodeName: "spikeball\(position)", scalingFactor: 0.50)
                 entityManager.addToWorld(spikeball)
@@ -181,9 +227,6 @@ extension BaseScene{
             }
             
             if nodeName.contains("EvilSun"){
-                
-                let positionValue = node.userData?.value(forKey: "position") as! NSValue
-                let position = positionValue.cgPointValue
                 
                 let evilSun = EvilSun(position: position, nodeName: "evilSun\(position)", scalingFactor: 0.50)
                 entityManager.addToWorld(evilSun)
@@ -212,8 +255,6 @@ extension BaseScene{
                 }
                 
                 let targetNode = player.renderComponent.node
-                let positionValue = node.userData?.value(forKey: "position") as! NSValue
-                let position = positionValue.cgPointValue
                 
                 let alien = Alien(alienColor: alienColor, position: position, nodeName: "alien\(position)", targetNode: targetNode, minimumProximityDistance: 200.0, scalingFactor: 0.50)
                 entityManager.addToWorld(alien)

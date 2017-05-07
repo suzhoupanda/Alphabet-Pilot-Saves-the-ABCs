@@ -42,9 +42,11 @@ class EntityManager{
         
         let targetDetectionComponent = GKComponentSystem(componentClass: TargetDetectionComponent.self)
         
+        let bulletFiringComponent = GKComponentSystem(componentClass: BulletFiringComponent.self)
+        
         let intelligenceComponent = GKComponentSystem(componentClass: IntelligenceComponent.self)
         
-        return [renderComponent, graphNodeComponent, collectibleCoinComponent, physicsComponent, randomImpulseComponent, orientationComponent, inputComponent, velocityComponent, targetDetectionComponent, intelligenceComponent]
+        return [renderComponent, graphNodeComponent, collectibleCoinComponent, physicsComponent, randomImpulseComponent, orientationComponent, inputComponent, velocityComponent, targetDetectionComponent, bulletFiringComponent, intelligenceComponent]
         
     }()
     
