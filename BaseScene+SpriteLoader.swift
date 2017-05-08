@@ -213,6 +213,16 @@ extension BaseScene{
                 entityManager.addToWorld(spikeman)
             }
             
+            
+            if nodeName.contains("Barnacle"){
+                
+                let barnacleOrientation: Barnacle.BarnacleOrientation = nodeName.contains("Up") ? .Up : .Down
+                
+                let barnacle = Barnacle(barnacleOrientation: barnacleOrientation, position: position, nodeName: "barnacle\(position)",scalingFactor: 0.90)
+                
+                entityManager.addToWorld(barnacle)
+            }
+            
             if nodeName.contains("Bomb"){
                 let bomb = Bomb(position: position, nodeName: "bomb\(position)", scalingFactor: 0.90)
                 

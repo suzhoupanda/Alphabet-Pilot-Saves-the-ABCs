@@ -26,7 +26,7 @@ class FieldEmittingComponent: GKComponent{
     var frameCount: TimeInterval = 0.00
     var fieldInterval: TimeInterval = 5.00
     
-    convenience init(fieldInterval: TimeInterval, fieldType: FieldType, strength: Float, falloff: Float, smoothness: Float, minimumRadius: Float, isExclusive: Bool, region: SKRegion, linearGravityFieldVector: vector_float3?) {
+    convenience init(fieldInterval: TimeInterval, fieldType: FieldType, strength: Float, falloff: Float, smoothness: Float, minimumRadius: Float, isExclusive: Bool, region: SKRegion?, linearGravityFieldVector: vector_float3?) {
         
         self.init()
         
@@ -50,9 +50,7 @@ class FieldEmittingComponent: GKComponent{
                     let linearGravFieldVector = linearGravityFieldVector ?? vector_float3(0.0, 0.0, 0.0)
                     fieldNode = SKFieldNode.linearGravityField(withVector: linearGravFieldVector)
                     break
-                default:
-                    fieldNode = nil
-                    break
+
         }
         
         
@@ -64,7 +62,10 @@ class FieldEmittingComponent: GKComponent{
             fieldNode.strength = strength
             fieldNode.smoothness = smoothness
             fieldNode.isExclusive = isExclusive
-            fieldNode.region = region
+            
+            if let region = region{
+                fieldNode.region = region
+            }
             
             fieldNode.isEnabled = false
             

@@ -32,6 +32,12 @@ class IntelligenceComponent: GKComponent{
         stateMachine?.update(deltaTime: seconds)
     }
     
+    override func didAddToEntity() {
+        if let parentEntity = entity, parentEntity is Barnacle{
+            stateMachine?.enter(BarnacleInactiveState.self)
+        }
+    }
+    
     func playerTookDamage(notification: Notification){
         
         if let currentState = stateMachine?.currentState{
