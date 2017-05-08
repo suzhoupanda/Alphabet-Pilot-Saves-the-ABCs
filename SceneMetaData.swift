@@ -6,27 +6,14 @@
 //  Copyright © 2017 AlexMakedonski. All rights reserved.
 //
 
+
+/** Read the GroundBotAttack state, Taskbot behavior, also the GKAgent delegate methods for the Taskbot and PlayerBot entities to see how Agent/Goal behavior is implemented
+ 
+    See the entities themsleves to see how textures are pre-loaded (since entities are resource loadable types); try implementing it for teh current game
+ 
+    GKRuleSystem and GK rules behavior still needs to be considered...
+ 
+ **/
+
+
 import Foundation
-import UIKit
-
-struct SceneMetaData: GameMetaData{
-    
-    var sksFile: String
-    
-    var previewImage: UIImage
-    var titleText: String
-    var subTitleText: String
-    var descriptionText: String?
-    
-}
-
-extension SceneMetaData{
-    
-    static let allLevels: [SceneMetaData] = [
-        SceneMetaData(sksFile: "", previewImage: #imageLiteral(resourceName: "letterA"), titleText: "Letter A", subTitleText: "A is for Alien", descriptionText: nil),
-        SceneMetaData(sksFile: "", previewImage: #imageLiteral(resourceName: "letterB"), titleText: "Letter B", subTitleText: "B is for Bee", descriptionText: nil),
-        SceneMetaData(sksFile: "", previewImage: #imageLiteral(resourceName: "letterC"), titleText: "Letter C", subTitleText: "C is for Castle", descriptionText: nil)
-    ]
-}
-
-

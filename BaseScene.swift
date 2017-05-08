@@ -50,6 +50,8 @@ class BaseScene: SKScene {
         
         registerNotifications()
         
+        
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -65,6 +67,10 @@ class BaseScene: SKScene {
     
     override func didMove(to view: SKView) {
         super.didMove(to: view)
+        
+        if Player.resourcesNeedLoading{
+            Player.loadResources(){}
+        }
         
         self.physicsWorld.contactDelegate = self
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
@@ -235,6 +241,7 @@ class BaseScene: SKScene {
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+        Player.purgeResoures()
     }
     
 }
