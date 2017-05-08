@@ -223,6 +223,14 @@ extension BaseScene{
                 entityManager.addToWorld(barnacle)
             }
             
+            if nodeName.contains("Blockman"){
+                
+                let blockmanType: BlockMan.BlockType = nodeName.contains("Slime") ? .Slime : .Grass
+                
+                let blockman = BlockMan(blockType: blockmanType, position: position, nodeName: "blockman\(position)", scalingFactor: 0.90)
+                entityManager.addToWorld(blockman)
+            }
+            
             if nodeName.contains("Bomb"){
                 let bomb = Bomb(position: position, nodeName: "bomb\(position)", scalingFactor: 0.90)
                 
