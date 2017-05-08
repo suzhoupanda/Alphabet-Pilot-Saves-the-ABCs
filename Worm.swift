@@ -1,42 +1,46 @@
 //
-//  Spikeman.swift
+//  Worm.swift
 //  BadBoy Bunny Alphabet Learner
 //
-//  Created by Aleksander Makedonski on 5/7/17.
+//  Created by Aleksander Makedonski on 5/8/17.
 //  Copyright © 2017 AlexMakedonski. All rights reserved.
 //
+
 
 import Foundation
 import SpriteKit
 import GameplayKit
 
-class Spikeman: GKEntity{
+class Worm: GKEntity{
+    
+    enum WormColor{
+        case Green, Pink
+    }
     
     var horizontalVelocity: CGFloat?
     
-    convenience init(position: CGPoint, nodeName: String, horizontalVelocity: CGFloat?, scalingFactor: CGFloat?) {
+    convenience init(wormColor: WormColor, position: CGPoint, nodeName: String, horizontalVelocity: CGFloat?, scalingFactor: CGFloat?) {
         
         self.init()
         
         self.horizontalVelocity = horizontalVelocity ?? 80
         
-
-        let spikemanTexture = SKTexture(image: #imageLiteral(resourceName: "spikeMan_stand"))
-       
         
-        let node = SKSpriteNode(texture: spikemanTexture)
+        
+        guard let wormTexture = Worm.GetWormTexture(wormColor: wormColor) else {
+            fatalError("Error: failed to load worm texture while performing initialization of worm")
+        }
+        
+        
+        let node = SKSpriteNode(texture: wormTexture)
         node.position = position
         node.name = nodeName
         
         let renderComponent = RenderComponent(spriteNode: node)
         addComponent(renderComponent)
         
-        let graphNodeComponent = GraphNodeComponent(cgPosition: position)
-        addComponent(graphNodeComponent)
         
-        
-        
-        let physicsBody = SKPhysicsBody(texture: spikemanTexture, size: spikemanTexture.size())
+        let physicsBody = SKPhysicsBody(texture: wormTexture, size: wormTexture.size())
         physicsBody.affectedByGravity = true
         physicsBody.allowsRotation = false
         physicsBody.isDynamic = true
@@ -71,19 +75,21 @@ class Spikeman: GKEntity{
         let orientationComponent = OrientationComponent(currentOrientation: .Left)
         addComponent(orientationComponent)
         
-    
+        
         //Animations Component is initialized with an animations dictionary, which is stored on the EvilSun class as a static type property
         
-        let animationComponent = BasicAnimationComponent(animationsDict: Spikeman.AnimationsDict)
+        let wormAnimationsDict = wormColor == .Green ? Worm.AnimationsDictGreen : Worm.AnimationsDictPink
+        
+        let animationComponent = BasicAnimationComponent(animationsDict: wormAnimationsDict)
+        
         addComponent(animationComponent)
-        animationComponent.runAnimation(withAnimationNameOf: "walkLeft", andWithAnimationKeyOf: "walkAnimation", repeatForever: true)
+        animationComponent.runAnimation(withAnimationNameOf: "crawlLeft", andWithAnimationKeyOf: "crawlAnimation", repeatForever: true)
         
         let intelligenceComponent = IntelligenceComponent(states: [
-            SpikemanNormalState(spikeManEntity: self),
-            SpikemanJumpState(spikeManEntity: self)
+            WormNormalState(worm: self)
             ])
         addComponent(intelligenceComponent)
-        intelligenceComponent.stateMachine?.enter(SpikemanNormalState.self)
+        intelligenceComponent.stateMachine?.enter(WormNormalState.self)
         
         if let scalingFactor = scalingFactor{
             node.xScale *= scalingFactor
@@ -102,6 +108,39 @@ class Spikeman: GKEntity{
     }
     
     
+    
+    
+}
 
+extension Worm{
+    
+    static let AnimationsDictPink: [String: SKAction] = [
+        
+        "crawlLeft" : SKAction.animate(with: [
+            SKTexture(image: #imageLiteral(resourceName: "wormPink")),
+            SKTexture(image: #imageLiteral(resourceName: "wormPink_move"))
+            ], timePerFrame: 0.20),
+        
+        "crawlRight" : SKAction.animate(with: [
+            SKTexture(image: #imageLiteral(resourceName: "wormPinkRight")),
+            SKTexture(image: #imageLiteral(resourceName: "wormPink_moveRight"))
+            ], timePerFrame: 0.20),
+        
+        
+        ]
+    
+    static let AnimationsDictGreen: [String: SKAction] = [
+        
+        "crawlLeft" : SKAction.animate(with: [
+            SKTexture(image: #imageLiteral(resourceName: "wormGreen")),
+            SKTexture(image: #imageLiteral(resourceName: "wormGreen_move"))
+            ], timePerFrame: 0.20),
+        
+        "crawlRight" : SKAction.animate(with: [
+            SKTexture(image: #imageLiteral(resourceName: "wormGreenRight")),
+            SKTexture(image: #imageLiteral(resourceName: "wormGreen_moveRight"))
+            ], timePerFrame: 0.20),
+        ]
+    
     
 }

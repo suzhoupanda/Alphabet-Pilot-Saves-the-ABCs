@@ -223,6 +223,17 @@ extension BaseScene{
                 entityManager.addToWorld(barnacle)
             }
             
+            
+            if nodeName.contains("Worm"){
+                
+                let wormColor: Worm.WormColor = nodeName.contains("Green") ? .Green : .Pink
+                
+                let worm = Worm(wormColor: wormColor, position: position, nodeName: "worm\(position)", horizontalVelocity: nil, scalingFactor: 0.90)
+                
+                entityManager.addToWorld(worm)
+            }
+            
+            
             if nodeName.contains("Blockman"){
                 
                 let blockmanType: BlockMan.BlockType = nodeName.contains("Slime") ? .Slime : .Grass
