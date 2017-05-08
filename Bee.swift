@@ -54,10 +54,33 @@ class Bee: Enemy{
         let secondPos = CGPoint(x: position.x + 50, y: position.y)
         let thirdPos = CGPoint(x: position.x - 50, y: position.y)
         
-        let moveAnimation = SKAction.sequence([
-            SKAction.move(to: secondPos, duration: 1.0),
-            SKAction.move(to: thirdPos, duration: 1.0),
+        let setOrientationLeftAction = SKAction.run {
+            orientationComponent.currentOrientation = .Left
+        }
+        
+        let setOrientationRightAction = SKAction.run {
+            orientationComponent.currentOrientation = .Right
+        }
+        
+        let moveRightAction = SKAction.group([
+            setOrientationRightAction,
+            SKAction.move(to: secondPos, duration: 1.0)
+            ])
+        
+        let moveLeftAction = SKAction.group([
+            setOrientationLeftAction,
+            SKAction.move(to: thirdPos, duration: 1.0)
+            ])
+        
+        let returnBackAction = SKAction.group([
+            setOrientationRightAction,
             SKAction.move(to: position, duration: 1.0)
+            ])
+        
+        let moveAnimation = SKAction.sequence([
+            moveRightAction,
+            moveLeftAction,
+            returnBackAction
             ])
         
         let cgRect = CGRect(x: 0.00, y: 0.00, width: 50.00, height: 50.00)
@@ -86,6 +109,11 @@ class Bee: Enemy{
         addComponent(targetDetectonComponent)
         
         
+        let intelligenceComponent = IntelligenceComponent(states: [
+            BeeActiveState(bee: self)
+            ])
+        addComponent(intelligenceComponent)
+        intelligenceComponent.stateMachine?.enter(BeeActiveState.self)
       
         //Contact handler component: an attacking enemy enters the inactive state upon contact with the player; ensure that a reference to the entity-level state machine is captured in the contact handler expression
         
@@ -95,6 +123,34 @@ class Bee: Enemy{
             
             switch otherBodyCategoryBitmask{
             case CollisionConfiguration.Player.categoryMask:
+                
+                let currentOrientation = orientationComponent.currentOrientation
+                
+                let deadAnimationName = Bee.getDeadAnimation(forOrientation: currentOrientation)
+
+                guard let deadAnimation = Bee.AnimationsDict[deadAnimationName] else {
+                    print("Error: failed to load the dead animation from animations dict from contact handler scope")
+                    return
+                }
+                
+                let disableGravityAction = SKAction.run {
+                    physicsBody.affectedByGravity = true
+                }
+                
+                let waitAction = SKAction.fadeOut(withDuration: 4.00)
+                
+                let dieAnimation = SKAction.group([
+                    deadAnimation, disableGravityAction, waitAction
+                    ])
+                
+                if let animationNode = animationComponent.animationNode{
+                    animationNode.removeAllActions()
+                    animationNode.run(dieAnimation, completion: {
+                        renderComponent.node.removeFromParent()
+                    })
+                }
+               
+                
                 break
             default:
                 break
