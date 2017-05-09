@@ -100,15 +100,48 @@ class SceneLoader{
     
     
     func donwloadResourcesIfNecessary(){
-        
+        if sceneMetadata.requiresOnDemandResources{
+            stateMachine.enter(SceneLoaderDownloadingResourcesState.self)
+        } else {
+            stateMachine.enter(SceneLoaderResourcesAvailableState.self)
+        }
     }
     
     func asynchronouslyLoadSceneForPresentation() -> Progress{
         
-        return Progress()
+        if let progress = progress, !progress.isCancelled{
+            return progress
+        }
+        
+        
+        switch(stateMachine.currentState){
+            case is SceneLoaderResourcesReadyState:
+                progress = Progress(totalUnitCount: 0)
+            case is SceneLoaderResourcesAvailableState:
+                progress = Progress(totalUnitCount: 1)
+                stateMachine.enter(SceneLoaderPreparingResourcesState.self)
+            default:
+                progress = Progress(totalUnitCount: 2)
+                let downloadingState = stateMachine.state(forClass: SceneLoaderDownloadingResourcesState.self)!
+                //downloadingState.enterPreparingStateWhenFinished = true
+                stateMachine.enter(SceneLoaderDownloadingResourcesState.self)
+            
+                guard let bundleResourceRequest = bundleResourceRequest else {
+                        fatalError("In the SceneLoaderDownloadingResources state, but a valid resource request has not been created")
+                }
+            
+                progress?.addChild(bundleResourceRequest.progress, withPendingUnitCount: 1)
+            
+        }
+    
+        return progress!
     }
     
     func purgeResources(){
-        
+        progress?.cancel()
+        stateMachine.enter(SceneLoaderInitialState.self)
+        bundleResourceRequest = nil
+        scene = nil
+        error = nil
     }
 }
