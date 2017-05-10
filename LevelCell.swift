@@ -58,21 +58,19 @@ class LevelCell: UICollectionViewCell{
         }
     }
     
-    convenience init(frame: CGRect, previewImage: UIImage, levelTitle: String, levelSubtitle: String, levelDescription: String?){
-        self.init(frame: frame)
-        
-        self.previewImage = previewImage
-        self.titleText = levelTitle
-        self.subtitleText = levelSubtitle
-        
-        if let levelDescription = levelDescription{
-            self.descriptionText = levelDescription
-        }
-        
-    }
-    
+   
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        previewImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height*2/3))
+
+        previewImageView.contentMode = .scaleAspectFit
+        contentView.addSubview(previewImageView)
+        
+        titleLabel = UILabel(frame: CGRect(x: 0, y: previewImageView.frame.size.height, width: frame.size.width, height: frame.size.height/3))
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 10.0)
+        titleLabel.textAlignment = .center
+        contentView.addSubview(titleLabel)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -96,18 +94,18 @@ extension LevelCell{
         case CharacterStories
     }
     
-    static func gameMetaDataForIndexPath(indexPath: IndexPath) -> [GameMetaData]?{
+    static func gameMetaDataForIndexPath(indexPath: IndexPath) -> GameMetaData?{
         
         guard let section = LevelCell.Section(rawValue: (indexPath as NSIndexPath).section) else {
             print("Error: failed to initialize LevelCell.Section enum type while retrieving game meta data")
             return nil
         }
         
-        return LevelCell.metaDataDictionary[section]
+        return LevelCell.metaDataDictionary[section]?[indexPath.row]
     }
     
     static let metaDataDictionary : [Section: [GameMetaData]] = [
-        Section.LevelScenes : [],
+        Section.LevelScenes : LevelSceneMetaData.allLevels,
         Section.Players : [],
         Section.Enemies : [],
         Section.Collectibles : [],
