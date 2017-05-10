@@ -42,6 +42,25 @@ final class SceneManager{
     
     weak var delegate: SceneManagerDelegate?
     
+    
+    var nextSceneMetadata: SceneMetaData{
+        
+        let homeScene = sceneConfigurationInfo.first!
+        
+        guard let currentSceneMetadata = currentSceneMetadata else {
+            return homeScene
+        }
+        
+        let index = sceneConfigurationInfo.index(of: currentSceneMetadata)!
+        
+        
+        if index+1<sceneConfigurationInfo.count{
+            return sceneConfigurationInfo[index+1]
+        }
+        
+        return homeScene
+    }
+    
     //The scene that is currently being presented
     
     private (set) var currentSceneMetadata: SceneMetaData?
@@ -124,32 +143,130 @@ final class SceneManager{
     
     func transitionToScene(identifier sceneIdentifier: SceneIdentifier){
         
+        let loader = self.sceneLoader(forSceneIdentifier: sceneIdentifier)
+        
+        if loader.stateMachine.currentState is SceneLoaderResourcesReadyState{
+            presentScene(for: loader)
+        } else {
+            
+            _ = loader.asynchronouslyLoadSceneForPresentation()
+            
+            loader.requestedForPresentation = true
+            
+            if loader.requiresProgressSceneForPreparing{
+                presentProgressScene(for: loader)
+            }
+        }
+        
     }
     
     private func beginDownloadingNextPossibleScenes(){
         
+        let possibleScenes = allPossibleNextScenes()
+        
+        for sceneMetadata in possibleScenes{
+            
+            let resourceRequest = sceneLoaderForMetadata[sceneMetadata]
+            
+            resourceRequest?.donwloadResourcesIfNecessary()
+        }
+        
+        var unreachableScenes = Set(sceneLoaderForMetadata.keys)
+        
+        unreachableScenes.subtract(possibleScenes)
+        
+        for sceneMetadata in unreachableScenes{
+            
+            let resourceRequest = sceneLoaderForMetadata[sceneMetadata]!
+            
+            resourceRequest.purgeResources()
+        }
     }
     
     private func allPossibleNextScenes() -> Set<SceneMetaData>{
         
+        let homeScene = sceneConfigurationInfo.first!
+        
+        guard let currentSceneMetadata = currentSceneMetadata else {
+            return [homeScene]
+        }
+        
+        return [homeScene, nextSceneMetadata, currentSceneMetadata]
     }
     
     func sceneLoader(forSceneIdentifier sceneIdentifier: SceneIdentifier) -> SceneLoader{
         
+        let sceneMetadata: SceneMetaData
         
+        switch sceneIdentifier{
+            case .home:
+                sceneMetadata = sceneConfigurationInfo.first!
+                break
+            case .currentLevel:
+                guard let currentSceneMetadata = currentSceneMetadata else {
+                    fatalError("Current scene doesn't exist")
+                    }
+                sceneMetadata = currentSceneMetadata
+                break
+            case .nextLevel:
+                sceneMetadata = nextSceneMetadata
+                break
+            case .level(let levelNumber):
+                sceneMetadata = sceneConfigurationInfo[levelNumber]
+                break
+            case .end:
+                sceneMetadata = sceneConfigurationInfo.last!
+                break
+        }
+        
+        return sceneLoaderForMetadata[sceneMetadata]!
     }
     
     deinit {
-        
+        if let loadingCompletedObserver = loadingCompletedObserver{
+            
+            NotificationCenter.default.removeObserver(loadingCompletedObserver, name: Notification.Name.SceneLoaderDidCompleteNotification, object: nil)
+        }
     }
     
     //Configures the progress scene to show the progress of the scene loader
     
     func presentProgressScene(for loader: SceneLoader){
         
+        /**
+        guard progressScene == nil else { return }
+        
+        progressScene = ProgressScene.progressScene(withSceneLoader: loader)
+        
+        progressScene!.sceneManager = self
+        
+        let transition = SKTransition.doorsCloseVertical(withDuration: 3.00)
+        
+        presentingView.presentScene(progressScene!, transition: transition)
+        **/
     }
     
     func registerForNotifications(){
         
+        guard loadingCompletedObserver == nil else { return }
+        
+        loadingCompletedObserver = NotificationCenter.default.addObserver(forName: Notification.Name.SceneLoaderDidCompleteNotification, object: nil, queue: OperationQueue.main, using: {
+            
+            [unowned self] notification in
+            
+            let sceneLoader = notification.object as! SceneLoader
+            
+            guard let managedSceneLoader = self.sceneLoaderForMetadata[sceneLoader.sceneMetadata], managedSceneLoader === sceneLoader else { return }
+            
+            guard sceneLoader.stateMachine.currentState is SceneLoaderResourcesReadyState else {
+                    fatalError("Received complete notification, but the stateMachine's current state is not ready")
+                }
+            
+            if sceneLoader.requestedForPresentation{
+                self.presentScene(for: sceneLoader)
+            }
+            
+            sceneLoader.requestedForPresentation = false
+        })
     }
 }
