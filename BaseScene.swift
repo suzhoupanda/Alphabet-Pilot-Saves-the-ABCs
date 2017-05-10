@@ -26,6 +26,8 @@ class BaseScene: SKScene {
     
     var skSceneFileName: String
     
+    var sceneManager: SceneManager?
+    
     private var lastUpdateTime : TimeInterval = 0
     
     /**  The letter is attained when the player flies past the x-position of the letter.  Upon attaining the letter, the scene's state machine enter the LevelSceneSuccessState
@@ -44,15 +46,15 @@ class BaseScene: SKScene {
     
     //MARK: ******************  Initializers
     
-    init(sksFileName: String, size: CGSize){
+    required init(sksFileName: String, size: CGSize){
         self.skSceneFileName = sksFileName
         super.init(size: size)
         
         registerNotifications()
         
-        
-        
     }
+
+    
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

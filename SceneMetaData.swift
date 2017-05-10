@@ -95,7 +95,7 @@ struct SceneMetaData{
             onDemandResourceTags = []
         }
         
-        if sceneType == LevelScene.self{
+        if sceneType == BaseScene.self{
             loadableTypesForScene = loadableTypesForScene + [Player.self]
         }
         

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SceneConfiguration</key>
+	<array>
+		<string></string>
+		<dict>
+			<key>sceneType</key>
+			<string>BaseScene</string>
+			<key>onDemandResourceTags</key>
+			<array>
+				<string>Blockman/Slime</string>
+				<string>Bomb</string>
+			</array>
+			<key>fileName</key>
+			<string>MetalScene1</string>
+		</dict>
+	</array>
+</dict>
+</plist>

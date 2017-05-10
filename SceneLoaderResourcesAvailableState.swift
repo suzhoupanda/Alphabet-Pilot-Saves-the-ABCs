@@ -21,4 +21,14 @@ class SceneLoaderResourcesAvailableState: GKState{
     init(sceneLoader: SceneLoader){
         self.sceneLoader = sceneLoader
     }
+    
+    override func isValidNextState(_ stateClass: AnyClass) -> Bool {
+        switch stateClass {
+            case is SceneLoaderInitialState.Type, is SceneLoaderPreparingResourcesState.Type:
+                return true
+            
+            default:
+                return false
+            }
+    }
 }
