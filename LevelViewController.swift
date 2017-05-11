@@ -18,33 +18,36 @@ class LevelViewController: UICollectionViewController{
         
     }
     
-    fileprivate let itemsPerRow: CGFloat = 3
-    fileprivate let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 50.0, right: 20.0)
+  
 
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        
+        
         
         guard let collectionView = collectionView else {
                 fatalError("Error: collection view failed to initialize")
         }
         
+     
+        
         collectionView.register(LevelCell.self, forCellWithReuseIdentifier: CellIdentifiers.LevelCellReuseIdentifier.rawValue)
-        /**
+    
         NSLayoutConstraint.activate([
             collectionView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             collectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            collectionView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1.0),
-            collectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1.0)
+            collectionView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.90),
+            collectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.90)
             
             ])
-         **/
+ 
         
     }
     
     override func didMove(toParentViewController parent: UIViewController?) {
         super.didMove(toParentViewController: parent)
         
-        view.backgroundColor = UIColor.cyan
+        
         
     }
     
@@ -81,6 +84,8 @@ extension LevelViewController{
             cell.previewImage = gameMetaData.previewImage
             
             
+            cell.backgroundColor =  UIColor.GetCustomColor(customColor: .GrassyGreen)
+            
         }
         
         
@@ -96,6 +101,14 @@ extension LevelViewController{
         switch(indexPath.section){
             case 0:
                 if let gameMetaData = LevelCell.gameMetaDataForIndexPath(indexPath: indexPath) as? LevelSceneMetaData{
+                    
+                    
+                    let gameViewController = presentingViewController as! GameViewController
+                    gameViewController.gameHasStarted = true
+                
+                    
+                    NotificationCenter.default.post(name: Notification.Name.LevelChosenNotification, object: gameMetaData)
+                    
                     /**
                     let sksFileName = gameMetaData.sksFile
                     let onDemandResourceTags = gameMetaData.onDemandResourceTags
@@ -132,23 +145,30 @@ extension LevelViewController{
 
 extension LevelViewController{
     
+    
+    /**
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let paddingSpace = sectionInsets.left * (itemsPerRow + 1)
-        let availableWidth = view.frame.width - paddingSpace
-        let widthPerItem = availableWidth / itemsPerRow
-        
-        return CGSize(width: widthPerItem, height: widthPerItem)
+     
+
+        return CGSize(width: 200, height: 200)
     }
+    **/
     
+    /**
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         
-        return sectionInsets
-    }
     
+        return UIEdgeInsets(top: 0.0, left: 30.0, bottom: 0.0, right: 30.0)
+    }
+    **/
+    
+    
+    /**
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return sectionInsets.left
+        return 10.00
     }
+    **/
 }

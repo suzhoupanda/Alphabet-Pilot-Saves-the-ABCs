@@ -62,15 +62,37 @@ class LevelCell: UICollectionViewCell{
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        previewImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height*2/3))
-
+        contentView.backgroundColor = UIColor.GetCustomColor(customColor: .GrassyGreen)
+       
+        previewImageView = UIImageView(frame: CGRect(x: frame.size.width*0.10, y: 0.00, width: frame.size.width*0.80, height: frame.size.height*0.50))
         previewImageView.contentMode = .scaleAspectFit
         contentView.addSubview(previewImageView)
         
-        titleLabel = UILabel(frame: CGRect(x: 0, y: previewImageView.frame.size.height, width: frame.size.width, height: frame.size.height/3))
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 10.0)
+        
+        titleLabel = UILabel(frame: CGRect(x: frame.size.width*0.00, y: frame.size.height*0.40, width: frame.size.width, height: frame.size.height*0.20))
+        titleLabel.textColor = UIColor.GetCustomColor(customColor: .StopSignRed)
+        titleLabel.font = UIFont(name: "ChalkboardSE-Regular", size: 30.0)
         titleLabel.textAlignment = .center
         contentView.addSubview(titleLabel)
+        
+        
+        subtitleLabel = UILabel(frame: CGRect(x: frame.size.width*0.00, y: frame.size.height*0.65, width: frame.size.width, height: frame.size.height*0.10))
+        subtitleLabel.textColor = UIColor.GetCustomColor(customColor: .BluishGrey)
+        subtitleLabel.font = UIFont(name: "ChalkboardSE-Regular", size: 25.0)
+        subtitleLabel.textAlignment = .center
+        subtitleLabel.numberOfLines = 0
+        subtitleLabel.lineBreakMode = .byWordWrapping
+        contentView.addSubview(subtitleLabel)
+        
+        descriptionLabel = UILabel(frame: CGRect(x: frame.size.width*0.00, y: frame.size.height*0.70, width: frame.size.width, height: frame.size.height*0.30))
+        descriptionLabel.textColor = UIColor.GetCustomColor(customColor: .SharkFinWhite)
+        descriptionLabel.font = UIFont(name: "BradleyHandITCTT-Bold", size: 20.0)
+        descriptionLabel.textAlignment = .center
+        descriptionLabel.numberOfLines = 0
+        descriptionLabel.lineBreakMode = .byWordWrapping
+        
+        contentView.addSubview(descriptionLabel)
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
