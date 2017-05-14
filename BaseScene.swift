@@ -29,6 +29,8 @@ class BaseScene: SKScene {
     
     var sceneManager: SceneManager?
     
+
+    
     private var lastUpdateTime : TimeInterval = 0
     
     /**  The letter is attained when the player flies past the x-position of the letter.  Upon attaining the letter, the scene's state machine enter the LevelSceneSuccessState

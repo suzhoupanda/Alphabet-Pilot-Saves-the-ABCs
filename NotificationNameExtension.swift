@@ -46,6 +46,9 @@ extension Notification.Name{
     
     static let ReloadCurrentGameNotification = Notification.Name(rawValue: "reloadCurrentGameNotification")
     
+    static let StartRecordingGameplayNotification = Notification.Name(rawValue: "startRecordingGameplayNotification")
+    static let StopRecordingGameplayNotification = Notification.Name(rawValue: "stopRecordingGameplayNotification")
+    static let ShowRecordedGameplayNotification = Notification.Name(rawValue: "showRecordedGameplayNotification")
   
     /**
     static let PlayerEnteredEnemyProximityNotification = Notification.Name(rawValue: "playerEnteredEnemyProximityNotification")

@@ -16,7 +16,6 @@ class GameSceneController: UIViewController{
     
     
     
-    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         registerForNotifications()
@@ -30,6 +29,7 @@ class GameSceneController: UIViewController{
             
             let baseScene = BaseScene(sksFileName: fileName!, size: UIScreen.main.bounds.size)
             skView.presentScene(baseScene)
+        
         }
     }
 
@@ -56,6 +56,8 @@ class GameSceneController: UIViewController{
     
     func registerForNotifications(){
         NotificationCenter.default.addObserver(self, selector: #selector(GameSceneController.notifyPlayerOfGameSaveCompletion(notification:)), name: Notification.Name.UserRequestedGameSaveNotification, object: BaseScene.self)
+        
+       
     }
     
     deinit {

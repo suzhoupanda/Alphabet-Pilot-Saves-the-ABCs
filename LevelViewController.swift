@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import SpriteKit
+import ReplayKit
 
 class LevelViewController: UICollectionViewController{
     
@@ -20,24 +21,45 @@ class LevelViewController: UICollectionViewController{
     
     let mainMotionManager = MainMotionManager.sharedMotionManager
   
+    var previewViewController: RPPreviewViewController?
+
+    
+  
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        
+    
         
         guard let collectionView = collectionView else {
                 fatalError("Error: collection view failed to initialize")
         }
         
-     
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(collectionView)
         
         collectionView.register(LevelCell.self, forCellWithReuseIdentifier: CellIdentifiers.LevelCellReuseIdentifier.rawValue)
     
+        
+        let toolBar = UIToolbar()
+        view.addSubview(toolBar)
+        
+       
+        let replayPreviewItem = UIBarButtonItem(title: "View Recorded Gameplay", style: .plain, target: self, action: #selector(LevelViewController.showPreviewViewController))
+                
+        toolBar.setItems([replayPreviewItem], animated: true)
+        
+        
+        toolBar.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
-            collectionView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            collectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            collectionView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.90),
-            collectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.90)
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
+            collectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            collectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            collectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.80),
+            toolBar.leftAnchor.constraint(equalTo: view.leftAnchor),
+            toolBar.rightAnchor.constraint(equalTo: view.rightAnchor),
+            toolBar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            toolBar.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.08)
             
             ])
         
@@ -213,12 +235,20 @@ extension LevelViewController{
         NotificationCenter.default.addObserver(self, selector: #selector(LevelViewController.exitGame(notification:)), name: Notification.Name.ExitGameToLevelViewControllerNotification, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(LevelViewController.reloadCurrentGame(notification:)), name: Notification.Name.ReloadCurrentGameNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(LevelViewController.startScreenRecording(notification:)), name: Notification.Name.StartRecordingGameplayNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(LevelViewController.stopScreenRecording(notification:withHandler:)), name: Notification.Name.StopRecordingGameplayNotification, object: nil)
+        
+       
     }
 
     
     override var supportedInterfaceOrientations:UIInterfaceOrientationMask {
         return UIInterfaceOrientationMask.landscape
     }
+    
+    
 }
 
 //MARK: *********** UICollectionViewDelegate Methods

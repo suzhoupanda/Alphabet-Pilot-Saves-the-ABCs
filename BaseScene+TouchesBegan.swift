@@ -132,20 +132,26 @@ extension BaseScene{
                 
                 if button.name == "RecordGroup" && button.contains(touchLocationUI){
                     
-                    if let recordButton = button.childNode(withName: "RecordButton"){
+                    let touchLocationRecordGroup = touch.location(in: button)
+
+                    if let recordButton = button.childNode(withName: "RecordButton") as? SKSpriteNode, recordButton.contains(touchLocationRecordGroup){
+                        
+                        print("Posting start record notification...")
+                        
+                        NotificationCenter.default.post(name: Notification.Name.StartRecordingGameplayNotification, object: nil)
                         
                     }
                     
-                    if let stopRecordButton = button.childNode(withName: "StopRecordButton"){
+                    if let stopRecordButton = button.childNode(withName: "StopRecordButton") as? SKSpriteNode,stopRecordButton.contains(touchLocationRecordGroup){
                         
+                        print("Posting stop record notification...")
+
+                        NotificationCenter.default.post(name: Notification.Name.StopRecordingGameplayNotification, object: nil)
                     }
                     
-                    if let replayButton = button.childNode(withName: "ReplayButton"){
-                        
-                        
-                    }
+                
                     
-                    if let backButton = button.childNode(withName: "BackButton"){
+                    if let backButton = button.childNode(withName: "BackButton"), backButton.contains(touchLocationRecordGroup){
                         button.removeFromParent()
                         
                         if let optionsGroup = SKScene(fileNamed: "OverlayButtons")?.childNode(withName: "OptionsGroup"){
