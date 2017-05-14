@@ -40,6 +40,9 @@ extension Notification.Name{
     
     static let LevelChosenNotification = Notification.Name(rawValue: "levelChosenNotification")
     
+    static let UserRequestedGameSaveNotification = Notification.Name(rawValue: "userRequestedGameSaveNotification")
+    
+    static let ExitGameToLevelViewControllerNotification = Notification.Name(rawValue: "exitGameToLevelViewControllerNotification")
   
     /**
     static let PlayerEnteredEnemyProximityNotification = Notification.Name(rawValue: "playerEnteredEnemyProximityNotification")

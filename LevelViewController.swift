@@ -18,8 +18,8 @@ class LevelViewController: UICollectionViewController{
         
     }
     
+    let mainMotionManager = MainMotionManager.sharedMotionManager
   
-
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
@@ -40,16 +40,25 @@ class LevelViewController: UICollectionViewController{
             collectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.90)
             
             ])
- 
         
+        
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        registerNotifications()
+
     }
     
     override func didMove(toParentViewController parent: UIViewController?) {
         super.didMove(toParentViewController: parent)
         
         
-        
     }
+    
+
     
 }
 
@@ -103,24 +112,12 @@ extension LevelViewController{
                 if let gameMetaData = LevelCell.gameMetaDataForIndexPath(indexPath: indexPath) as? LevelSceneMetaData{
                     
                     
-                    let gameViewController = presentingViewController as! GameViewController
-                    gameViewController.gameHasStarted = true
                 
                     
-                    NotificationCenter.default.post(name: Notification.Name.LevelChosenNotification, object: gameMetaData)
+                        print("Loading game scene view controller...")
                     
-                    /**
-                    let sksFileName = gameMetaData.sksFile
-                    let onDemandResourceTags = gameMetaData.onDemandResourceTags
-                    
-                    let gameViewController = presentingViewController as! GameViewController
-                    gameViewController.sksFileName = sksFileName
-                    
-                    dismiss(animated: true, completion: {
-                    
-                        gameViewController.startGame()
-                    })
-                    **/
+                        loadGame(levelSceneMetaData: gameMetaData)
+                        
                     
                     //Start preload the ResourceLoadableTypes corresponding to the onDemangdResource tags (including the sks file) 
                     
@@ -129,14 +126,76 @@ extension LevelViewController{
                 break
             case 1: break
             default: break
-        }
+            }
         
        
         
-    }
+        }
+    
+
+
     
     override func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         
+    }
+    
+    
+    func loadGame(levelSceneMetaData: LevelSceneMetaData){
+        
+            
+            UIDevice.current.beginGeneratingDeviceOrientationNotifications()
+            
+            self.mainMotionManager.startDeviceMotionUpdates()
+            self.mainMotionManager.deviceMotionUpdateInterval = 0.50
+            
+            
+            let screenSize = UIScreen.main.bounds.size
+            
+            /**
+             let planeScene1 = BaseScene(sksFileName: "PlaneScene1", size: screenSize)
+             let metalScene2 = BaseScene(sksFileName: "MetalScene2", size: screenSize)
+             **/
+            
+            /**
+             let sceneName = levelSceneMetaData.sksFile
+             
+             let selectedScene = BaseScene(sksFileName: sceneName, size: screenSize)
+             
+             
+             let skView = self.view as! SKView
+             skView.presentScene(selectedScene)
+             **/
+            
+            
+            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+            let gscController = storyBoard.instantiateViewController(withIdentifier: "GameSceneControllerSB") as! GameSceneController
+            
+            //let gscController = GameSceneController(nibName: nil, bundle: nil)
+            gscController.fileName = levelSceneMetaData.sksFile
+            
+            self.present(gscController, animated: true, completion: nil)
+            
+    
+        
+    }
+    
+    
+    func exitGame(notification: Notification){
+        
+        if let gameSceneViewController = presentedViewController as? GameSceneController{
+            gameSceneViewController.dismiss(animated: true, completion: nil)
+        }
+        
+    }
+    
+    func registerNotifications(){
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(LevelViewController.exitGame(notification:)), name: Notification.Name.ExitGameToLevelViewControllerNotification, object: nil)
+    }
+
+    
+    override var supportedInterfaceOrientations:UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.landscape
     }
 }
 

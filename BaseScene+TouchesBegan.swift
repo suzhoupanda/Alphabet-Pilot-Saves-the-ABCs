@@ -99,6 +99,15 @@ extension BaseScene{
                     
                     if let mainMenuButton = button.childNode(withName: "MainMenu") as? SKSpriteNode, mainMenuButton.contains(touchLocationInOptionGroup){
                         print("Returning to main menu...")
+                        
+                        
+                        NotificationCenter.default.post(name: Notification.Name.ExitGameToLevelViewControllerNotification, object: nil)
+                    }
+                    
+                    if let saveGameButton = button.childNode(withName: "SaveGame") as? SKSpriteNode, saveGameButton.contains(touchLocationInOptionGroup){
+                        print("Saving Game...")
+                        
+                        saveCurrentGameSession()
                     }
                     
                     if let recordButtonGroup = button.childNode(withName: "RecordGameplay") as? SKSpriteNode, recordButtonGroup.contains(touchLocationInOptionGroup){

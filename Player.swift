@@ -13,7 +13,7 @@ import GameplayKit
 
 class Player: GKEntity{
     
-    enum PlaneColor{
+    enum PlaneColor: String{
         case Red, Yellow, Green, Blue
     }
     

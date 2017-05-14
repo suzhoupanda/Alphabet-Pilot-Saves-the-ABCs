@@ -25,6 +25,7 @@ class BaseScene: SKScene {
     var obstacleGraph: GKObstacleGraph<GKGraphNode2D>?
     
     var skSceneFileName: String
+    var sceneLetterTarget: String = String()
     
     var sceneManager: SceneManager?
     
@@ -239,6 +240,78 @@ class BaseScene: SKScene {
          NotificationCenter.default.addObserver(self, selector: #selector(BaseScene.reportPlayerRangePosition(notification:)), name: Notification.Name.PlayerEnteredPredefinedRange, object: nil)
         
        
+    }
+    
+    func saveCurrentGameSession(){
+        
+        print("Saving game data...")
+        
+        guard let playerPosition = player.component(ofType: RenderComponent.self)?.node.position else {
+            
+            print("Error: Unable to load player render component while saving game")
+            return
+        }
+        
+        guard let playerVelocity = player.component(ofType: PhysicsComponent.self)?.physicsBody.velocity else {
+            
+            print("Error: Unable to load player physics component while saving game")
+            return
+        }
+        
+        
+        guard let playerHealthComponent = player.component(ofType: HealthComponent.self) else {
+            
+            print("Error: Unable to load player health component while saving game")
+            return
+        }
+        
+        
+        guard let playerCollectibleComponent = player.component(ofType: CollectibleStorageComponent.self) else {
+            
+            print("Error: Unable to load player collectible component while saving game")
+            return
+        }
+        
+        guard let playerStateMachine = player.component(ofType: IntelligenceComponent.self) else {
+            print("Error: Unable to load player state machine while performing game save operation")
+            return
+        }
+    
+        let playerXPos = Double(playerPosition.x)
+        let playerYPos = Double(playerPosition.y)
+        
+        let playerXVelocity = Double(playerVelocity.dx)
+        let playerYVelocity = Double(playerVelocity.dy)
+        
+        let healthVal = Int16(playerHealthComponent.currentHealth)
+        let planeColor = player.planeColor.rawValue
+        let goldCoinCount = Int16(playerCollectibleComponent.goldCoinCount)
+        let silverCoinCount = Int16(playerCollectibleComponent.silverCoinCount)
+        let bronzeCoinCount = Int16(playerCollectibleComponent.bronzeCoinCount)
+        let playerDamageStatus = playerStateMachine.stateMachine?.currentState is PlayerDamagedState
+        let playerSceneName = skSceneFileName
+        let playerLetterTarget = sceneLetterTarget
+        let currentDate = Date()
+        
+        let userInfo: [String: Any] = [
+            "playerXPosition" : playerXPos,
+            "playerYPosition" : playerYPos,
+            "playerXVelocity" : playerXVelocity,
+            "playerYVelocity" : playerYVelocity,
+            "playerHealth" : healthVal,
+            "playerPlaneColor" : planeColor,
+            "playerGoldCoinCount": goldCoinCount,
+            "playerSilverCointCount" : silverCoinCount,
+            "playerBronzeCoinCount" : bronzeCoinCount,
+            "playerDamageStatus" : playerDamageStatus,
+            "playerSceneName" : playerSceneName,
+            "playerLetterTarget" : playerLetterTarget,
+            "playerDateSaved" : currentDate
+        ]
+        
+        NotificationCenter.default.post(name: Notification.Name.UserRequestedGameSaveNotification, object: BaseScene.self, userInfo: userInfo)
+      
+        
     }
     
     deinit {
