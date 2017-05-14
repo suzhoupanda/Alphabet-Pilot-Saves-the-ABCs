@@ -94,6 +94,8 @@ extension BaseScene{
                     
                     if let restartButton = button.childNode(withName: "Restart") as? SKSpriteNode, restartButton.contains(touchLocationInOptionGroup){
                         print("Restarting level...")
+                        
+                        NotificationCenter.default.post(name: Notification.Name.ReloadCurrentGameNotification, object: nil)
                     }
                     
                     

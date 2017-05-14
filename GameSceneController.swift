@@ -19,6 +19,7 @@ class GameSceneController: UIViewController{
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        registerForNotifications()
         
     }
     
@@ -33,12 +34,31 @@ class GameSceneController: UIViewController{
     }
 
     
+    
     override func didMove(toParentViewController parent: UIViewController?) {
         super.didMove(toParentViewController: parent)
         
+
         
         
+    }
+    
+    func notifyPlayerOfGameSaveCompletion(notification: Notification){
         
+        let alertViewController = UIAlertController(title: "Gamed Saved!", message: "", preferredStyle: .alert)
         
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        
+        alertViewController.addAction(action)
+        
+        present(alertViewController, animated: false, completion: nil)
+    }
+    
+    func registerForNotifications(){
+        NotificationCenter.default.addObserver(self, selector: #selector(GameSceneController.notifyPlayerOfGameSaveCompletion(notification:)), name: Notification.Name.UserRequestedGameSaveNotification, object: BaseScene.self)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }

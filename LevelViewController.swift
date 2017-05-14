@@ -42,7 +42,6 @@ class LevelViewController: UICollectionViewController{
             ])
         
         
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -107,16 +106,14 @@ extension LevelViewController{
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        
+        
         switch(indexPath.section){
             case 0:
                 if let gameMetaData = LevelCell.gameMetaDataForIndexPath(indexPath: indexPath) as? LevelSceneMetaData{
                     
                     
-                
-                    
-                        print("Loading game scene view controller...")
-                    
-                        loadGame(levelSceneMetaData: gameMetaData)
+                    loadGame(levelSceneMetaData: gameMetaData)
                         
                     
                     //Start preload the ResourceLoadableTypes corresponding to the onDemangdResource tags (including the sks file) 
@@ -124,8 +121,8 @@ extension LevelViewController{
                     //transition to a ProgressScene; call beginDownloadingResources on an NSBundleRequest, where its completion handler will involve presenting the scene whose resources have become fully available
                 }
                 break
-            case 1: break
-            default: break
+            default:
+                break
             }
         
        
@@ -148,25 +145,7 @@ extension LevelViewController{
             self.mainMotionManager.startDeviceMotionUpdates()
             self.mainMotionManager.deviceMotionUpdateInterval = 0.50
             
-            
-            let screenSize = UIScreen.main.bounds.size
-            
-            /**
-             let planeScene1 = BaseScene(sksFileName: "PlaneScene1", size: screenSize)
-             let metalScene2 = BaseScene(sksFileName: "MetalScene2", size: screenSize)
-             **/
-            
-            /**
-             let sceneName = levelSceneMetaData.sksFile
-             
-             let selectedScene = BaseScene(sksFileName: sceneName, size: screenSize)
-             
-             
-             let skView = self.view as! SKView
-             skView.presentScene(selectedScene)
-             **/
-            
-            
+        
             let storyBoard = UIStoryboard(name: "Main", bundle: nil)
             let gscController = storyBoard.instantiateViewController(withIdentifier: "GameSceneControllerSB") as! GameSceneController
             
@@ -179,11 +158,52 @@ extension LevelViewController{
         
     }
     
+    func reloadCurrentGame(notification: Notification){
+        
+        guard let presentedViewController = presentedViewController as? GameSceneController else {
+            print("Error: There is no Game Scene controller currently being presented")
+            return
+        }
+        
+        let presentingView = presentedViewController.view as! SKView
+        
+        let sksFileName = presentedViewController.fileName
+        
+        let transition = SKTransition.crossFade(withDuration: 2.00)
+        
+        let baseScene = BaseScene(sksFileName: sksFileName!, size: UIScreen.main.bounds.size)
+
+        presentingView.presentScene(baseScene, transition: transition)
+        
+        
+        
+        
+        
+    }
+    
     
     func exitGame(notification: Notification){
         
         if let gameSceneViewController = presentedViewController as? GameSceneController{
-            gameSceneViewController.dismiss(animated: true, completion: nil)
+            gameSceneViewController.dismiss(animated: true, completion: {
+            
+                //Once the Game Scene Controller is dismissed, it's no longer necessary to continue receiving motion updates for player position
+            
+                self.mainMotionManager.stopDeviceMotionUpdates()
+                
+                
+                //Upon exiting game, deselect the game scene that is being loaded
+                
+                guard let collectionView = self.collectionView, let indexPaths = collectionView.indexPathsForSelectedItems  else {
+                    print("Error: collection view unavailable for modification or no collection view items have been selected")
+                    return
+                }
+                for indexPath in indexPaths{
+                    collectionView.deselectItem(at: indexPath, animated: true)
+                    print("Previously selected scenes have been deselected")
+                }
+                
+            })
         }
         
     }
@@ -191,6 +211,8 @@ extension LevelViewController{
     func registerNotifications(){
         
         NotificationCenter.default.addObserver(self, selector: #selector(LevelViewController.exitGame(notification:)), name: Notification.Name.ExitGameToLevelViewControllerNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(LevelViewController.reloadCurrentGame(notification:)), name: Notification.Name.ReloadCurrentGameNotification, object: nil)
     }
 
     

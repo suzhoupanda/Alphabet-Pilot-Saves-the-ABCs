@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         menuOptionsController.managedContext = self.persistentContainer.viewContext
         
-        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.performSaveGameOperation(notification:)), name: Notification.Name.UserRequestedGameSaveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.performSaveGameOperation(notification:)), name: Notification.Name.UserRequestedGameSaveNotification, object: BaseScene.self)
      
         
         
@@ -109,6 +109,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let saveGameOperation = SaveGameOperation(gameSessionData: userInfoDict, managedContext: self.persistentContainer.viewContext)
         
         gameSaveOperationQueue.addOperation(saveGameOperation)
+        
         
     }
     
