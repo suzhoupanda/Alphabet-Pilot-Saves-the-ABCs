@@ -89,19 +89,29 @@ extension SavedGameController{
         savedGameDetailVC.saveDate = gameSession.dateSaved as Date?
         savedGameDetailVC.healthLevel = Int(gameSession.playerHealth)
         
-
+        savedGameDetailVC.planeColorText = gameSession.planeColor
+    
+        
+        let numberFormatter = NumberFormatter()
+        numberFormatter.minimumFractionDigits = 2
+        
         let positionX = gameSession.playerXPos 
         let positionY = gameSession.playerYPos
         
+        let formattedPositionX = numberFormatter.string(from: NSNumber(value: positionX))!
+        let formattedPositionY = numberFormatter.string(from: NSNumber(value: positionY))!
         
-        savedGameDetailVC.xPositionText = "X-Position \(positionX)"
-        savedGameDetailVC.yPositionText = "Y-Position: \(positionY)"
+        savedGameDetailVC.xPositionText = "X-Position \(formattedPositionX)"
+        savedGameDetailVC.yPositionText = "Y-Position: \(formattedPositionY)"
         
         let velocityX = gameSession.playerXVelocity
         let velocityY = gameSession.playerYVelocity
         
-        savedGameDetailVC.xVelocityText = "X-Velocity: \(velocityX)"
-        savedGameDetailVC.yVelocityText = "Y-Velocity: \(velocityY)"
+        let formattedVelocityX = numberFormatter.string(from: NSNumber(value: velocityX))!
+        let formattedVelocityY = numberFormatter.string(from: NSNumber(value: velocityY))!
+        
+        savedGameDetailVC.xVelocityText = "X-Velocity: \(formattedVelocityX)"
+        savedGameDetailVC.yVelocityText = "Y-Velocity: \(formattedVelocityY)"
         
         savedGameDetailVC.damageStatus = gameSession.isDamaged
         

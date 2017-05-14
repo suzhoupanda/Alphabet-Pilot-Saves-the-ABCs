@@ -15,6 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var gameSaveOperationQueue = OperationQueue()
 
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -23,66 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         menuOptionsController.managedContext = self.persistentContainer.viewContext
         
-        
-        NotificationCenter.default.addObserver(forName: Notification.Name.UserRequestedGameSaveNotification, object: BaseScene.self, queue: gameSaveOperationQueue, using: {
-        
-            [unowned self] notification in
-            
-            print("Notificaiton for user game save request received, proceeding to save game data...")
-            
-            let gameSession = NSEntityDescription.insertNewObject(forEntityName: "GameSession", into: self.persistentContainer.viewContext) as! GameSession
-            
-            guard let userInfo = notification.userInfo else {
-                print("Error: Failed to load user info dictionary from game save request notification")
-                return
-            }
-            
-            let bronzeCointCount = userInfo["playerBronzeCoinCount"] as! Int16
-            let silverCoinCount = userInfo["playerSilverCointCount"] as! Int16
-            let goldCoinCount = userInfo["playerGoldCoinCount"] as! Int16
-            let healthLevel = userInfo["playerHealth"] as! Int16
-            let planeColor = userInfo["playerPlaneColor"] as! String
-            let sceneName = userInfo["playerSceneName"] as! String
-            let letterName = userInfo["playerLetterTarget"] as! String
-            let damageStatus = userInfo["playerDamageStatus"] as! Bool
-            let currentDate = userInfo["playerDateSaved"] as! Date
-            
-            let playerXPos = userInfo["playerXPosition"] as! Double
-            let playerYPos = userInfo["playerYPosition"] as! Double
-            let playerXVelocity = userInfo["playerXVelocity"] as! Double
-            let playerYVelocity = userInfo["playerYVelocity"] as! Double
-
-            
-            gameSession.bronzeCoinCount = bronzeCointCount
-            gameSession.goldCoinCount = goldCoinCount
-            gameSession.silverCoinCount = silverCoinCount
-            gameSession.isDamaged = damageStatus
-            
-            gameSession.dateSaved = currentDate as NSDate?
-            gameSession.letter = letterName
-            gameSession.planeColor = planeColor
-            gameSession.playerHealth = healthLevel
-            
-            gameSession.playerXVelocity = playerXVelocity
-            gameSession.playerYVelocity = playerYVelocity
-            gameSession.playerXPos = playerXPos
-            gameSession.playerYPos = playerYPos
-            
-            gameSession.scene = sceneName
-            
-            do{
-                try! self.persistentContainer.viewContext.save()
-                
-            } catch let error as NSError{
-                print("Error: Failed to save game \(error), \(error.localizedDescription)")
-            }
-            
-            print("Game data saved!")
-        
-        })
-        
-        
-
+        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.performSaveGameOperation(notification:)), name: Notification.Name.UserRequestedGameSaveNotification, object: nil)
+     
         
         
         return true
@@ -156,10 +99,87 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
+    func performSaveGameOperation(notification: Notification){
+        
+        guard let userInfoDict = notification.userInfo as? [String: Any] else {
+            print("Error: failed to load user info dictionary from notification")
+            return
+        }
+        
+        let saveGameOperation = SaveGameOperation(gameSessionData: userInfoDict, managedContext: self.persistentContainer.viewContext)
+        
+        gameSaveOperationQueue.addOperation(saveGameOperation)
+        
+    }
+    
+    
 
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
 
 }
+
+
+
+/**
+ NotificationCenter.default.addObserver(forName: Notification.Name.UserRequestedGameSaveNotification, object: BaseScene.self, queue: gameSaveOperationQueue, using: {
+ 
+ [unowned self] notification in
+ 
+ 
+ 
+ let gameSession = NSEntityDescription.insertNewObject(forEntityName: "GameSession", into: self.persistentContainer.viewContext) as! GameSession
+ 
+ guard let userInfo = notification.userInfo else {
+ print("Error: Failed to load user info dictionary from game save request notification")
+ return
+ }
+ 
+ let bronzeCointCount = userInfo["playerBronzeCoinCount"] as! Int16
+ let silverCoinCount = userInfo["playerSilverCointCount"] as! Int16
+ let goldCoinCount = userInfo["playerGoldCoinCount"] as! Int16
+ let healthLevel = userInfo["playerHealth"] as! Int16
+ let planeColor = userInfo["playerPlaneColor"] as! String
+ let sceneName = userInfo["playerSceneName"] as! String
+ let letterName = userInfo["playerLetterTarget"] as! String
+ let damageStatus = userInfo["playerDamageStatus"] as! Bool
+ let currentDate = userInfo["playerDateSaved"] as! Date
+ 
+ let playerXPos = userInfo["playerXPosition"] as! Double
+ let playerYPos = userInfo["playerYPosition"] as! Double
+ let playerXVelocity = userInfo["playerXVelocity"] as! Double
+ let playerYVelocity = userInfo["playerYVelocity"] as! Double
+ 
+ 
+ gameSession.bronzeCoinCount = bronzeCointCount
+ gameSession.goldCoinCount = goldCoinCount
+ gameSession.silverCoinCount = silverCoinCount
+ gameSession.isDamaged = damageStatus
+ 
+ gameSession.dateSaved = currentDate as NSDate?
+ gameSession.letter = letterName
+ gameSession.planeColor = planeColor
+ gameSession.playerHealth = healthLevel
+ 
+ gameSession.playerXVelocity = playerXVelocity
+ gameSession.playerYVelocity = playerYVelocity
+ gameSession.playerXPos = playerXPos
+ gameSession.playerYPos = playerYPos
+ 
+ gameSession.scene = sceneName
+ 
+ do{
+ try! self.persistentContainer.viewContext.save()
+ 
+ } catch let error as NSError{
+ print("Error: Failed to save game \(error), \(error.localizedDescription)")
+ }
+ 
+ print("Game data saved!")
+ 
+ })
+ 
+ **/
+
 

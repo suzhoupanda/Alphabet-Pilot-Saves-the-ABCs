@@ -105,10 +105,10 @@ class SavedGameDetailViewController: UIViewController{
             sceneNameLabel.text = sceneLabelText
         }
         
-        if let planeColor = planeColor{
+        if let planeColorText = planeColorText{
             for index in 0..<planeColorSegmentedControl.numberOfSegments{
                 
-                if planeColorSegmentedControl.titleForSegment(at: index) == planeColor{
+                if planeColorSegmentedControl.titleForSegment(at: index) == planeColorText{
                     planeColorSegmentedControl.selectedSegmentIndex = index
                 }
             }
