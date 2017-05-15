@@ -15,6 +15,7 @@ import CoreMotion
 
 class MenuOptionsViewController: UIViewController{
     
+    var textureAtlasManager = TextureAtlasManager.sharedManager
     
     var canViewHelpContent: Bool = true
     var managedContext: NSManagedObjectContext!
@@ -37,6 +38,7 @@ class MenuOptionsViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Preload all of the texture atlases
         
         
     }

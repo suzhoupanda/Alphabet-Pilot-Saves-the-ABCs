@@ -19,13 +19,32 @@ class RandomImpulseComponent: GKComponent{
     var impulseInterval: TimeInterval = 5.00
     var impulseVector: CGVector?
     
+    convenience init(impulseInterval: TimeInterval, meanImpulseValue: Float, deviation: Float) {
+        self.init()
+        
+        self.impulseInterval = impulseInterval
+        
+        let coinFlip = arc4random_uniform(1)
+        
+        let adjustedMean = coinFlip == 0 ? meanImpulseValue : -meanImpulseValue
+        
+        let randomDist = GKGaussianDistribution(randomSource: GKARC4RandomSource(), mean: adjustedMean, deviation: deviation)
+        
+        let randomDy = randomDist.nextInt()
+        let randomDx = randomDist.nextInt()
+        
+        let cgVector = CGVector(dx: randomDx, dy: randomDy)
+        
+        impulseVector = cgVector
+    }
+    
     convenience init(impulseInterval: TimeInterval) {
         self.init()
         
         self.impulseInterval = impulseInterval
         
-        let randomDx = Double(arc4random_uniform(UInt32(100.00))) + -50.00
-        let randomDy = Double(arc4random_uniform(UInt32(100.00))) + -50.00
+        let randomDx = Double(arc4random_uniform(UInt32(200.00))) + -100.00
+        let randomDy = Double(arc4random_uniform(UInt32(200.00))) + -100.00
 
         let cgVector = CGVector(dx: randomDx, dy: randomDy)
         impulseVector = cgVector

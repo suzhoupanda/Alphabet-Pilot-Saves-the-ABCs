@@ -31,7 +31,7 @@ class BaseScene: SKScene {
     
 
     
-    private var lastUpdateTime : TimeInterval = 0
+    var lastUpdateTime : TimeInterval = 0
     
     /**  The letter is attained when the player flies past the x-position of the letter.  Upon attaining the letter, the scene's state machine enter the LevelSceneSuccessState
  
@@ -72,10 +72,7 @@ class BaseScene: SKScene {
     
     override func didMove(to view: SKView) {
         super.didMove(to: view)
-        
-        if Player.resourcesNeedLoading{
-            Player.loadResources(){}
-        }
+    
         
         self.physicsWorld.contactDelegate = self
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)

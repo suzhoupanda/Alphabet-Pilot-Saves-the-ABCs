@@ -145,7 +145,7 @@ extension BaseScene{
                     if let stopRecordButton = button.childNode(withName: "StopRecordButton") as? SKSpriteNode,stopRecordButton.contains(touchLocationRecordGroup){
                         
                         print("Posting stop record notification...")
-
+                        
                         NotificationCenter.default.post(name: Notification.Name.StopRecordingGameplayNotification, object: nil)
                     }
                     

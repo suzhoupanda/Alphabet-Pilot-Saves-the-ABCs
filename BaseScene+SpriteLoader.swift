@@ -170,6 +170,7 @@ extension BaseScene{
         **/
         
         
+       
         if let nodeName = node.name,nodeName.contains("RockGenerator/"){
 
             let targetNode = player.renderComponent.node
@@ -206,6 +207,8 @@ extension BaseScene{
             let positionValue = node.userData?.value(forKey: "position") as! NSValue
             let position = positionValue.cgPointValue
             
+            
+        
             
             if nodeName.contains("Spikeman"){
                 let spikeman = Spikeman(position: position, nodeName: "spikeman\(position)", horizontalVelocity: -80, scalingFactor: 0.50)

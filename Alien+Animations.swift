@@ -87,39 +87,16 @@ extension Alien{
     
     static func getSetTextureAction(forTextureName textureName: String) -> SKAction{
         
-        return SKAction.setTexture(AlienTextures[textureName]!)
+        return SKAction.setTexture(getAlienTexture(forTextureName: textureName))
         
     }
 
-    static let AlienTextures: [String: SKTexture] = {
+    static func getAlienTexture(forTextureName textureName: String) -> SKTexture{
         
-        //If the texture atlas manager fails to load, SKTexture objects are initialized directly with image arguments
+        guard let alienTextureAtlas = TextureAtlasManager.sharedManager.alienTextureAtlas else {    print("Error: alien texture atlas failed to load")
+                return SKTexture(imageNamed: textureName)
+            }
         
-        guard TextureAtlasManager.sharedManager.alienTextureAtlas != nil else {
-            return [
-                "shipBlue": SKTexture(image: #imageLiteral(resourceName: "shipBlue")),
-                "shipPink": SKTexture(image: #imageLiteral(resourceName: "shipPink")),
-                "shipBeige": SKTexture(image: #imageLiteral(resourceName: "shipBeige")),
-                "shipYellow": SKTexture(image: #imageLiteral(resourceName: "shipYellow")),
-                "shipBlue_unmanned": SKTexture(image: #imageLiteral(resourceName: "shipBlue_manned")),
-                "shipPink_unmanned": SKTexture(image: #imageLiteral(resourceName: "shipPink_manned")),
-                "shipBeige_unmanned": SKTexture(image: #imageLiteral(resourceName: "shipBeige_manned")),
-                "shipYellow_unmanned": SKTexture(image: #imageLiteral(resourceName: "shipYellow_manned")),
-
-                
-            ]
-        }
-        
-        return [
-    
-            "shipBlue": TextureAtlasManager.sharedManager.alienTextureAtlas!.textureNamed("shipBlue"),
-            "shipPink": TextureAtlasManager.sharedManager.alienTextureAtlas!.textureNamed("shipPink"),
-            "shipBeige": TextureAtlasManager.sharedManager.alienTextureAtlas!.textureNamed("shipBeige"),
-            "shipYellow": TextureAtlasManager.sharedManager.alienTextureAtlas!.textureNamed("shipYellow"),
-            "shipPink_unmanned": TextureAtlasManager.sharedManager.alienTextureAtlas!.textureNamed("shipPink_unmanned"),
-            "shipBlue_unmanned": TextureAtlasManager.sharedManager.alienTextureAtlas!.textureNamed("shipBlue_unmanned"),
-            "shipBeige_unmanned": TextureAtlasManager.sharedManager.alienTextureAtlas!.textureNamed("shipBeige_unmanned"),
-            "shipYellow_unmanned": TextureAtlasManager.sharedManager.alienTextureAtlas!.textureNamed("shipYellow_unmanned")
-        ]
-    }()
+        return alienTextureAtlas.textureNamed(textureName)
+    }
 }

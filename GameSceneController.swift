@@ -28,7 +28,8 @@ class GameSceneController: UIViewController{
         if let skView = self.view as! SKView?, fileName != nil{
             
             let baseScene = BaseScene(sksFileName: fileName!, size: UIScreen.main.bounds.size)
-            skView.presentScene(baseScene)
+            let letterE_Scene = LetterA_Scene(size: UIScreen.main.bounds.size)
+            skView.presentScene(letterE_Scene)
         
         }
     }
