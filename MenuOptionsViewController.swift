@@ -30,7 +30,7 @@ class MenuOptionsViewController: UIViewController{
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        
+    
        
     }
     
@@ -55,18 +55,24 @@ class MenuOptionsViewController: UIViewController{
         
         modalPresentationStyle = .fullScreen
         
-        //Configure LevelViewController layout object
+        //Configure LevelViewController layout properties (since the itemSize will be fixed, the layout delegate callback methods are not implemented for efficiency reasons
+        
+        
+        let currentVerticalSizeClass = traitCollection.verticalSizeClass
+        
+        let longSide = currentVerticalSizeClass == .compact ? view.bounds.size.width : view.bounds.size.height
+        
+        let shortSide = currentVerticalSizeClass == .compact ? view.bounds.size.height : view.bounds.size.height
+        
+        let aspectRatio = shortSide/longSide
+        
+        let itemWidth = longSide*0.50
+        let itemHeight = itemWidth*aspectRatio*1.5
         
         let levelViewLayout = UICollectionViewFlowLayout()
         levelViewLayout.scrollDirection = .horizontal
-        levelViewLayout.itemSize = CGSize(width: view.bounds.width*0.30, height: view.bounds.height*0.90)
-        
-        /** Option: Configure other layout parameters for level view controller: 
-         
-            levelViewLayout.minimumInteritemSpacing = view.bounds.width*0.05
-            levelViewLayout.minimumLineSpacing = view.bounds.height*0.05
-         
-        **/
+        levelViewLayout.sectionInset = UIEdgeInsets(top: 0.00, left: 20.00, bottom: 0.00, right: 20.00)
+        levelViewLayout.itemSize = CGSize(width: itemWidth, height: itemHeight)
         
         
         ///Initialize LevelViewController 
@@ -74,7 +80,11 @@ class MenuOptionsViewController: UIViewController{
         let levelViewController = LevelViewController(collectionViewLayout: levelViewLayout)
         levelViewController.view.backgroundColor = UIColor.GetCustomColor(customColor: .SharkFinWhite)
         levelViewController.collectionView?.backgroundColor = UIColor.GetCustomColor(customColor: .SharkFinWhite)
+    
         
+       // if let containerViewController = presentingViewController{
+       //     containerViewController.setOverrideTraitCollection(UITraitCollection(verticalSizeClass: .compact), forChildViewController: levelViewController)
+       // }
         
         present(levelViewController, animated: true, completion: nil)
     }

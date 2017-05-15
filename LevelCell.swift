@@ -64,7 +64,7 @@ class LevelCell: UICollectionViewCell{
         
         contentView.backgroundColor = UIColor.GetCustomColor(customColor: .GrassyGreen)
        
-        previewImageView = UIImageView(frame: CGRect(x: frame.size.width*0.10, y: 0.00, width: frame.size.width*0.80, height: frame.size.height*0.50))
+        previewImageView = UIImageView(frame: CGRect(x: frame.size.width*0.10, y: frame.size.height*0.10, width: frame.size.width*0.80, height: frame.size.height*0.50))
         previewImageView.contentMode = .scaleAspectFit
         contentView.addSubview(previewImageView)
         

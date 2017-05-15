@@ -19,17 +19,17 @@ extension Alien{
     static let AnimationsDict: [String: SKAction] = [
         
         
-        "unmannedPink" : SKAction.setTexture(SKTexture(image: #imageLiteral(resourceName: "shipPink"))),
-        "mannedPink" : SKAction.setTexture(SKTexture(image: #imageLiteral(resourceName: "shipPink_manned"))),
+        "unmannedPink" : getSetTextureAction(forTextureName: "shipPink"),
+        "mannedPink" : getSetTextureAction(forTextureName: "shipPink_manned"),
         
-        "unmannedBlue" : SKAction.setTexture(SKTexture(image: #imageLiteral(resourceName: "shipBlue"))),
-        "mannedBlue" : SKAction.setTexture(SKTexture(image: #imageLiteral(resourceName: "shipBlue_manned"))),
+        "unmannedBlue" : getSetTextureAction(forTextureName: "shipBlue"),
+        "mannedBlue" : getSetTextureAction(forTextureName: "shipBlue_manned"),
         
-        "unmannedYellow" : SKAction.setTexture(SKTexture(image: #imageLiteral(resourceName: "shipYellow"))),
-        "mannedYellow" : SKAction.setTexture(SKTexture(image: #imageLiteral(resourceName: "shipYellow_manned"))),
+        "unmannedYellow" : getSetTextureAction(forTextureName: "shipYellow"),
+        "mannedYellow" : getSetTextureAction(forTextureName: "shipYellow_manned"),
         
-        "unmannedBeige" : SKAction.setTexture(SKTexture(image: #imageLiteral(resourceName: "shipBeige"))),
-        "mannedBeige"  : SKAction.setTexture(SKTexture(image: #imageLiteral(resourceName: "shipBeige_manned"))),
+        "unmannedBeige" : getSetTextureAction(forTextureName: "shipBeige"),
+        "mannedBeige"  : getSetTextureAction(forTextureName: "shipBeige_manned"),
                                               
         
         "attack" : SKAction.sequence([
@@ -83,5 +83,43 @@ extension Alien{
         
         return inactiveAnimationName
     }
+    
+    
+    static func getSetTextureAction(forTextureName textureName: String) -> SKAction{
+        
+        return SKAction.setTexture(AlienTextures[textureName]!)
+        
+    }
 
+    static let AlienTextures: [String: SKTexture] = {
+        
+        //If the texture atlas manager fails to load, SKTexture objects are initialized directly with image arguments
+        
+        guard TextureAtlasManager.sharedManager.alienTextureAtlas != nil else {
+            return [
+                "shipBlue": SKTexture(image: #imageLiteral(resourceName: "shipBlue")),
+                "shipPink": SKTexture(image: #imageLiteral(resourceName: "shipPink")),
+                "shipBeige": SKTexture(image: #imageLiteral(resourceName: "shipBeige")),
+                "shipYellow": SKTexture(image: #imageLiteral(resourceName: "shipYellow")),
+                "shipBlue_unmanned": SKTexture(image: #imageLiteral(resourceName: "shipBlue_manned")),
+                "shipPink_unmanned": SKTexture(image: #imageLiteral(resourceName: "shipPink_manned")),
+                "shipBeige_unmanned": SKTexture(image: #imageLiteral(resourceName: "shipBeige_manned")),
+                "shipYellow_unmanned": SKTexture(image: #imageLiteral(resourceName: "shipYellow_manned")),
+
+                
+            ]
+        }
+        
+        return [
+    
+            "shipBlue": TextureAtlasManager.sharedManager.alienTextureAtlas!.textureNamed("shipBlue"),
+            "shipPink": TextureAtlasManager.sharedManager.alienTextureAtlas!.textureNamed("shipPink"),
+            "shipBeige": TextureAtlasManager.sharedManager.alienTextureAtlas!.textureNamed("shipBeige"),
+            "shipYellow": TextureAtlasManager.sharedManager.alienTextureAtlas!.textureNamed("shipYellow"),
+            "shipPink_unmanned": TextureAtlasManager.sharedManager.alienTextureAtlas!.textureNamed("shipPink_unmanned"),
+            "shipBlue_unmanned": TextureAtlasManager.sharedManager.alienTextureAtlas!.textureNamed("shipBlue_unmanned"),
+            "shipBeige_unmanned": TextureAtlasManager.sharedManager.alienTextureAtlas!.textureNamed("shipBeige_unmanned"),
+            "shipYellow_unmanned": TextureAtlasManager.sharedManager.alienTextureAtlas!.textureNamed("shipYellow_unmanned")
+        ]
+    }()
 }

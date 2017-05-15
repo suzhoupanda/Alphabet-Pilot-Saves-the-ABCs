@@ -313,18 +313,18 @@
                                 <rect key="frame" x="0.0" y="28" width="480" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WTv-n8-Bvb" id="Twn-2g-Ybc">
-                                    <rect key="frame" x="0.0" y="0.0" width="480" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="480" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="a9s-X1-fdk">
-                                            <rect key="frame" x="15" y="11" width="34" height="21"/>
+                                            <rect key="frame" x="15" y="12" width="33.5" height="20.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Q08-eb-UPj">
-                                            <rect key="frame" x="406" y="11" width="59" height="21"/>
+                                            <rect key="frame" x="406" y="12" width="59" height="20.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
@@ -524,7 +524,7 @@
                                 </subviews>
                             </stackView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="colored_castle" translatesAutoresizingMaskIntoConstraints="NO" id="Onm-5k-AjP">
-                                <rect key="frame" x="0.0" y="0.0" width="480" height="340"/>
+                                <rect key="frame" x="0.0" y="-20" width="480" height="360"/>
                             </imageView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" semanticContentAttribute="spatial" translatesAutoresizingMaskIntoConstraints="NO" id="P98-ib-bL4">
                                 <rect key="frame" x="0.0" y="280" width="480" height="40"/>
@@ -550,7 +550,7 @@
                                 </items>
                             </toolbar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R2K-JR-Pu5">
-                                <rect key="frame" x="35" y="50" width="330" height="122"/>
+                                <rect key="frame" x="35" y="30" width="330" height="122"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="cloud1_mixed_500" translatesAutoresizingMaskIntoConstraints="NO" id="AfD-Rs-pf2">
                                         <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
@@ -578,7 +578,7 @@
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DJX-Eg-h4y">
-                                <rect key="frame" x="84" y="140" width="352" height="73"/>
+                                <rect key="frame" x="84" y="120" width="352" height="73"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="planeBlue1" translatesAutoresizingMaskIntoConstraints="NO" id="0Nl-C0-aSm">
                                         <rect key="frame" x="0.0" y="0.0" width="88" height="73"/>
@@ -652,7 +652,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1o8-lQ-xHL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4269" y="-10294"/>
+            <point key="canvasLocation" x="-4281" y="-10903"/>
         </scene>
         <!--Root View Controller-->
         <scene sceneID="Uw9-ZE-KcT">
@@ -667,7 +667,7 @@
                                 <rect key="frame" x="0.0" y="28" width="480" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Dkv-bY-SfT" id="5Zs-dq-P3p">
-                                    <rect key="frame" x="0.0" y="0.0" width="480" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="480" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -906,7 +906,7 @@
                                 <rect key="frame" x="0.0" y="28" width="480" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="P3U-1h-yTD" id="rKK-QV-Jxz">
-                                    <rect key="frame" x="0.0" y="0.0" width="480" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="480" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -1492,7 +1492,7 @@
         <image name="planeYellow1" width="88" height="73"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="IDe-lb-kRb"/>
         <segue reference="GVF-s9-n28"/>
+        <segue reference="IDe-lb-kRb"/>
     </inferredMetricsTieBreakers>
 </document>

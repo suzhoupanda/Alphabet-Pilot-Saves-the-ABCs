@@ -12,6 +12,8 @@ import SpriteKit
 
 class LetterNode: SKSpriteNode{
     
+    static let textureAtlasManager = TextureAtlasManager.sharedManager
+    
     enum LetterCategory: String{
         case letterA, letterB, letterC, letterD, letterE, letterF, letterG, letterH
         case letterI, letterJ, letterK, letterL, letterM, letterN, letterO, letterP
@@ -81,7 +83,15 @@ class LetterNode: SKSpriteNode{
         
         var texture: SKTexture{
             get{
-                return SKTexture(image: UIImage(named: self.rawValue)!)
+                //Load the letter from the pre-loaded texture atlas. If texture atlas is nil, then
+                guard textureAtlasManager.letterTextureAtlas != nil else {
+                    
+                    print("Error: Letter texture atlas was found to be nil while loading texture for LetterNode.  SKTexture instance was instantiated directly with UIImage-argument initializer")
+                    
+                    return SKTexture(image: UIImage(named: self.rawValue)!)
+                }
+                
+                return textureAtlasManager.letterTextureAtlas!.textureNamed(self.rawValue)
             }
         }
         

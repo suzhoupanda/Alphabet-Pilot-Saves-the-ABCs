@@ -251,7 +251,7 @@ class ProgrammaticGVController: UIViewController {
                 var gscController = storyBoard.instantiateViewController(withIdentifier: "GameSceneControllerSB") as! GameSceneController
                 
                 //let gscController = GameSceneController(nibName: nil, bundle: nil)
-                gscController.fileName = levelSceneMetaData.sksFile
+              //  gscController.fileName = levelSceneMetaData.sksFile
                 
                 self.present(gscController, animated: true, completion: nil)
                 

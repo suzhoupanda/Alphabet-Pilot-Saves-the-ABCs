@@ -12,8 +12,7 @@ import SpriteKit
 
 class GameSceneController: UIViewController{
     
-    var fileName: String?
-    
+    var baseScene: BaseScene?
     
     
     override func viewWillLayoutSubviews() {
@@ -25,15 +24,14 @@ class GameSceneController: UIViewController{
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if let skView = self.view as! SKView?, fileName != nil{
+        if let skView = self.view as! SKView?, baseScene != nil{
             
-            let baseScene = BaseScene(sksFileName: fileName!, size: UIScreen.main.bounds.size)
-            skView.presentScene(baseScene)
+            skView.presentScene(baseScene!)
         
         }
     }
-
     
+   
     
     override func didMove(toParentViewController parent: UIViewController?) {
         super.didMove(toParentViewController: parent)
