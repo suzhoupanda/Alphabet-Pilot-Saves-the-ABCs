@@ -6,6 +6,7 @@
 //  Copyright © 2017 AlexMakedonski. All rights reserved.
 //
 
+
 import Foundation
 import UIKit
 import SpriteKit
@@ -20,80 +21,49 @@ class LevelViewController: UICollectionViewController{
     }
     
     let mainMotionManager = MainMotionManager.sharedMotionManager
-  
+    
     var previewViewController: RPPreviewViewController?
     
     
-    var requestedBaseScene: BaseScene?
-    
-    var progressView: UIProgressView?
-    
-    var sceneLoadingQueue = OperationQueue()
-    
-    
-   
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-    
+        
         
         guard let collectionView = collectionView else {
-                fatalError("Error: collection view failed to initialize")
+            fatalError("Error: collection view failed to initialize")
         }
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(collectionView)
         
         collectionView.register(LevelCell.self, forCellWithReuseIdentifier: CellIdentifiers.LevelCellReuseIdentifier.rawValue)
-    
-        
-        let replayPreviewButton = UIButton(type: .roundedRect)
-        replayPreviewButton.titleLabel?.text = "View Recorded Gameplay"
-        replayPreviewButton.contentEdgeInsets = UIEdgeInsets(top: 5.0, left: 5.0, bottom: 5.0, right: 5.0)
-        replayPreviewButton.tintColor = UIColor.GetCustomColor(customColor: .GrassyGreen)
-        
-        view.addSubview(replayPreviewButton)
-        
-       
-       
-        replayPreviewButton.addTarget(self, action: #selector(LevelViewController.showPreviewViewController), for: .touchUpInside)
         
         
-        replayPreviewButton.translatesAutoresizingMaskIntoConstraints = false
+        let toolBar = UIToolbar()
+        view.addSubview(toolBar)
+        
+        
+        let replayPreviewItem = UIBarButtonItem(title: "View Recorded Gameplay", style: .plain, target: self, action: #selector(LevelViewController.showPreviewViewController))
+        
+        toolBar.setItems([replayPreviewItem], animated: true)
+        
+        
+        toolBar.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
             collectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
             collectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
             collectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.80),
-            replayPreviewButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10.00),
-            replayPreviewButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.40),
-            replayPreviewButton.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 5.00),
-            replayPreviewButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.10)
+            toolBar.leftAnchor.constraint(equalTo: view.leftAnchor),
+            toolBar.rightAnchor.constraint(equalTo: view.rightAnchor),
+            toolBar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            toolBar.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.08)
             
             ])
         
-        
-        progressView = UIProgressView(progressViewStyle: .bar)
-        
-        guard let progressView = progressView else {
-            print("Error: Failed to instantiate progress view for level scene controller scene")
-            return
-        }
-        progressView.progressTintColor = UIColor.GetCustomColor(customColor: .StopSignRed)
-        progressView.trackTintColor = UIColor.GetCustomColor(customColor: .BluishGrey)
-        view.addSubview(progressView)
-        
-        progressView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            progressView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 10.00),
-            progressView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 5.00),
-            progressView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.80),
-            progressView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.08)
-            ])
-
         
     }
     
@@ -101,7 +71,7 @@ class LevelViewController: UICollectionViewController{
         super.viewDidAppear(animated)
         
         registerNotifications()
-
+        
     }
     
     override func didMove(toParentViewController parent: UIViewController?) {
@@ -110,7 +80,7 @@ class LevelViewController: UICollectionViewController{
         
     }
     
-
+    
     
 }
 
@@ -120,7 +90,7 @@ extension LevelViewController{
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         
-        return 1
+        return LevelCell.metaDataDictionary.keys.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -139,8 +109,8 @@ extension LevelViewController{
         
         if let gameMetaData = LevelCell.gameMetaDataForIndexPath(indexPath: indexPath){
             
-            cell.titleText = gameMetaData.subTitleText
-            cell.subtitleText = "Incomplete"
+            cell.titleText = gameMetaData.titleText
+            cell.subtitleText = gameMetaData.subTitleText
             cell.descriptionText = gameMetaData.descriptionText
             cell.previewImage = gameMetaData.previewImage
             
@@ -160,117 +130,54 @@ extension LevelViewController{
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         
-        guard indexPath.section == 0 else { return }
         
-        
-        if let gameMetaData = LevelCell.gameMetaDataForIndexPath(indexPath: indexPath) as? LevelSceneMetaData{
-                    
-                    
-            loadGame(levelSceneMetaData: gameMetaData)
-                        
-                    
-            //Start preload the ResourceLoadableTypes corresponding to the onDemangdResource tags (including the sks file)
-                    
-            //transition to a ProgressScene; call beginDownloadingResources on an NSBundleRequest, where its completion handler will involve presenting the scene whose resources have become fully available
-        
-        
-       
-        
+        switch(indexPath.section){
+        case 0:
+            if let gameMetaData = LevelCell.gameMetaDataForIndexPath(indexPath: indexPath) as? LevelSceneMetaData{
+                
+                
+                loadGame(levelSceneMetaData: gameMetaData)
+                
+                
+                //Start preload the ResourceLoadableTypes corresponding to the onDemangdResource tags (including the sks file)
+                
+                //transition to a ProgressScene; call beginDownloadingResources on an NSBundleRequest, where its completion handler will involve presenting the scene whose resources have become fully available
+            }
+            break
+        default:
+            break
         }
-    
+        
+        
+        
     }
-
+    
+    
+    
     
     override func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         
     }
     
-    //MARK: Helper Functions called via NotificationCenter for loading, reloading, and exiting currently active games
     
     func loadGame(levelSceneMetaData: LevelSceneMetaData){
         
-            
-            UIDevice.current.beginGeneratingDeviceOrientationNotifications()
-            
-            self.mainMotionManager.startDeviceMotionUpdates()
-            self.mainMotionManager.deviceMotionUpdateInterval = 0.50
         
-            //Get the name of the SKS file need to load the background environment for the Base Scene
-            let sksfileName = levelSceneMetaData.sksFile
+        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
         
-            //Set up a Progress Object to act as the parent progress object encapsulating the progress made in loading all ResourceLoadableType relevant to the scene (as determined from the onDemangResourceTags) as well as the SKSFile itself
-        
-          //  let totalLoadingProgress = Progress(totalUnitCount: 5)
-        
-           // progressView?.observedProgress = totalLoadingProgress
-        
-            Operation.
-            DispatchQueue.main.async {
-                
-                if levelSceneMetaData.onDemandResourceTags != nil, let onDemandResourceTags = levelSceneMetaData.onDemandResourceTags{
-                    
-                    for tag in onDemandResourceTags{
-                        switch(tag){
-                        case "Alien":
-                            Alien.loadResources {
-                                print("Finished loading alien textures")
-                              //  totalLoadingProgress.completedUnitCount = 2
-                            }
-                            
-                            break
-                        case "BladeIsland": break
-                        case "Bee": break
-                        default:
-                            break
-                        }
-                    }
-                    
-                }
-                
-                self.requestedBaseScene = BaseScene(sksFileName: sksfileName, size: UIScreen.main.bounds.size)
-                
-                
-                //A notification is posted when the requested base scene is finished loading
-                
-                print("BaseScene finished loading...Posting notification...")
-                
-               // totalLoadingProgress.completedUnitCount = 5
-                
-                NotificationCenter.default.post(name: Notification.Name.BaseSceneFinishedLoadingNotification, object: nil)
-            }
-        
-            //totalLoadingProgress.addChild(loadBaseSceneOperation.progress, withPendingUnitCount: 1)
-        
-            //Loop through all of the onDemandResource tags, add a corresponding load resource operation to the sceneLoadingQueue, as well as a corresponding child progress indicator to the ttoalLoadingProgress object
-        
-        
-        
-        
-        
-        
-    }
-    
-    func presentGameSceneController(notification: Notification){
-        
-       print("BaseScene finished loading notification received...preparing to present the GameScene controller")
+        self.mainMotionManager.startDeviceMotionUpdates()
+        self.mainMotionManager.deviceMotionUpdateInterval = 0.50
         
         
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        
         let gscController = storyBoard.instantiateViewController(withIdentifier: "GameSceneControllerSB") as! GameSceneController
         
-        if requestedBaseScene != nil{
-            print("The requested base scene will now load.")
-            
-            gscController.baseScene = self.requestedBaseScene
-            present(gscController, animated: true, completion: nil)
-            
-        } else {
-            print("The requested base scene is nil")
-        }
+        //let gscController = GameSceneController(nibName: nil, bundle: nil)
+        gscController.fileName = levelSceneMetaData.sksFile
+        
+        self.present(gscController, animated: true, completion: nil)
         
         
-
         
     }
     
@@ -283,14 +190,13 @@ extension LevelViewController{
         
         let presentingView = presentedViewController.view as! SKView
         
-        guard let currentBaseScene = presentedViewController.baseScene else {
-            print("Error: current base scene could not be retrieved from game scene controller")
-            return
-        }
+        let sksFileName = presentedViewController.fileName
         
         let transition = SKTransition.crossFade(withDuration: 2.00)
         
-        presentingView.presentScene(currentBaseScene, transition: transition)
+        let baseScene = BaseScene(sksFileName: sksFileName!, size: UIScreen.main.bounds.size)
+        
+        presentingView.presentScene(baseScene, transition: transition)
         
         
         
@@ -303,9 +209,9 @@ extension LevelViewController{
         
         if let gameSceneViewController = presentedViewController as? GameSceneController{
             gameSceneViewController.dismiss(animated: true, completion: {
-            
+                
                 //Once the Game Scene Controller is dismissed, it's no longer necessary to continue receiving motion updates for player position
-            
+                
                 self.mainMotionManager.stopDeviceMotionUpdates()
                 
                 
@@ -325,8 +231,6 @@ extension LevelViewController{
         
     }
     
-    //MARK: Register Notifications (for exiting and reloading game, as well for starting and stopping gameplay recording)
-    
     func registerNotifications(){
         
         NotificationCenter.default.addObserver(self, selector: #selector(LevelViewController.exitGame(notification:)), name: Notification.Name.ExitGameToLevelViewControllerNotification, object: nil)
@@ -337,20 +241,14 @@ extension LevelViewController{
         
         NotificationCenter.default.addObserver(self, selector: #selector(LevelViewController.stopScreenRecording(notification:withHandler:)), name: Notification.Name.StopRecordingGameplayNotification, object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(LevelViewController.presentGameSceneController(notification:)), name: Notification.Name.BaseSceneFinishedLoadingNotification, object: nil)
-       
-    }
-
-    //MARK: Disable portrait mode for the LevelViewController and GameSceneViewController
-    /**
-    override var supportedInterfaceOrientations:UIInterfaceOrientationMask {
-        return UIInterfaceOrientationMask.landscapeLeft
+        
     }
     
-    override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation{
-        return UIInterfaceOrientation.landscapeLeft
+    
+    override var supportedInterfaceOrientations:UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.landscape
     }
-    **/
+    
     
 }
 
@@ -360,37 +258,29 @@ extension LevelViewController{
 extension LevelViewController{
     
     
-
     /**
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        let aspectRatio = collectionView.bounds.height/collectionView.bounds.width
-        
-        let availableWidth = (collectionView.bounds.width
-            ) - (collectionView.contentInset.left + collectionView.contentInset.right)
-        
-        
-        let itemWidth = availableWidth*0.50
-        let itemHeight = aspectRatio*itemWidth
-        
-        return CGSize(width: itemWidth, height: itemHeight)
-    }
- 
+     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+     
+     
+     
+     return CGSize(width: 200, height: 200)
+     }
+     **/
     
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        
-    
-        return UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
-    }
-
+    /**
+     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+     
+     
+     return UIEdgeInsets(top: 0.0, left: 30.0, bottom: 0.0, right: 30.0)
+     }
+     **/
     
     
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0.00
-    }
+    /**
+     func collectionView(_ collectionView: UICollectionView,
+     layout collectionViewLayout: UICollectionViewLayout,
+     minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+     return 10.00
+     }
      **/
 }
