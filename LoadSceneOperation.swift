@@ -51,7 +51,7 @@ class LoadSceneOperation: SceneOperation, ProgressReporting{
         
         self.state = .executing
         
-        let scene = sceneMetadata.sceneType.init(sksFileName: sceneMetadata.fileName, size: UIScreen.main.bounds.size)
+        let scene = sceneMetadata.sceneType.init(sksFileName: sceneMetadata.fileName, size: UIScreen.main.bounds.size, reloadData: nil)
         self.scene = scene
         
         progress.completedUnitCount = 1

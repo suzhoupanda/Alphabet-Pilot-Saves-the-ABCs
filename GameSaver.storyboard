@@ -221,7 +221,11 @@
                                     <constraint firstAttribute="height" constant="50" id="g6J-Gf-NIL"/>
                                 </constraints>
                                 <items>
-                                    <barButtonItem title="Load Game" width="150" id="fzu-39-4Fx"/>
+                                    <barButtonItem title="Load Game" width="150" id="fzu-39-4Fx">
+                                        <connections>
+                                            <action selector="loadSavedGame:" destination="BYZ-38-t0r" id="mwy-HJ-Xa4"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem title="Back" width="150" id="d3Q-iq-q2C">
                                         <connections>
                                             <segue destination="tCL-v6-HHk" kind="unwind" unwindAction="returnToSavedGameMenuWithSavedGameSegue:" id="s1g-GJ-EBL"/>
@@ -259,7 +263,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <exit id="tCL-v6-HHk" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-956" y="-334"/>
+            <point key="canvasLocation" x="-1604" y="-281"/>
         </scene>
     </scenes>
 </document>

@@ -52,6 +52,65 @@ class SavedGameDetailViewController: UIViewController{
  
     @IBOutlet weak var yPositionLabel: UILabel!
     
+    @IBAction func loadSavedGame(_ sender: UIBarButtonItem) {
+        
+        let currentVerticalSizeClass = traitCollection.verticalSizeClass
+        
+        let longSide = currentVerticalSizeClass == .compact ? view.bounds.size.width : view.bounds.size.height
+        
+        let shortSide = currentVerticalSizeClass == .compact ? view.bounds.size.height : view.bounds.size.height
+        
+        let aspectRatio = shortSide/longSide
+        
+        let itemWidth = longSide*0.50
+        let itemHeight = itemWidth*aspectRatio*1.5
+        
+        let levelViewLayout = UICollectionViewFlowLayout()
+        levelViewLayout.scrollDirection = .horizontal
+        levelViewLayout.sectionInset = UIEdgeInsets(top: 0.00, left: 20.00, bottom: 0.00, right: 20.00)
+        levelViewLayout.itemSize = CGSize(width: itemWidth, height: itemHeight)
+        
+        
+        ///Initialize LevelViewController
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let levelViewController = LevelViewController(collectionViewLayout: levelViewLayout)
+        
+        levelViewController.view.backgroundColor = UIColor.GetCustomColor(customColor: .SharkFinWhite)
+        
+        levelViewController.managedContext = managedContext
+        levelViewController.collectionView?.backgroundColor = UIColor.GetCustomColor(customColor: .SharkFinWhite)
+        
+        let reloadData = ReloadData(letterScene: .LetterA_Scene, planeColor: .Blue, playerXPos: 4000.00, playerYPos: -200.0, playerXVelocity: 50.0, playerYVelocity: 12.0, playerHealth: 3, playerGoldCoins: 1, playerSilverCoins: 1, playerBronzeCoins: 1)
+        
+        present(levelViewController, animated: true, completion: {
+            
+            
+            levelViewController.reloadSavedGame(reloadData: reloadData)
+            
+        })
+        
+       /**
+        if let goldCoinCount = goldCoinCount, let silverCoinCount = silverCoinCount, let bronzeCoinCount = bronzeCoinCount, let xVelocity = xVelocityValue, let yVelocity = yVelocityValue, let xPos = xPosValue, let yPos = yPosValue, let sceneLabelText = sceneLabelText,  let letterScene = LetterScene(rawValue: sceneLabelText), let planeColorString = planeColor, let playerPlaneColor = Player.PlaneColor(rawValue: planeColorString), let healthLevel = healthLevel{
+            
+            
+            let reloadData = ReloadData(letterScene: letterScene, planeColor: playerPlaneColor, playerXPos: xPos, playerYPos: yPos, playerXVelocity: xVelocity, playerYVelocity: yVelocity, playerHealth: healthLevel, playerGoldCoins: goldCoinCount, playerSilverCoins: silverCoinCount, playerBronzeCoins: bronzeCoinCount)
+            
+            present(levelViewController, animated: true, completion: {
+                
+                
+                levelViewController.reloadSavedGame(reloadData: reloadData)
+                
+                })
+            
+        }
+        **/
+     
+        
+    }
     
     //MARK: ******* Player Velocity Information
     
@@ -82,6 +141,12 @@ class SavedGameDetailViewController: UIViewController{
     var xVelocityText: String?
     var yVelocityText: String?
     
+    var xVelocityValue: Double?
+    var yVelocityValue: Double?
+    var xPosValue: Double?
+    var yPosValue: Double?
+    
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -90,7 +155,7 @@ class SavedGameDetailViewController: UIViewController{
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        loadSaveGameInformation()
+        loadSavedGameInformation()
     }
     
     override func didMove(toParentViewController parent: UIViewController?) {
@@ -100,7 +165,7 @@ class SavedGameDetailViewController: UIViewController{
     }
     
     
-    func loadSaveGameInformation(){
+    func loadSavedGameInformation(){
         if let sceneLabelText = sceneLabelText{
             sceneNameLabel.text = sceneLabelText
         }

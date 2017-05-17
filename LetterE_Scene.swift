@@ -12,13 +12,13 @@ import SpriteKit
 class LetterE_Scene: BaseScene{
     
     
-    convenience init(size: CGSize){
+    convenience init(size: CGSize, reloadData: ReloadData?){
         
-        self.init(sksFileName: "PlaneScene1", size: size)
+        self.init(sksFileName: "SpaceScene1", size: size, reloadData: reloadData)
     }
     
-    required init(sksFileName: String, size: CGSize) {
-        super.init(sksFileName: sksFileName, size: size)
+    required init(sksFileName: String, size: CGSize, reloadData: ReloadData?) {
+        super.init(sksFileName: sksFileName, size: size, reloadData: reloadData)
     }
     
     required init?(coder aDecoder: NSCoder) {

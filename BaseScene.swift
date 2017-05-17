@@ -9,12 +9,32 @@
 import SpriteKit
 import GameplayKit
 
+struct ReloadData{
+    var letterScene: LetterScene
+    
+    var planeColor: Player.PlaneColor
+    
+    var playerXPos: Double
+    var playerYPos: Double
+    
+    var playerXVelocity: Double
+    var playerYVelocity: Double
+    
+    var playerHealth: Int
+    
+    var playerGoldCoins: Int
+    var playerSilverCoins: Int
+    var playerBronzeCoins: Int
+}
+
 class BaseScene: SKScene {
     
     
     var entityManager: EntityManager!
     
     var player: Player!
+    var reloadData: ReloadData?
+    
     var worldNode: SKSpriteNode!
     var overlayNode: SKSpriteNode!
     var hudManager = HUDManager.sharedHUDManager
@@ -49,8 +69,9 @@ class BaseScene: SKScene {
     
     //MARK: ******************  Initializers
     
-    required init(sksFileName: String, size: CGSize){
+    required init(sksFileName: String, size: CGSize, reloadData: ReloadData?){
         self.skSceneFileName = sksFileName
+        self.reloadData = reloadData
         super.init(size: size)
         
         registerNotifications()

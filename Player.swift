@@ -39,6 +39,64 @@ class Player: GKEntity{
     //MARK: Initializers
     
     
+    convenience init(planeColor: PlaneColor, xPos: Double, yPos: Double, xVelocity: Double, yVelocity: Double, healthLevel: Int, goldCoins: Int, silverCoins: Int, bronzeCoins: Int) {
+    
+        self.init()
+        
+        guard let texture = Player.getPlaneTexture(forPlaneColor: planeColor) else { return }
+       
+        let reloadedPosition = CGPoint(x: xPos, y: yPos)
+
+        let renderComponent = RenderComponent(position: reloadedPosition, autoRemoveEnabled: false)
+        renderComponent.node = SKSpriteNode(texture: texture, color: .clear, size: texture.size())
+        
+        
+        renderComponent.node.position = reloadedPosition
+        renderComponent.node.name = "player"
+        addComponent(renderComponent)
+        
+        let graphNodeComponent = GraphNodeComponent(cgPosition: reloadedPosition)
+        addComponent(graphNodeComponent)
+        
+        let physicsBody = SKPhysicsBody(texture: texture, size: texture.size())
+        physicsBody.affectedByGravity = false
+        physicsBody.allowsRotation = false
+        physicsBody.mass = 1.00
+        physicsBody.linearDamping = 0.00
+        physicsBody.fieldBitMask = 0b1 << 0
+        
+        let physicsComponent = PhysicsComponent(physicsBody: physicsBody, collisionConfiguration: CollisionConfiguration.Player)
+        addComponent(physicsComponent)
+        
+        let velocityComponent = VelocityComponent(velocityX: 50.0)
+        addComponent(velocityComponent)
+        
+        
+        physicsBody.velocity.dx = CGFloat(xVelocity)
+        physicsBody.velocity.dy = CGFloat(yVelocity)
+        
+        let motionResponderComponent = LandscapeMotionResponderComponentY(motionManager: mainMotionManager)
+        addComponent(motionResponderComponent)
+    
+        
+        let healthComponent = HealthComponent(startingHealth: 8)
+        addComponent(healthComponent)
+        healthComponent.currentHealth = healthLevel
+        
+        addAnimationComponent(forPlaneColor: planeColor)
+        addIntelligenceComponent()
+        addContactHandlerComponent()
+        
+        let collectibleStorageComponent = CollectibleStorageComponent(lifeThreshold: 20)
+        collectibleStorageComponent.bronzeCoinCount = bronzeCoins
+        collectibleStorageComponent.goldCoinCount = goldCoins
+        collectibleStorageComponent.silverCoinCount = silverCoins
+        
+        addComponent(collectibleStorageComponent)
+
+        
+    }
+    
     convenience init(planeColor: PlaneColor) {
         
         self.init()

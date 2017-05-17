@@ -220,6 +220,7 @@ extension LevelViewController{
     }
     
     
+    
     func loadGame(levelSceneMetaData: LevelSceneMetaData){
         
         
@@ -234,6 +235,29 @@ extension LevelViewController{
         
         //let gscController = GameSceneController(nibName: nil, bundle: nil)
         gscController.letterScene = levelSceneMetaData.letterScene
+        
+        self.present(gscController, animated: true, completion: nil)
+          
+        
+        
+    }
+    
+    
+    func reloadSavedGame(reloadData: ReloadData){
+        
+        
+        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
+        
+        self.mainMotionManager.startDeviceMotionUpdates()
+        self.mainMotionManager.deviceMotionUpdateInterval = 0.50
+        
+        
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        let gscController = storyBoard.instantiateViewController(withIdentifier: "GameSceneControllerSB") as! GameSceneController
+        
+        //let gscController = GameSceneController(nibName: nil, bundle: nil)
+        gscController.letterScene = reloadData.letterScene
+        gscController.reloadData = reloadData
         
         self.present(gscController, animated: true, completion: nil)
         
@@ -256,7 +280,7 @@ extension LevelViewController{
         
         if let letterScene = presentedViewController.letterScene{
        
-            let baseScene = GameSceneController.GetSceneForLetterSceneType(letterScene: letterScene)
+            let baseScene = GameSceneController.GetSceneForLetterSceneType(letterScene: letterScene, reloadData: nil)
         
             presentingView.presentScene(baseScene, transition: transition)
         
@@ -290,6 +314,8 @@ extension LevelViewController{
         }
         
     }
+    
+   
     
     func registerNotifications(){
         

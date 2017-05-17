@@ -101,11 +101,17 @@ extension SavedGameController{
         let formattedPositionX = numberFormatter.string(from: NSNumber(value: positionX))!
         let formattedPositionY = numberFormatter.string(from: NSNumber(value: positionY))!
         
+        savedGameDetailVC.xPosValue = positionX
+        savedGameDetailVC.yPosValue = positionY
+        
         savedGameDetailVC.xPositionText = "X-Position \(formattedPositionX)"
         savedGameDetailVC.yPositionText = "Y-Position: \(formattedPositionY)"
         
         let velocityX = gameSession.playerXVelocity
         let velocityY = gameSession.playerYVelocity
+        
+        savedGameDetailVC.xVelocityValue = velocityX
+        savedGameDetailVC.yVelocityValue = velocityY
         
         let formattedVelocityX = numberFormatter.string(from: NSNumber(value: velocityX))!
         let formattedVelocityY = numberFormatter.string(from: NSNumber(value: velocityY))!

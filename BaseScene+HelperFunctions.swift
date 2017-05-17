@@ -71,14 +71,37 @@ extension BaseScene{
     
     
     func addPlayer(){
-        player = Player(planeColor: .Red)
+        
+        //If the game is being reloaded from a previously saved session, then pass in the reload data to the appropriate convenience initializer, otherwise, use the default initializer
+        
+        if let reloadData = reloadData{
+            
+            let reloadedXPos = reloadData.playerXPos
+            let reloadedYPos = reloadData.playerYPos
+            let reloadedXVelocity = reloadData.playerXVelocity
+            let reloadedYVelocity = reloadData.playerYVelocity
+            let reloadedHealthLevel = reloadData.playerHealth
+            let reloadedGoldCoinCount = reloadData.playerGoldCoins
+            let reloadedSilverCoinCount = reloadData.playerSilverCoins
+            let reloadedBronzeCoinCount = reloadData.playerBronzeCoins
+            let reloadedPlaneColor = reloadData.planeColor
+            
+            player = Player(planeColor: reloadedPlaneColor, xPos: reloadedXPos, yPos: reloadedYPos, xVelocity: reloadedXVelocity, yVelocity: reloadedYVelocity, healthLevel: reloadedHealthLevel, goldCoins: reloadedGoldCoinCount, silverCoins: reloadedSilverCoinCount, bronzeCoins: reloadedBronzeCoinCount)
+            
+        } else {
+        
+            player = Player(planeColor: .Red)
+          
+        
+        }
+        
         if let playerNode = player.component(ofType: RenderComponent.self)?.node{
             playerNode.xScale *= 0.50
             playerNode.yScale *= 0.50
         }
         
         entityManager.addToWorld(player)
-        
+
         
     }
 }
