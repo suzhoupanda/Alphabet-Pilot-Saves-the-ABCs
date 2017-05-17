@@ -29,6 +29,7 @@ class BaseScene: SKScene {
     
     var letterScene: LetterScene = .LetterA_Scene
     
+    let screenRecorderHelper = ScreenRecorderHelper.sharedHelper
 
     var lastUpdateTime : TimeInterval = 0
     

@@ -1,26 +1,42 @@
 //
-//  BaseScene+ScreenRecorder.swift
+//  ScreenRecorderManager.swift
 //  BadBoy Bunny Alphabet Learner
 //
-//  Created by Aleksander Makedonski on 5/14/17.
+//  Created by Aleksander Makedonski on 5/17/17.
 //  Copyright © 2017 AlexMakedonski. All rights reserved.
 //
 
 import Foundation
-import ReplayKit
 import SpriteKit
+import UIKit
+import ReplayKit
 
-extension LevelViewController: RPScreenRecorderDelegate, RPPreviewViewControllerDelegate{
+class ScreenRecorderHelper: NSObject, RPScreenRecorderDelegate, RPPreviewViewControllerDelegate{
     
-    /**
     
-    func startScreenRecording(notification: Notification){
+    static let sharedHelper = ScreenRecorderHelper()
+    
+    
+    private let sharedRecorder =  RPScreenRecorder.shared()
+    
+    var presentingViewController: UIViewController?
+    
+    
+    override init(){
         
-        print("About to start recording...")
-
-        let sharedRecorder = RPScreenRecorder.shared()
+        super.init()
         
         sharedRecorder.delegate = self
+
+    }
+    
+    var previewViewController: RPPreviewViewController?
+    
+    
+    func startScreenRecording(){
+        
+        print("About to start recording...")
+        
         
         //Start the recorder; if an error occurs, then an AlertViewController is shown; the handler for errors that occur in starting the recording is asynchronous but the AlertController will be shown on the Main Queue
         
@@ -31,7 +47,7 @@ extension LevelViewController: RPScreenRecorderDelegate, RPPreviewViewController
             let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
             
             let stopRecordingAction = UIAlertAction(title: "Stop Recording", style: .default, handler: {
-            
+                
                 _ in
                 
                 self.stopRecordingAndSavePreviewViewController()
@@ -42,9 +58,9 @@ extension LevelViewController: RPScreenRecorderDelegate, RPPreviewViewController
             alertController.addAction(cancelAction)
             alertController.addAction(stopRecordingAction)
             
-            if let gameSceneController = presentedViewController as? GameSceneController{
-                present(alertController, animated: true, completion: nil)
-
+         
+            if let presentingViewController = presentingViewController{
+                presentingViewController.present(alertController, animated: true, completion: nil)
             }
             
             
@@ -55,10 +71,10 @@ extension LevelViewController: RPScreenRecorderDelegate, RPPreviewViewController
         
     }
     
-    func stopScreenRecording(notification: Notification, withHandler handler: @escaping (() -> Void)){
+    func stopScreenRecording(withHandler handler: @escaping (() -> Void)){
         
         print("About to stop screen recording...")
-
+        
         let sharedRecorder = RPScreenRecorder.shared()
         
         if !sharedRecorder.isRecording{
@@ -79,17 +95,21 @@ extension LevelViewController: RPScreenRecorderDelegate, RPPreviewViewController
             alertController.addAction(cancelAction)
             alertController.addAction(startRecordingAction)
             
-            present(alertController, animated: true, completion: nil)
+            if let presentingViewController = presentingViewController{
+                presentingViewController.present(alertController, animated: true, completion: nil)
+            }
             
-         
+            
         }
         
         stopRecordingAndSavePreviewViewController()
         
-       
+        
     }
     
-    private func startRecordingAndShowErrorMessageIfNecessary(){
+    func startRecordingAndShowErrorMessageIfNecessary(){
+        
+        
         
         let sharedRecorder = RPScreenRecorder.shared()
         
@@ -104,10 +124,10 @@ extension LevelViewController: RPScreenRecorderDelegate, RPPreviewViewController
         })
     }
     
-    private func stopRecordingAndSavePreviewViewController(){
+    func stopRecordingAndSavePreviewViewController(){
+     
+        if !sharedRecorder.isRecording { return }
         
-        let sharedRecorder = RPScreenRecorder.shared()
-
         sharedRecorder.stopRecording(handler: {
             previewViewController, error in
             
@@ -137,19 +157,26 @@ extension LevelViewController: RPScreenRecorderDelegate, RPPreviewViewController
             let cancelAction = UIAlertAction(title: "OK", style: .default, handler: nil)
             alertViewController.addAction(cancelAction)
             
-            present(alertViewController, animated: true, completion: nil)
+            
+            if let presentingViewController = presentingViewController{
+                presentingViewController.present(alertViewController, animated: true, completion: nil)
+
+            }
             
             return
         }
         
+        if let presentingViewController = presentingViewController{
+            
+            presentingViewController.present(previewViewController!, animated: true, completion: nil)
+        }
         
-        present(previewViewController!, animated: true, completion: nil)
     }
-
+    
     
     func showScreenRecordingAlert(message: String){
         
-      
+        
         //Shows the user that there was an error with starting or stopping the controller
         
         let alertController = UIAlertController(title: "ReplayKit Error", message: message, preferredStyle: .alert)
@@ -161,12 +188,16 @@ extension LevelViewController: RPScreenRecorderDelegate, RPPreviewViewController
         
         alertController.addAction(alertAction)
         
-       
-        present(alertController, animated: true, completion: nil)
+        
+        if let presentingViewController = presentingViewController{
+            
+            presentingViewController.present(alertController, animated: true, completion: nil)
+
+        }
     }
     
     
-
+    
     
     //RPScreenRecorderDelegate
     
@@ -186,5 +217,6 @@ extension LevelViewController: RPScreenRecorderDelegate, RPPreviewViewController
         previewViewController?.dismiss(animated: true, completion: {})
     }
     
-    **/
+
+   
 }

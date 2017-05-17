@@ -23,7 +23,7 @@ class LevelViewController: UICollectionViewController{
     
     let mainMotionManager = MainMotionManager.sharedMotionManager
     
-    var previewViewController: RPPreviewViewController?
+    var screenRecorderHelper = ScreenRecorderHelper.sharedHelper
     
     var levelInformationArray = [LevelInformation]()
     
@@ -37,8 +37,19 @@ class LevelViewController: UICollectionViewController{
     var managedContext: NSManagedObjectContext?
     
     
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        screenRecorderHelper.presentingViewController = nil
+        
+    }
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        screenRecorderHelper.presentingViewController = self
         
         if let managedContext = managedContext{
             
@@ -125,6 +136,9 @@ class LevelViewController: UICollectionViewController{
     }
     
     
+    func showPreviewViewController(){
+        screenRecorderHelper.showPreviewViewController()
+    }
     
 }
 
@@ -282,10 +296,6 @@ extension LevelViewController{
         NotificationCenter.default.addObserver(self, selector: #selector(LevelViewController.exitGame(notification:)), name: Notification.Name.ExitGameToLevelViewControllerNotification, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(LevelViewController.reloadCurrentGame(notification:)), name: Notification.Name.ReloadCurrentGameNotification, object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(LevelViewController.startScreenRecording(notification:)), name: Notification.Name.StartRecordingGameplayNotification, object: BaseScene.self)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(LevelViewController.stopScreenRecording(notification:withHandler:)), name: Notification.Name.StopRecordingGameplayNotification, object: BaseScene.self)
         
         
     }

@@ -14,6 +14,7 @@ class LevelScenePauseState: GKState{
     
     let levelScene: BaseScene
     
+    
     init(levelScene: BaseScene){
         self.levelScene = levelScene
     }

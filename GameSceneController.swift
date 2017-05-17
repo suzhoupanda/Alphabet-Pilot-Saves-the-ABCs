@@ -14,6 +14,7 @@ class GameSceneController: UIViewController{
     
     var letterScene: LetterScene?
     
+    var screenRecorderHelper = ScreenRecorderHelper.sharedHelper
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -21,9 +22,16 @@ class GameSceneController: UIViewController{
         
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        screenRecorderHelper.presentingViewController = nil
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        screenRecorderHelper.presentingViewController = self
         
         if let skView = self.view as! SKView?, let letterScene = letterScene{
             

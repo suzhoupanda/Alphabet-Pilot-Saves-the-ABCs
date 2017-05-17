@@ -16,6 +16,8 @@ class LevelSceneSuccessState: GKState{
     
     let levelScene: BaseScene
     
+    let screenRecorderHelper = ScreenRecorderHelper.sharedHelper
+    
     init(levelScene: BaseScene){
         self.levelScene = levelScene
     }
@@ -34,7 +36,8 @@ class LevelSceneSuccessState: GKState{
             optionsGroup.run(SKAction.wait(forDuration: 3.00), completion: {
                 
                 
-                NotificationCenter.default.post(name: Notification.Name.StopRecordingGameplayNotification, object: BaseScene.self)
+                self.screenRecorderHelper.stopRecordingAndSavePreviewViewController()
+                
                 
                 self.postLevelCompletedNotifications()
                 

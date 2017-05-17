@@ -166,15 +166,25 @@ extension BaseScene{
                         
                         print("Posting start record notification...")
                         
-                        NotificationCenter.default.post(name: Notification.Name.StartRecordingGameplayNotification, object: BaseScene.self)
+                        
+                        screenRecorderHelper.startScreenRecording()
+                        
+                        
+                    
                         
                     }
                     
                     if let stopRecordButton = button.childNode(withName: "StopRecordButton") as? SKSpriteNode,stopRecordButton.contains(touchLocationRecordGroup){
                         
                         print("Posting stop record notification...")
+                       
                         
-                        NotificationCenter.default.post(name: Notification.Name.StopRecordingGameplayNotification, object: BaseScene.self)
+                        screenRecorderHelper.stopScreenRecording(withHandler: {
+                        
+                            print("Stopping recording due to user-initiated termination")
+                        })
+            
+                     
                     }
                     
                 

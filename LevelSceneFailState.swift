@@ -15,6 +15,8 @@ class LevelSceneFailState: GKState{
     
     let levelScene: BaseScene
     
+    let screenRecorderHelper = ScreenRecorderHelper.sharedHelper
+
     init(levelScene: BaseScene){
         self.levelScene = levelScene
     }
@@ -30,7 +32,9 @@ class LevelSceneFailState: GKState{
                 optionsGroup.move(toParent: self.levelScene.overlayNode)
                 optionsGroup.position = .zero
                 
-                NotificationCenter.default.post(name: Notification.Name.StopRecordingGameplayNotification, object: BaseScene.self)
+                self.screenRecorderHelper.stopRecordingAndSavePreviewViewController()
+                    
+                
                 
             }
             
