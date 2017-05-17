@@ -9,10 +9,29 @@
 
 import Foundation
 import SpriteKit
+import GameplayKit
 
 class LetterA_Scene: BaseScene{
     
-    var alienSpawnInterval: TimeInterval = 1.00
+    /**
+    let alienSpawnPositions: [CGPoint] = [
+        CGPoint(x: 500, y: 0),
+        CGPoint(x: 1000, y: 0),
+        CGPoint(x: 2000, y: 0),
+        CGPoint(x: 2500, y: 0),
+        CGPoint(x: 3000, y: 0),
+        CGPoint(x: 3500, y: 0),
+        CGPoint(x: 4000, y: 0),
+        CGPoint(x: 4500, y: 0),
+        CGPoint(x: 5000, y: 0),
+        CGPoint(x: 5500, y: 0),
+        CGPoint(x: 6000, y: 0),
+        CGPoint(x: 6500, y: 0),
+        CGPoint(x: 7000, y: 0)
+    ]
+    **/
+    
+    var alienSpawnInterval: TimeInterval = 5.00
     var frameCount: TimeInterval = 0.00
     var adjustedLastUpdateTime: TimeInterval = 0.00
     
@@ -45,9 +64,10 @@ class LetterA_Scene: BaseScene{
     override func update(_ currentTime: TimeInterval) {
         super.update(currentTime)
         
-        frameCount += currentTime - adjustedLastUpdateTime
+        /** Optional: spawn alien enemies ahead of the player at regular intervals **/
         
-        print("FrameCount: \(frameCount)")
+        /**
+        frameCount += currentTime - adjustedLastUpdateTime
         
         if frameCount > alienSpawnInterval{
             
@@ -55,15 +75,14 @@ class LetterA_Scene: BaseScene{
             
             let playerPosition = playerNode.position
             
-            let alienPosition = CGPoint(x: playerPosition.x + 500.00, y: playerPosition.y)
+            
+            let randomDistribution = GKGaussianDistribution(randomSource: GKRandomSource(), mean: 0.00, deviation: 500.00)
+            
+            let randomYOffset = Double(randomDistribution.nextUniform())
+            
+            let alienPosition = CGPoint(x: Double(playerPosition.x) + 1000.00, y: Double(playerPosition.y) + randomYOffset)
             
             let alien = Alien(alienColor: .Pink, position: alienPosition, nodeName: "alien\(alienPosition)", targetNode: playerNode, minimumProximityDistance: 200.00, scalingFactor: 0.70)
-            
-            guard let alienRenderNode = alien.component(ofType: RenderComponent.self)?.node else {
-                    print("Error: failed to load alien render node")
-                    return
-            }
-            
             
             entityManager.addToWorld(alien)
             
@@ -71,20 +90,44 @@ class LetterA_Scene: BaseScene{
         }
         
         adjustedLastUpdateTime = currentTime
+ 
+        **/
     }
     
-    /** Letter E Scene features "Elephant" enemy **/
-    
+    /**
     override func addEnemy(node: SKNode) {
         super.addEnemy(node: node)
         
-        let positionValue = node.userData?.value(forKey: "position") as! NSValue
-        let position = positionValue.cgPointValue
+        for position in alienSpawnPositions{
+            
+            let targetNode = player.renderComponent.node
+            
+            let alien = Alien(alienColor: .Pink, position: position, nodeName: "alien\(position)", targetNode: targetNode, minimumProximityDistance: 200.0, scalingFactor: 0.50)
+            entityManager.addToWorld(alien)
+            
+        }
+    }
+ 
+    **/
+    
+    /** Letter E Scene features "Elephant" enemy **/
+    
+    /**
+    override func addEnemy(node: SKNode) {
+        super.addEnemy(node: node)
+        
+        guard let positionVal = node.userData?["position"] as? NSValue else {
+            print("Error: failed to retrieve position data from enemy node user data dictionaries")
+            return
+        }
+        
+        let cgPointPosition = positionVal.cgPointValue
         
         if let nodeName = node.name,nodeName.contains("Enemy/"){
             
-            if nodeName.contains("Alien"){
+            if nodeName.contains("Alien/"){
                 
+
                 var alienColor: Alien.AlienColor = .Pink
                 
                 if nodeName.contains("Beige"){
@@ -105,12 +148,14 @@ class LetterA_Scene: BaseScene{
                 
                 let targetNode = player.renderComponent.node
                 
-                let alien = Alien(alienColor: alienColor, position: position, nodeName: "alien\(position)", targetNode: targetNode, minimumProximityDistance: 200.0, scalingFactor: 0.50)
+                let alien = Alien(alienColor: alienColor, position: cgPointPosition, nodeName: "alien\(position)", targetNode: targetNode, minimumProximityDistance: 200.0, scalingFactor: 0.50)
                 entityManager.addToWorld(alien)
                 
                 
             }
         
         }
+ 
     }
+    **/
 }

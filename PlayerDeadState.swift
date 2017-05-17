@@ -32,17 +32,17 @@ class PlayerDeadState: GKState{
         playerPhysicsBody.velocity = CGVector.zero
         playerPhysicsBody.affectedByGravity = true
         
-        guard let playerAnimationComponent = playerEntity.component(ofType: BasicAnimationComponent.self) else {
-            print("Error: player must have an animation component in order to run die animation")
+        guard let playerNode = playerEntity.component(ofType: RenderComponent.self)?.node,  let animationsDict = Player.getPlaneAnimationsDict(forPlaneColor: self.playerEntity.planeColor) as? [String: SKAction],  let deadAnimation = animationsDict["dead"] else {
+            print("Error: player must have a render component in order to run die animation; alternatively, check that the plane animations dictionary and the die animation are properly configured")
             return
         }
         
-        playerAnimationComponent.animationNode?.run(SKAction.wait(forDuration: 2.00), completion: {
+        playerNode.run(SKAction.wait(forDuration: 2.00), completion: {
             
-            playerAnimationComponent.runAnimation(withAnimationNameOf: "dead", andWithAnimationKeyOf: "deadAnimation", repeatForever: false)
+            playerNode.run(deadAnimation, completion: {
             
-           // NotificationCenter.default.post(name: Notification.Name.PlayerHasDiedNotification, object: nil, userInfo: nil)
-        
+                playerNode.removeFromParent()
+            })
         })
         
         

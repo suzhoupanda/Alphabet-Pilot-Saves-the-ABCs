@@ -124,7 +124,7 @@ final class SceneManager{
         //Ensure that we present the scene on the main queue 
         
         DispatchQueue.main.async {
-            scene.sceneManager = self
+            // scene.sceneManager = self
             
             //Present the scene with a transition 
             

@@ -52,6 +52,8 @@ extension Notification.Name{
   
     static let BaseSceneFinishedLoadingNotification = Notification.Name(rawValue: "baseSceneFinishedLoadingNotification")
     
+    static let LevelCompletedNotification = Notification.Name(rawValue: "levelCompletedNotification")
+    
     /**
     static let PlayerEnteredEnemyProximityNotification = Notification.Name(rawValue: "playerEnteredEnemyProximityNotification")
     

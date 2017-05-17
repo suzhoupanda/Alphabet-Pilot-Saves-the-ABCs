@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 
+
 class SaveGameOperation: Operation, ProgressReporting{
     
     
@@ -30,11 +31,11 @@ class SaveGameOperation: Operation, ProgressReporting{
         progress = Progress(totalUnitCount: 1)
         
         super.init()
-    
+        
     }
     
     override func start() {
-    
+        
         guard !isCancelled else { return }
         
         if progress.isCancelled {
@@ -45,7 +46,7 @@ class SaveGameOperation: Operation, ProgressReporting{
         
         let gameSession = NSEntityDescription.insertNewObject(forEntityName: "GameSession", into: managedContext) as! GameSession
         
-      
+        
         
         let bronzeCointCount = gameSessionData["playerBronzeCoinCount"] as! Int16
         let silverCoinCount = gameSessionData["playerSilverCointCount"] as! Int16
@@ -81,13 +82,13 @@ class SaveGameOperation: Operation, ProgressReporting{
         gameSession.scene = sceneName
         
         do{
-            try! managedContext.save()
+            try managedContext.save()
             
         } catch let error as NSError{
             print("Error: Failed to save game \(error), \(error.localizedDescription)")
         }
         
     }
-
+    
     
 }

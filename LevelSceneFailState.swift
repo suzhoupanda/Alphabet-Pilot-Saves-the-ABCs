@@ -9,6 +9,7 @@
 import Foundation
 import GameplayKit
 import SpriteKit
+import ReplayKit
 
 class LevelSceneFailState: GKState{
     
@@ -28,11 +29,24 @@ class LevelSceneFailState: GKState{
             if let optionsGroup = SKScene(fileNamed: "OverlayButtons")?.childNode(withName: "GameFailGroup"){
                 optionsGroup.move(toParent: self.levelScene.overlayNode)
                 optionsGroup.position = .zero
+                
+                NotificationCenter.default.post(name: Notification.Name.StopRecordingGameplayNotification, object: BaseScene.self)
+                
             }
             
             self.levelScene.isPaused = true
         
         })
+        
+        
+        
+    }
+    
+    
+    override func update(deltaTime seconds: TimeInterval) {
+        super.update(deltaTime: seconds)
+        
+        
         
     }
     

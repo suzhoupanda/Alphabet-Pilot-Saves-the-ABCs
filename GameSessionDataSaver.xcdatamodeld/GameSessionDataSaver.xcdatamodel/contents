@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="16D32" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="GameSession" representedClassName="GameSession" syncable="YES" codeGenerationType="class">
+        <attribute name="bronzeCoinCount" attributeType="Integer 16" minValueString="0" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="dateSaved" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="goldCoinCount" attributeType="Integer 16" minValueString="0" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isDamaged" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="letter" attributeType="String" minValueString="0" maxValueString="1" syncable="YES"/>
+        <attribute name="planeColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="playerHealth" attributeType="Integer 16" minValueString="0" maxValueString="8" defaultValueString="8" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="playerXPos" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="playerXVelocity" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="playerYPos" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="playerYVelocity" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="scene" attributeType="String" syncable="YES"/>
+        <attribute name="silverCoinCount" attributeType="Integer 16" minValueString="0" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <entity name="LevelInformation" representedClassName="LevelInformation" syncable="YES" codeGenerationType="class">
+        <attribute name="bronzeCoins" optional="YES" attributeType="Integer 16" minValueString="0" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="completed" attributeType="Boolean" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="dateCompleted" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="goldCoins" optional="YES" attributeType="Integer 16" minValueString="0" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="levelScene" attributeType="String" minValueString="13" maxValueString="13" defaultValueString="&quot;LetterA_Scene&quot;" syncable="YES"/>
+        <attribute name="silverCoins" optional="YES" attributeType="Integer 16" minValueString="0" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="GameSession" positionX="-45" positionY="0" width="128" height="240"/>
+        <element name="LevelInformation" positionX="-18" positionY="27" width="128" height="135"/>
+    </elements>
+</model>

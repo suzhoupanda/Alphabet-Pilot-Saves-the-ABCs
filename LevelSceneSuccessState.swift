@@ -9,6 +9,8 @@
 import Foundation
 import GameplayKit
 import SpriteKit
+import ReplayKit
+
 
 class LevelSceneSuccessState: GKState{
     
@@ -21,12 +23,27 @@ class LevelSceneSuccessState: GKState{
     override func didEnter(from previousState: GKState?) {
         super.didEnter(from: previousState)
         
-        if let optionsGroup = SKScene(fileNamed: "OverlayButtons")?.childNode(withName: "GameSuccessGroup"){
+        levelScene.worldNode.isPaused = true
+        
+        if let optionsGroup = SKScene(fileNamed: "OverlayButtons")?.childNode(withName: "GameSuccessGroup") {
             optionsGroup.move(toParent: levelScene.overlayNode)
             optionsGroup.position = .zero
+            
+          
+            
+            optionsGroup.run(SKAction.wait(forDuration: 3.00), completion: {
+                
+                
+                NotificationCenter.default.post(name: Notification.Name.StopRecordingGameplayNotification, object: BaseScene.self)
+                
+                self.postLevelCompletedNotifications()
+                
+            })
         }
         
-        levelScene.isPaused = true
+        
+        
+        
     }
     
     override func isValidNextState(_ stateClass: AnyClass) -> Bool {
@@ -38,4 +55,47 @@ class LevelSceneSuccessState: GKState{
             }
         }
     
+    func postLevelCompletedNotifications(){
+        
+        print("Saving game data...")
+        
+        
+        guard let playerHealthComponent = levelScene.player.component(ofType: HealthComponent.self) else {
+            
+            print("Error: Unable to load player health component while saving game")
+            return
+        }
+        
+        
+        guard let playerCollectibleComponent = levelScene.player.component(ofType: CollectibleStorageComponent.self) else {
+            
+            print("Error: Unable to load player collectible component while saving game")
+            return
+        }
+       
+        
+        let goldCoinCount = Int16(playerCollectibleComponent.goldCoinCount)
+        let silverCoinCount = Int16(playerCollectibleComponent.silverCoinCount)
+        let bronzeCoinCount = Int16(playerCollectibleComponent.bronzeCoinCount)
+        
+        let letterSceneName = levelScene.letterScene.rawValue
+        let currentDate = Date()
+        
+        let userInfo: [String: Any] = [
+            "goldCoinCount": goldCoinCount,
+            "silverCoinCount" : silverCoinCount,
+            "bronzeCoinCount" : bronzeCoinCount,
+            "letterSceneName" : letterSceneName,
+            "dateSaved" : currentDate
+        ]
+        
+      
+        NotificationCenter.default.post(name: Notification.Name.LevelCompletedNotification, object: BaseScene.self, userInfo: userInfo)
+        
+        NotificationCenter.default.post(name: Notification.Name.ExitGameToLevelViewControllerNotification, object: nil)
+        
+        
+        
+    }
+
 }

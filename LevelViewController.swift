@@ -11,6 +11,7 @@ import Foundation
 import UIKit
 import SpriteKit
 import ReplayKit
+import CoreData
 
 class LevelViewController: UICollectionViewController{
     
@@ -24,13 +25,44 @@ class LevelViewController: UICollectionViewController{
     
     var previewViewController: RPPreviewViewController?
     
+    var levelInformationArray = [LevelInformation]()
     
+    var completedLevels: [LevelInformation]{
+        get{
+            return levelInformationArray.filter{ $0.completed }
+        }
+    }
+    
+    
+    var managedContext: NSManagedObjectContext?
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let managedContext = managedContext{
+            
+            do{
+                
+                let fetchRequest = NSFetchRequest<LevelInformation>(entityName: "LevelInformation")
+                
+                levelInformationArray = try managedContext.fetch(fetchRequest)
+                
+            } catch let error as NSError{
+                
+            }
+            
+        }
+        
+        
+    }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
         
-        
+      
+     
         guard let collectionView = collectionView else {
             fatalError("Error: collection view failed to initialize")
         }
@@ -38,7 +70,7 @@ class LevelViewController: UICollectionViewController{
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(collectionView)
         
-        collectionView.register(LevelCell.self, forCellWithReuseIdentifier: CellIdentifiers.LevelCellReuseIdentifier.rawValue)
+        collectionView.register(GameItemCell.self, forCellWithReuseIdentifier: CellIdentifiers.LevelCellReuseIdentifier.rawValue)
         
         
         let toolBar = UIToolbar()
@@ -47,7 +79,13 @@ class LevelViewController: UICollectionViewController{
         
         let replayPreviewItem = UIBarButtonItem(title: "View Recorded Gameplay", style: .plain, target: self, action: #selector(LevelViewController.showPreviewViewController))
         
-        toolBar.setItems([replayPreviewItem], animated: true)
+        let returnToMainMenuItem = UIBarButtonItem(title: "Return to Main Menu", style: .plain, target: self, action: #selector(LevelViewController.returnToMainMenu))
+        
+        let uiOffset1 = UIOffset(horizontal: 50.00, vertical: 0.00)
+        
+        returnToMainMenuItem.setTitlePositionAdjustment(uiOffset1, for: .default)
+        
+        toolBar.setItems([replayPreviewItem, returnToMainMenuItem], animated: true)
         
         
         toolBar.translatesAutoresizingMaskIntoConstraints = false
@@ -64,6 +102,12 @@ class LevelViewController: UICollectionViewController{
             
             ])
         
+        
+    }
+    
+    func returnToMainMenu(){
+        
+        dismiss(animated: true, completion: nil)
         
     }
     
@@ -90,29 +134,35 @@ extension LevelViewController{
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         
-        return LevelCell.metaDataDictionary.keys.count
+        return GameItemCell.metaDataDictionary.keys.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        guard let levelCellSection = LevelCell.Section(rawValue: section), let gameMetaDataArray = LevelCell.metaDataDictionary[levelCellSection] else {
+        guard let levelCellSection = GameItemCell.Section(rawValue: section), let levelMetaDataArray = GameItemCell.metaDataDictionary[levelCellSection] else {
             print("Error: failed to initialize the LevelCell.Section nested enum type")
             return 0
         }
         
-        return gameMetaDataArray.count
+        return levelMetaDataArray.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifiers.LevelCellReuseIdentifier.rawValue, for: indexPath) as! LevelCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifiers.LevelCellReuseIdentifier.rawValue, for: indexPath) as! GameItemCell
         
-        if let gameMetaData = LevelCell.gameMetaDataForIndexPath(indexPath: indexPath){
+        if let levelSceneMetaData = GameItemCell.gameMetaDataForIndexPath(indexPath: indexPath) as? LevelSceneMetaData{
             
-            cell.titleText = gameMetaData.titleText
-            cell.subtitleText = gameMetaData.subTitleText
-            cell.descriptionText = gameMetaData.descriptionText
-            cell.previewImage = gameMetaData.previewImage
+            cell.titleText = levelSceneMetaData.titleText
+            
+            
+            let subTitleText = completedLevels.filter{ $0.levelScene == levelSceneMetaData.letterScene.rawValue}.isEmpty ? "INCOMPLETE" : "COMPLETED"
+                
+
+            
+            cell.subtitleText = subTitleText
+            cell.descriptionText = levelSceneMetaData.descriptionText
+            cell.previewImage = levelSceneMetaData.previewImage
             
             
             cell.backgroundColor =  UIColor.GetCustomColor(customColor: .GrassyGreen)
@@ -130,26 +180,22 @@ extension LevelViewController{
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         
+        //LevelViewController only presents a collection of level thumbnails,all of which are stored as the first entry in a dictionary
         
-        switch(indexPath.section){
-        case 0:
-            if let gameMetaData = LevelCell.gameMetaDataForIndexPath(indexPath: indexPath) as? LevelSceneMetaData{
+        guard indexPath.section == 0 else { return }
+        
+     
+        if let gameMetaData = GameItemCell.gameMetaDataForIndexPath(indexPath: indexPath) as? LevelSceneMetaData{
                 
                 
-                loadGame(levelSceneMetaData: gameMetaData)
+            loadGame(levelSceneMetaData: gameMetaData)
                 
                 
-                //Start preload the ResourceLoadableTypes corresponding to the onDemangdResource tags (including the sks file)
+            //Start preload the ResourceLoadableTypes corresponding to the onDemangdResource tags (including the sks file)
                 
-                //transition to a ProgressScene; call beginDownloadingResources on an NSBundleRequest, where its completion handler will involve presenting the scene whose resources have become fully available
-            }
-            break
-        default:
-            break
+            //transition to a ProgressScene; call beginDownloadingResources on an NSBundleRequest, where its completion handler will involve presenting the scene whose resources have become fully available
         }
-        
-        
-        
+    
     }
     
     
@@ -173,7 +219,7 @@ extension LevelViewController{
         let gscController = storyBoard.instantiateViewController(withIdentifier: "GameSceneControllerSB") as! GameSceneController
         
         //let gscController = GameSceneController(nibName: nil, bundle: nil)
-        gscController.fileName = levelSceneMetaData.sksFile
+        gscController.letterScene = levelSceneMetaData.letterScene
         
         self.present(gscController, animated: true, completion: nil)
         
@@ -190,17 +236,17 @@ extension LevelViewController{
         
         let presentingView = presentedViewController.view as! SKView
         
-        let sksFileName = presentedViewController.fileName
         
         let transition = SKTransition.crossFade(withDuration: 2.00)
         
-        let baseScene = BaseScene(sksFileName: sksFileName!, size: UIScreen.main.bounds.size)
         
-        presentingView.presentScene(baseScene, transition: transition)
+        if let letterScene = presentedViewController.letterScene{
+       
+            let baseScene = GameSceneController.GetSceneForLetterSceneType(letterScene: letterScene)
         
+            presentingView.presentScene(baseScene, transition: transition)
         
-        
-        
+        }
         
     }
     
@@ -237,9 +283,9 @@ extension LevelViewController{
         
         NotificationCenter.default.addObserver(self, selector: #selector(LevelViewController.reloadCurrentGame(notification:)), name: Notification.Name.ReloadCurrentGameNotification, object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(LevelViewController.startScreenRecording(notification:)), name: Notification.Name.StartRecordingGameplayNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(LevelViewController.startScreenRecording(notification:)), name: Notification.Name.StartRecordingGameplayNotification, object: BaseScene.self)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(LevelViewController.stopScreenRecording(notification:withHandler:)), name: Notification.Name.StopRecordingGameplayNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(LevelViewController.stopScreenRecording(notification:withHandler:)), name: Notification.Name.StopRecordingGameplayNotification, object: BaseScene.self)
         
         
     }

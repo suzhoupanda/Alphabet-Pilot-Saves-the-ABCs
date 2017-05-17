@@ -60,7 +60,7 @@ struct SceneMetaData{
         
         switch typeIdentifier{
             case "LevelScene":
-                sceneType = LevelScene.self
+                sceneType = BaseScene.self
             case "HomeEndScene":
                 sceneType = HomeEndScene.self
             case "TransitionScene":

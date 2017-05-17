@@ -168,23 +168,18 @@ class Player: GKEntity{
             
             switch(otherBodyCategoryBitMask){
             case CollisionConfiguration.Barrier.categoryMask:
-                print("Player contacted barrier")
                 break
             case CollisionConfiguration.Enemy.categoryMask:
                 NotificationCenter.default.post(name: Notification.Name.PlayerDidTakeDamageNotification, object: nil, userInfo: nil)
                 break
             case CollisionConfiguration.Collectible.categoryMask:
-                print("Player contacted collectible")
                 break
             case CollisionConfiguration.Letter.categoryMask:
-                print("Player contacted letter")
                 self.hasAttainedLetter = true
                 break
             case CollisionConfiguration.NonCollidingEnemy.categoryMask:
-                print("Player contacted non-colliding enemy")
                 break
             case CollisionConfiguration.Other.categoryMask:
-                print("Player contacted other entity")
                 break
             default:
                 print("No contact logic implemented")

@@ -44,8 +44,8 @@ class RenderComponent: GKComponent{
     convenience init(spriteNode: SKSpriteNode) {
         self.init()
         self.node = spriteNode
-        self.position = node.position
-        self.originalPosition = node.position
+        self.position = spriteNode.position
+        self.originalPosition = spriteNode.position
     }
     
     convenience init(position: CGPoint, autoRemoveEnabled: Bool = false) {

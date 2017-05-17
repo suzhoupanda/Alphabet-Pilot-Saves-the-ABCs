@@ -24,8 +24,6 @@ extension LevelViewController: RPScreenRecorderDelegate, RPPreviewViewController
         //Start the recorder; if an error occurs, then an AlertViewController is shown; the handler for errors that occur in starting the recording is asynchronous but the AlertController will be shown on the Main Queue
         
         if sharedRecorder.isRecording{
-            //TODO: Not yet implemented
-            
             
         }
         
@@ -46,8 +44,11 @@ extension LevelViewController: RPScreenRecorderDelegate, RPPreviewViewController
 
         let sharedRecorder = RPScreenRecorder.shared()
         
-        if sharedRecorder.isRecording{
-            //TODO: not yet implemented
+        if !sharedRecorder.isRecording{
+            
+            
+            
+         
         }
         
         sharedRecorder.stopRecording(handler: {

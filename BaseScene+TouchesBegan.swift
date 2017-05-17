@@ -9,7 +9,7 @@
 import Foundation
 import GameplayKit
 import SpriteKit
-
+import ReplayKit
 
 /** Implementation of handlers for user touch input **/
 
@@ -35,7 +35,36 @@ extension BaseScene{
                 //TODO: Execute code to end any currently on-going gameplay recording
                 return }
             
+            
+    
+            
             for button in overlayNode.children{
+                
+                
+                    
+                if button.name == "GameFailGroup" && button.contains(touchLocationUI){
+                        
+                    let touchLocationInGameFailGroup = touch.location(in: button)
+                        
+                    if let restartButton = button.childNode(withName: "RestartButton") as? SKSpriteNode, restartButton.contains(touchLocationInGameFailGroup){
+                            print("Restarting level...")
+                            
+                            NotificationCenter.default.post(name: Notification.Name.ReloadCurrentGameNotification, object: nil)
+                        }
+                        
+                        if let mainMenuButton = button.childNode(withName: "MainMenu") as? SKSpriteNode, mainMenuButton.contains(touchLocationInGameFailGroup){
+                            
+                            
+                            NotificationCenter.default.post(name: Notification.Name.ExitGameToLevelViewControllerNotification, object: nil)
+                        }
+                        
+                }
+                    
+                    
+                
+                
+                
+                
                 
                 if button.name == "PauseGroup" && button.contains(touchLocationUI){
                     
@@ -100,7 +129,6 @@ extension BaseScene{
                     
                     
                     if let mainMenuButton = button.childNode(withName: "MainMenu") as? SKSpriteNode, mainMenuButton.contains(touchLocationInOptionGroup){
-                        print("Returning to main menu...")
                         
                         
                         NotificationCenter.default.post(name: Notification.Name.ExitGameToLevelViewControllerNotification, object: nil)
@@ -138,7 +166,7 @@ extension BaseScene{
                         
                         print("Posting start record notification...")
                         
-                        NotificationCenter.default.post(name: Notification.Name.StartRecordingGameplayNotification, object: nil)
+                        NotificationCenter.default.post(name: Notification.Name.StartRecordingGameplayNotification, object: BaseScene.self)
                         
                     }
                     
@@ -146,7 +174,7 @@ extension BaseScene{
                         
                         print("Posting stop record notification...")
                         
-                        NotificationCenter.default.post(name: Notification.Name.StopRecordingGameplayNotification, object: nil)
+                        NotificationCenter.default.post(name: Notification.Name.StopRecordingGameplayNotification, object: BaseScene.self)
                     }
                     
                 

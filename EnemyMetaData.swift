@@ -11,8 +11,6 @@ import UIKit
 
 struct EnemyMetaData: GameMetaData{
     
-    var sksFile: String
-    
     var previewImage: UIImage
     var titleText: String
     var subTitleText: String
@@ -23,8 +21,8 @@ struct EnemyMetaData: GameMetaData{
 extension EnemyMetaData{
     
     static let allEnemies: [EnemyMetaData] = [
-        EnemyMetaData(sksFile: "", previewImage: #imageLiteral(resourceName: "spikeMan_stand"), titleText: "Spikeman", subTitleText: "A is for Alien", descriptionText: nil),
-        EnemyMetaData(sksFile: "", previewImage: #imageLiteral(resourceName: "sun1"), titleText: "Evil Sun", subTitleText: "B", descriptionText: nil),
-        EnemyMetaData(sksFile: "", previewImage: #imageLiteral(resourceName: "shipPink_manned"), titleText: "Alien Chaser", subTitleText: "", descriptionText: nil)
+        EnemyMetaData(previewImage: #imageLiteral(resourceName: "spikeMan_stand"), titleText: "Spikeman", subTitleText: "A is for Alien", descriptionText: nil),
+        EnemyMetaData(previewImage: #imageLiteral(resourceName: "sun1"), titleText: "Evil Sun", subTitleText: "B", descriptionText: nil),
+        EnemyMetaData(previewImage: #imageLiteral(resourceName: "shipPink_manned"), titleText: "Alien Chaser", subTitleText: "", descriptionText: nil)
     ]
 }

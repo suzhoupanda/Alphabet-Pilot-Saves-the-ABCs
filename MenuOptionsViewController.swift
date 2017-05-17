@@ -25,6 +25,8 @@ class MenuOptionsViewController: UIViewController{
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        //Make sure the texture atlas manager singleton is instantiated
+        TextureAtlasManager.sharedManager
         
     }
 
@@ -81,6 +83,7 @@ class MenuOptionsViewController: UIViewController{
         
         let levelViewController = LevelViewController(collectionViewLayout: levelViewLayout)
         levelViewController.view.backgroundColor = UIColor.GetCustomColor(customColor: .SharkFinWhite)
+        levelViewController.managedContext = managedContext
         levelViewController.collectionView?.backgroundColor = UIColor.GetCustomColor(customColor: .SharkFinWhite)
     
         
@@ -151,7 +154,7 @@ class MenuOptionsViewController: UIViewController{
               
                 let fetchRequest = NSFetchRequest<GameSession>(entityName: "GameSession")
                 
-                savedGameController.savedGames = try! managedContext.fetch(fetchRequest)
+                savedGameController.savedGames = try managedContext.fetch(fetchRequest)
             } catch let error as NSError{
                 print("Failed to load saved game: \(error),\(error.localizedDescription)")
             }

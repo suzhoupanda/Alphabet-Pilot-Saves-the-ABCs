@@ -26,6 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.performSaveGameOperation(notification:)), name: Notification.Name.UserRequestedGameSaveNotification, object: BaseScene.self)
      
+        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.performSaveLevelInformationOperation(notification:)), name: Notification.Name.LevelCompletedNotification, object: nil)
         
         
         return true
@@ -63,7 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          application to it. This property is optional since there are legitimate
          error conditions that could cause the creation of the store to fail.
          */
-        let container = NSPersistentContainer(name: "GameSaver")
+        let container = NSPersistentContainer(name: "GameSessionDataSaver")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
@@ -109,6 +110,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let saveGameOperation = SaveGameOperation(gameSessionData: userInfoDict, managedContext: self.persistentContainer.viewContext)
         
         gameSaveOperationQueue.addOperation(saveGameOperation)
+        
+        
+    }
+    
+    func performSaveLevelInformationOperation(notification: Notification){
+        
+        guard let userInfoDict = notification.userInfo as? [String: Any] else {
+            print("Error: failed to load user info dictionary from notification")
+            return
+        }
+        
+        let saveLevelInformationOperation = SaveLevelInformationOperation(gameSessionData: userInfoDict, managedContext: self.persistentContainer.viewContext)
+        
+        gameSaveOperationQueue.addOperation(saveLevelInformationOperation)
         
         
     }

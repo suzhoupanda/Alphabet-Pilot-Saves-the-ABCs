@@ -21,15 +21,19 @@ extension BaseScene{
             fatalError("Error: the SKS file must have a root node in order to be loaded into the present scene")
         }
         
-        
         /** Loop through each node in the SKS file, and save each node's position in its user dictionary.  Position data for placeholder nodes is used to initialize new entities
          
          **/
+        
         saveSpriteInformation(rootNode: rootNode)
+        
         
         /** Move the root node from the sks file to the world node of the current scene **/
         
         rootNode.move(toParent: worldNode)
+        
+        
+        
         
         
         /** Loop through all the nodes and initialize a GKObstacleGraph with polygons corresponding to non-navigable objects (e.g. islands) in the scene
@@ -208,6 +212,37 @@ extension BaseScene{
             let position = positionValue.cgPointValue
             
             
+            if nodeName.contains("Alien/"){
+                    
+                    
+                    var alienColor: Alien.AlienColor = .Pink
+                    
+                    if nodeName.contains("Beige"){
+                        alienColor = .Beige
+                    }
+                    
+                    if nodeName.contains("Yellow"){
+                        alienColor = .Yellow
+                    }
+                    
+                    if nodeName.contains("Blue"){
+                        alienColor = .Blue
+                    }
+                    
+                    if nodeName.contains("Pink"){
+                        alienColor = .Pink
+                    }
+                    
+                    let targetNode = player.renderComponent.node
+                    
+                    let alien = Alien(alienColor: alienColor, position: position, nodeName: "alien\(position)", targetNode: targetNode, minimumProximityDistance: 200.0, scalingFactor: 0.50)
+                    entityManager.addToWorld(alien)
+                    
+                    
+                }
+                
+            
+
         
             
             if nodeName.contains("Spikeman"){
@@ -310,33 +345,9 @@ extension BaseScene{
  
             }
             
-            if nodeName.contains("Alien"){
-                
-                var alienColor: Alien.AlienColor = .Pink
-                
-                if nodeName.contains("Beige"){
-                    alienColor = .Beige
-                }
-                
-                if nodeName.contains("Yellow"){
-                    alienColor = .Yellow
-                }
-                
-                if nodeName.contains("Blue"){
-                    alienColor = .Blue
-                }
-                
-                if nodeName.contains("Pink"){
-                    alienColor = .Pink
-                }
-                
-                let targetNode = player.renderComponent.node
-                
-                let alien = Alien(alienColor: alienColor, position: position, nodeName: "alien\(position)", targetNode: targetNode, minimumProximityDistance: 200.0, scalingFactor: 0.50)
-                entityManager.addToWorld(alien)
-                
-            }
+         
         }
+        
     }
     
     

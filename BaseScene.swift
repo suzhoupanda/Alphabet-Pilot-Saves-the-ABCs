@@ -27,10 +27,9 @@ class BaseScene: SKScene {
     var skSceneFileName: String
     var sceneLetterTarget: String = String()
     
-    var sceneManager: SceneManager?
+    var letterScene: LetterScene = .LetterA_Scene
     
 
-    
     var lastUpdateTime : TimeInterval = 0
     
     /**  The letter is attained when the player flies past the x-position of the letter.  Upon attaining the letter, the scene's state machine enter the LevelSceneSuccessState
@@ -73,78 +72,34 @@ class BaseScene: SKScene {
     override func didMove(to view: SKView) {
         super.didMove(to: view)
     
-        
         self.physicsWorld.contactDelegate = self
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         
 
-        
         /** Add the world node **/
-        worldNode = SKSpriteNode()
-        worldNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        worldNode.position = .zero
-        worldNode.scale(to: view.bounds.size)
-        addChild(worldNode)
+        addWorldNode(forSKView: view)
         
         /** Add the overlay node **/
-        overlayNode = SKSpriteNode()
-        overlayNode.zPosition = 15
-        overlayNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        overlayNode.position = .zero
-        overlayNode.scale(to: view.bounds.size)
-        addChild(overlayNode)
+        addOverlayNode(forSKView: view)
+
+        /** Set up HUD display **/
+        setupHUD()
         
-        guard let heartDisplay = hudManager.getMainHealthMeter() else {
-            print("Error: failed to load the main health meter")
-            return
-        }
+        /** Set up the pause button **/
+        setupPauseButton()
         
-        heartDisplay.move(toParent: overlayNode)
-        hudManager.setHUDPosition(position: nil)
-        hudManager.resetHUD()
-        
-        guard let coinMeter = hudManager.getCoinMeter() else {
-            print("Error: failed to load the coin meter")
-            return
-        }
-        
-        /** TODO: consider adding a coin meter, or providing the user with the option of viewing the coin meter, or with checking the coin count in another display
-        coinMeter.move(toParent: overlayNode)
-        hudManager.setCoinMeterPosition(position: nil)
-        hudManager.resetCoinMeter()
-        **/
-        
-        let pauseGroup = SKScene(fileNamed: "OverlayButtons")?.childNode(withName: "PauseGroup")
-    
-        let paddingLeft = ScreenSizeConstants.HalfScreenWidth*0.20
-        let paddingBottom = ScreenSizeConstants.HalfScreenHeight*0.15
-        let xPos = ScreenPoints.BottomLeftCorner.x + paddingLeft
-        let yPos = ScreenPoints.BottomLeftCorner.y + paddingBottom
-        
-        pauseGroup?.position = CGPoint(x: xPos, y: yPos)
-        pauseGroup!.move(toParent: overlayNode)
         
         /** Enttiy manager is added after the world node has been added to the scene **/
         entityManager = EntityManager(scene: self)
         
         /** Add player to the entity manager; retain a reference to the player in the scene itself for convenience; player is added prior to loading nodes from the SKScene file in order that its node can be used as a target node for certain enemies **/
-        player = Player(planeColor: .Yellow)
-        if let playerNode = player.component(ofType: RenderComponent.self)?.node{
-            playerNode.xScale *= 0.50
-            playerNode.yScale *= 0.50
-        }
-        
-       entityManager.addToWorld(player)
-        
+        addPlayer()
         
         /** Add enemies, obstacles, and backgrounds to world from SKScene file. The player must be initialized before the smart enemies (i.e. those that use the player as a target agent) to be initialized from the scene file **/
         loadNodesFromSKSceneFile()
         
         
-        
-        /** Switch the state machine into the active state
- 
-        **/
+        /** Switch the state machine into the active state  **/
         stateMachine.enter(LevelSceneActiveState.self)
     
         
@@ -236,7 +191,7 @@ class BaseScene: SKScene {
     
    
     func registerNotifications(){
-         NotificationCenter.default.addObserver(self, selector: #selector(BaseScene.reportPlayerRangePosition(notification:)), name: Notification.Name.PlayerEnteredPredefinedRange, object: nil)
+        // NotificationCenter.default.addObserver(self, selector: #selector(BaseScene.reportPlayerRangePosition(notification:)), name: Notification.Name.PlayerEnteredPredefinedRange, object: nil)
         
        
     }
@@ -288,7 +243,7 @@ class BaseScene: SKScene {
         let silverCoinCount = Int16(playerCollectibleComponent.silverCoinCount)
         let bronzeCoinCount = Int16(playerCollectibleComponent.bronzeCoinCount)
         let playerDamageStatus = playerStateMachine.stateMachine?.currentState is PlayerDamagedState
-        let playerSceneName = skSceneFileName
+        let playerSceneName = letterScene.rawValue
         let playerLetterTarget = sceneLetterTarget
         let currentDate = Date()
         
@@ -315,7 +270,6 @@ class BaseScene: SKScene {
     
     deinit {
         NotificationCenter.default.removeObserver(self)
-        Player.purgeResoures()
     }
     
 }
