@@ -19,6 +19,9 @@ class GameSceneController: UIViewController{
     var reloadData: ReloadData?
     
     override func viewWillLayoutSubviews() {
+        
+        print("Laying out subview in GameScene ViewController...")
+        
         super.viewWillLayoutSubviews()
         registerForNotifications()
         
@@ -35,13 +38,18 @@ class GameSceneController: UIViewController{
         
         screenRecorderHelper.presentingViewController = self
         
-        if let skView = self.view as! SKView?, let letterScene = letterScene, let reloadData = reloadData{
+        print("Preaping to present the Base Scene...")
+        
+        if let skView = self.view as! SKView?, let letterScene = letterScene{
             
             //Initialize the base scene based on the value of the letterScene property for the GameSceneView controller
             
-            let baseScene: BaseScene = GameSceneController.GetSceneForLetterSceneType(letterScene: letterScene, reloadData: reloadData)
             
-
+            
+            let baseScene: BaseScene = reloadData != nil ? GameSceneController.GetSceneForLetterSceneType(letterScene: letterScene, reloadData: reloadData!) : GameSceneController.GetSceneForLetterSceneType(letterScene: letterScene, reloadData: nil)
+            
+            print("About to present the Base Scene...")
+            
             skView.presentScene(baseScene)
         
         }
@@ -77,6 +85,17 @@ class GameSceneController: UIViewController{
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
+    
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask{
+        return .landscapeLeft
+    }
+    
+    override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation{
+        return .landscapeLeft
+    }
+    
+  
 }
 
 extension GameSceneController{

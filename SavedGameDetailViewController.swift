@@ -84,7 +84,7 @@ class SavedGameDetailViewController: UIViewController{
         levelViewController.managedContext = managedContext
         levelViewController.collectionView?.backgroundColor = UIColor.GetCustomColor(customColor: .SharkFinWhite)
         
-        let reloadData = ReloadData(letterScene: .LetterA_Scene, planeColor: .Blue, playerXPos: 4000.00, playerYPos: -200.0, playerXVelocity: 50.0, playerYVelocity: 12.0, playerHealth: 3, playerGoldCoins: 1, playerSilverCoins: 1, playerBronzeCoins: 1)
+        let reloadData = ReloadData(letterScene: .LetterA_Scene, planeColor: .Blue, playerXPos: 4000.00, playerYPos: -200.0, playerXVelocity: 50.0, playerYVelocity: 12.0, playerHealth: 3, playerGoldCoins: 1, playerSilverCoins: 1, playerBronzeCoins: 1, isDamaged: false)
         
         present(levelViewController, animated: true, completion: {
             
@@ -121,32 +121,12 @@ class SavedGameDetailViewController: UIViewController{
     
     //Optional variables for storing data used to populate corresponding UIElements on the storyboard file
     
-    var sceneLabelText: String?
-    var planeColor: String?
+    
+    var reloadData: ReloadData?
     
     var saveDate: Date?
     
-    var goldCoinCount: Int?
-    var silverCoinCount: Int?
-    var bronzeCoinCount: Int?
-    
-    var damageStatus: Bool?
-    
-    var healthLevel: Int?
-    var planeColorText: String?
-    
-    var xPositionText: String?
-    var yPositionText: String?
-    
-    var xVelocityText: String?
-    var yVelocityText: String?
-    
-    var xVelocityValue: Double?
-    var yVelocityValue: Double?
-    var xPosValue: Double?
-    var yPosValue: Double?
-    
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -166,55 +146,76 @@ class SavedGameDetailViewController: UIViewController{
     
     
     func loadSavedGameInformation(){
-        if let sceneLabelText = sceneLabelText{
-            sceneNameLabel.text = sceneLabelText
-        }
         
-        if let planeColorText = planeColorText{
+        
+        if let reloadData = reloadData, let saveDate = saveDate{
+            sceneNameLabel.text = reloadData.letterScene.rawValue
+            
+            
+            bronzeCountLabel.text = "Bronze: \(reloadData.playerBronzeCoins)"
+            silverCountLabel.text = "Silver: \(reloadData.playerSilverCoins)"
+            goldCountLabel.text = "Gold: \(reloadData.playerGoldCoins)"
+            
+            
+            let formattedXVelocityText = getFormattedNumberString(forDataItem: reloadData.playerXVelocity)
+            let formattedYVelocityText = getFormattedNumberString(forDataItem: reloadData.playerYVelocity)
+            
+            xVelocity.text = formattedXVelocityText
+            yVelocity.text = formattedYVelocityText
+            
+            
+            let formattedYPositionText = getFormattedNumberString(forDataItem: reloadData.playerYVelocity)
+            let formattedXPositionText = getFormattedNumberString(forDataItem: reloadData.playerXVelocity)
+            
+            yPositionLabel.text = formattedYPositionText
+            xPositionLabel.text = formattedXPositionText
+            
+            damageStatusSwitch.isOn = reloadData.isDamaged
+            
+            healthSegmentedControl.selectedSegmentIndex = reloadData.playerHealth
+
+            datePicker.date = saveDate
+
             for index in 0..<planeColorSegmentedControl.numberOfSegments{
                 
-                if planeColorSegmentedControl.titleForSegment(at: index) == planeColorText{
+                if planeColorSegmentedControl.titleForSegment(at: index) == reloadData.planeColor.rawValue{
                     planeColorSegmentedControl.selectedSegmentIndex = index
+                    
                 }
             }
-        }
-        
-        if let saveDate = saveDate{
-            datePicker.date = saveDate
-        }
-        
-        
-        if let bronzeCoinCount = bronzeCoinCount, let silverCoinCount = silverCoinCount, let goldCoinCount = goldCoinCount{
-            
-            bronzeCountLabel.text = "Bronze: \(bronzeCoinCount)"
-            silverCountLabel.text = "Silver: \(silverCoinCount)"
-            goldCountLabel.text = "Gold: \(goldCoinCount)"
             
         }
+     
         
+    
+       
         
-        if let damageStatus = damageStatus{
-            damageStatusSwitch.isOn = damageStatus
-            
-        }
-        
-        if let yVelocityText = yVelocityText, let xVelocityText = xVelocityText{
-            
-            xVelocity.text = xVelocityText
-            yVelocity.text = yVelocityText
-        }
-        
-        if let xPositionText = xPositionText, let yPositionText = yPositionText{
-            xPositionLabel.text = xPositionText
-            yPositionLabel.text = yPositionText
-        }
-        
-        
-        if let healthLevel = healthLevel{
-            healthSegmentedControl.selectedSegmentIndex = healthLevel
-        }
         
     }
     
+    
+    func getFormattedNumberString(forDataItem dataItem: Double) -> String{
+        
+        let numberFormatter = NumberFormatter()
+        numberFormatter.minimumFractionDigits = 2
+        
+        let wrappedNumber = NSNumber(value: dataItem)
+        
+        guard let formattedNumberString = numberFormatter.string(from: wrappedNumber) else {
+            return "\(dataItem)"
+        }
+        
+        return formattedNumberString
+    }
+    
+    override var supportedInterfaceOrientations:UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.portrait
+    }
+    
+    override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation{
+        return .portrait
+    }
+    
+   
     
 }

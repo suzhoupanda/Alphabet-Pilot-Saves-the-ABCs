@@ -63,20 +63,24 @@ class GameItemCell: UICollectionViewCell{
         super.init(frame: frame)
         
         contentView.backgroundColor = UIColor.GetCustomColor(customColor: .GrassyGreen)
-       
-        previewImageView = UIImageView(frame: CGRect(x: frame.size.width*0.10, y: frame.size.height*0.10, width: frame.size.width*0.80, height: frame.size.height*0.50))
+        
+        let previewImageFrame = CGRect(x: frame.size.width*0.10, y: frame.size.height*0.20, width: frame.size.width*0.80, height: frame.size.height*0.50)
+        
+        previewImageView = UIImageView(frame: previewImageFrame)
         previewImageView.contentMode = .scaleAspectFit
         contentView.addSubview(previewImageView)
         
+        let titleLabelFrame = CGRect(x: Double(previewImageFrame.origin.x), y: Double(previewImageFrame.origin.y + previewImageFrame.size.height - frame.size.height*0.40), width: Double(frame.size.width), height: Double(frame.size.height*0.10))
         
-        titleLabel = UILabel(frame: CGRect(x: frame.size.width*0.00, y: frame.size.height*0.40, width: frame.size.width, height: frame.size.height*0.20))
+        titleLabel = UILabel(frame: titleLabelFrame)
         titleLabel.textColor = UIColor.GetCustomColor(customColor: .StopSignRed)
         titleLabel.font = UIFont(name: "ChalkboardSE-Regular", size: 30.0)
         titleLabel.textAlignment = .center
         contentView.addSubview(titleLabel)
         
+        let subtitleLabelFrame = CGRect(x: Double(titleLabelFrame.origin.x), y: Double(titleLabelFrame.origin.y + titleLabelFrame.size.height + frame.size.height*0.05), width: Double(frame.size.width), height: Double(frame.size.height*0.10))
         
-        subtitleLabel = UILabel(frame: CGRect(x: frame.size.width*0.00, y: frame.size.height*0.65, width: frame.size.width, height: frame.size.height*0.10))
+        subtitleLabel = UILabel(frame: subtitleLabelFrame)
         subtitleLabel.textColor = UIColor.GetCustomColor(customColor: .BluishGrey)
         subtitleLabel.font = UIFont(name: "ChalkboardSE-Regular", size: 25.0)
         subtitleLabel.textAlignment = .center

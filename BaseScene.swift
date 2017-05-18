@@ -9,23 +9,6 @@
 import SpriteKit
 import GameplayKit
 
-struct ReloadData{
-    var letterScene: LetterScene
-    
-    var planeColor: Player.PlaneColor
-    
-    var playerXPos: Double
-    var playerYPos: Double
-    
-    var playerXVelocity: Double
-    var playerYVelocity: Double
-    
-    var playerHealth: Int
-    
-    var playerGoldCoins: Int
-    var playerSilverCoins: Int
-    var playerBronzeCoins: Int
-}
 
 class BaseScene: SKScene {
     
@@ -33,7 +16,7 @@ class BaseScene: SKScene {
     var entityManager: EntityManager!
     
     var player: Player!
-    var reloadData: ReloadData?
+    var reloadData: ReloadData? = nil
     
     var worldNode: SKSpriteNode!
     var overlayNode: SKSpriteNode!

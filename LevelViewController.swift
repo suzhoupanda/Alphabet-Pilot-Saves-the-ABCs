@@ -102,7 +102,7 @@ class LevelViewController: UICollectionViewController{
         toolBar.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
             collectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
             collectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
             collectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.80),
@@ -201,7 +201,9 @@ extension LevelViewController{
      
         if let gameMetaData = GameItemCell.gameMetaDataForIndexPath(indexPath: indexPath) as? LevelSceneMetaData{
                 
-                
+            
+            print("Cell selected. Loading game..")
+            
             loadGame(levelSceneMetaData: gameMetaData)
                 
                 
@@ -223,6 +225,7 @@ extension LevelViewController{
     
     func loadGame(levelSceneMetaData: LevelSceneMetaData){
         
+        print("Starting to load game...")
         
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
         
@@ -331,7 +334,14 @@ extension LevelViewController{
         return UIInterfaceOrientationMask.landscape
     }
     
+    override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation{
+        return .landscapeLeft
+    }
     
+  
+    
+    
+   
 }
 
 //MARK: *********** UICollectionViewDelegate Methods

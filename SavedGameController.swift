@@ -16,16 +16,11 @@ class SavedGameController: UITableViewController{
     
     var savedGames = [GameSession]()
     
-    
-    
     @IBAction func returnToSavedGameMenu(savedGameSegue: UIStoryboardSegue){
         
         
     }
   
-    
- 
-    
 }
 
 
@@ -44,19 +39,11 @@ extension SavedGameController{
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "GameSessionCell", for: indexPath)
+        var cell = tableView.dequeueReusableCell(withIdentifier: "GameSessionCell", for: indexPath)
         
         let gameSession = savedGames[indexPath.row]
         
-        cell.textLabel?.text = gameSession.scene
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .short
-        let dateString = dateFormatter.string(from: gameSession.dateSaved as! Date)
-        
-        cell.detailTextLabel?.text = dateString
-    
+        configureTableViewCell(forTableViewCell: &cell, withGameSessionDataFrom: gameSession)
         
         return cell
     }
@@ -70,62 +57,95 @@ extension SavedGameController{
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         
+        //Retrieve the GameSession information corresponding to the selected row 
+        
         let gameSession = savedGames[indexPath.row]
         
-        let gameSaverStoryboard = UIStoryboard(name: "GameSaver", bundle: nil)
+        //Instantatied a SavedGameDetailViewController from the GameSession data
         
-        let savedGameDetailVC = gameSaverStoryboard.instantiateInitialViewController() as! SavedGameDetailViewController
-        
-        print("You are about to see detail information for the scene: \(gameSession.scene)")
-        
-        
-        savedGameDetailVC.sceneLabelText = gameSession.scene
-        
-        savedGameDetailVC.bronzeCoinCount = Int(gameSession.bronzeCoinCount)
-        savedGameDetailVC.silverCoinCount = Int(gameSession.silverCoinCount)
-        savedGameDetailVC.goldCoinCount = Int(gameSession.goldCoinCount)
-        
-        
-        savedGameDetailVC.saveDate = gameSession.dateSaved as Date?
-        savedGameDetailVC.healthLevel = Int(gameSession.playerHealth)
-        
-        savedGameDetailVC.planeColorText = gameSession.planeColor
-    
-        
-        let numberFormatter = NumberFormatter()
-        numberFormatter.minimumFractionDigits = 2
-        
-        let positionX = gameSession.playerXPos 
-        let positionY = gameSession.playerYPos
-        
-        let formattedPositionX = numberFormatter.string(from: NSNumber(value: positionX))!
-        let formattedPositionY = numberFormatter.string(from: NSNumber(value: positionY))!
-        
-        savedGameDetailVC.xPosValue = positionX
-        savedGameDetailVC.yPosValue = positionY
-        
-        savedGameDetailVC.xPositionText = "X-Position \(formattedPositionX)"
-        savedGameDetailVC.yPositionText = "Y-Position: \(formattedPositionY)"
-        
-        let velocityX = gameSession.playerXVelocity
-        let velocityY = gameSession.playerYVelocity
-        
-        savedGameDetailVC.xVelocityValue = velocityX
-        savedGameDetailVC.yVelocityValue = velocityY
-        
-        let formattedVelocityX = numberFormatter.string(from: NSNumber(value: velocityX))!
-        let formattedVelocityY = numberFormatter.string(from: NSNumber(value: velocityY))!
-        
-        savedGameDetailVC.xVelocityText = "X-Velocity: \(formattedVelocityX)"
-        savedGameDetailVC.yVelocityText = "Y-Velocity: \(formattedVelocityY)"
-        
-        savedGameDetailVC.damageStatus = gameSession.isDamaged
+        let savedGameDetailVC = configureSavedGameDetailViewController(fromGameSession: gameSession)
         
     
         present(savedGameDetailVC, animated: false, completion: nil)
     }
 
     
-   
     
+    func configureTableViewCell(forTableViewCell cell: inout UITableViewCell, withGameSessionDataFrom gameSession: GameSession){
+        
+        cell.textLabel?.text = gameSession.scene
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .short
+        let dateString = dateFormatter.string(from: gameSession.dateSaved as! Date)
+        
+        cell.detailTextLabel?.text = dateString
+        
+        
+    }
+    
+    //MARK: ******** Helper Function for instantiating and configuring a SavedGameDetail ViewController
+    
+    
+    func configureSavedGameDetailViewController(fromGameSession gameSession: GameSession) -> SavedGameDetailViewController{
+        
+        //Instantatied a SavedGameDetailViewController from the GameSaver storyboard
+        
+        let gameSaverStoryboard = UIStoryboard(name: "GameSaver", bundle: nil)
+        
+        let savedGameDetailVC = gameSaverStoryboard.instantiateInitialViewController() as! SavedGameDetailViewController
+        
+        
+        //Configure a ReloadData configuraton object in order to pass the saved game data to the saved game detail view controller
+        
+        let reloadData = getReloadData(fromGameSession: gameSession)
+        
+        savedGameDetailVC.reloadData = reloadData
+        savedGameDetailVC.saveDate = gameSession.dateSaved as Date?
+        
+        return savedGameDetailVC
+    }
+    
+    /** Return a ReloadData configuration object for a given GameSession **/
+    
+    func getReloadData(fromGameSession gameSession: GameSession) -> ReloadData?{
+        guard let sceneName = gameSession.scene, let letterScene = LetterScene(rawValue: sceneName) else {
+            print("Error: no scene name set for the game session at the selected row")
+            return nil
+        }
+        
+        guard let planeColorString = gameSession.planeColor, let planeColor = Player.PlaneColor(rawValue: planeColorString) else {
+            print("Error: failed to instantiated a plane color enum object for the given plane color string")
+            return nil
+        }
+        
+        let bronzeCoinCount = Int(gameSession.bronzeCoinCount)
+        let silverCoinCount = Int(gameSession.silverCoinCount)
+        let goldCoinCount = Int(gameSession.goldCoinCount)
+        let healthLevel = Int(gameSession.playerHealth)
+        
+        let positionX = gameSession.playerXPos
+        let positionY = gameSession.playerYPos
+        
+        let velocityX = gameSession.playerXVelocity
+        let velocityY = gameSession.playerYVelocity
+        
+        let damageStatus = gameSession.isDamaged
+        
+        return ReloadData(letterScene: letterScene, planeColor: planeColor, playerXPos: positionX, playerYPos: positionY, playerXVelocity: velocityX, playerYVelocity: velocityY, playerHealth: healthLevel, playerGoldCoins: goldCoinCount, playerSilverCoins: silverCoinCount, playerBronzeCoins: bronzeCoinCount, isDamaged: damageStatus)
+        
+    }
+   
+    override var supportedInterfaceOrientations:UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.portrait
+    }
+    
+    override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation{
+        return .portrait
+    }
+    
+    override var shouldAutorotate: Bool{
+        return false
+    }
 }

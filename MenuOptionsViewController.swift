@@ -83,6 +83,7 @@ class MenuOptionsViewController: UIViewController{
         
         let levelViewController = LevelViewController(collectionViewLayout: levelViewLayout)
         levelViewController.view.backgroundColor = UIColor.GetCustomColor(customColor: .SharkFinWhite)
+        
         levelViewController.managedContext = managedContext
         levelViewController.collectionView?.backgroundColor = UIColor.GetCustomColor(customColor: .SharkFinWhite)
     
@@ -163,31 +164,7 @@ class MenuOptionsViewController: UIViewController{
     }
     
     
-    
-    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        
-        let CurrentSizeClassConfiguration = (newCollection.verticalSizeClass, newCollection.horizontalSizeClass)
-        
-        
-        
-        
-        //Adjust the axis of the main stack view based on the new trait collection
-        
-        switch(CurrentSizeClassConfiguration){
-            case (.regular,.compact),(.regular,.regular):   //all other iPhones in portrait mode
-                break
-            case (.compact,.regular):       //iPhone 7 Plus
-                break
-            case (.compact,.compact):       //All other iPhones in landscape mode
-                break
-            default:
-                break
-            
-        }
-        
-        
-        
-    }
+   
     
   
    
