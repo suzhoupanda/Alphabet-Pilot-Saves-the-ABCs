@@ -36,8 +36,8 @@ extension LevelSceneMetaData{
     
     static let allLevels: [LevelSceneMetaData] = [
         LevelSceneMetaData(letterScene: .LetterA_Scene, previewImage: #imageLiteral(resourceName: "PreviewSample"), titleText: "Letter A", subTitleText: "A is for Alien", descriptionText: "Can you avoid the angry aliens?", onDemandResourceTags: nil),
-        LevelSceneMetaData(letterScene: .LetterB_Scene, previewImage: #imageLiteral(resourceName: "PreviewSample"), titleText: "Letter B", subTitleText: "B is for Bomb", descriptionText: "If you can't win, blame the bombs!", onDemandResourceTags: nil),
-        LevelSceneMetaData(letterScene: .LetterC_Scene, previewImage: #imageLiteral(resourceName: "PreviewSample"), titleText: "Letter C", subTitleText: "C is for Candy", descriptionText: "Try not to concentrate on the candy!", onDemandResourceTags: nil),
+        LevelSceneMetaData(letterScene: .LetterB_Scene, previewImage: #imageLiteral(resourceName: "LetterB_Scene"), titleText: "Letter B", subTitleText: "B is for Bomb", descriptionText: "If you can't win, blame the bombs!", onDemandResourceTags: nil),
+        LevelSceneMetaData(letterScene: .LetterC_Scene, previewImage: #imageLiteral(resourceName: "LetterC_Scene"), titleText: "Letter C", subTitleText: "C is for Candy", descriptionText: "Try not to concentrate on the candy!", onDemandResourceTags: nil),
         LevelSceneMetaData(letterScene: .LetterD_Scene, previewImage: #imageLiteral(resourceName: "PreviewSample"), titleText: "Letter D", subTitleText: "D is for Dog", descriptionText: "Can you defeat the deadly dogs?", onDemandResourceTags: nil),
         LevelSceneMetaData(letterScene: .LetterE_Scene, previewImage: #imageLiteral(resourceName: "PreviewSample"), titleText: "Letter E", subTitleText: "E is for Elephant", descriptionText: "Can you evade the eager elephant?", onDemandResourceTags: nil),
         LevelSceneMetaData(letterScene: .LetterF_Scene, previewImage: #imageLiteral(resourceName: "PreviewSample"), titleText: "Letter F", subTitleText: "F is for Forest", descriptionText: "Fly through the fantasy forest.", onDemandResourceTags: nil),
