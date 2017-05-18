@@ -14,7 +14,7 @@ class LetterZ_Scene: BaseScene{
     
     convenience init(size: CGSize, reloadData: ReloadData?){
         
-        self.init(sksFileName: "SpaceScene1", size: size, reloadData: reloadData)
+        self.init(sksFileName: "PlaneScene3", size: size, reloadData: reloadData)
     }
     
     required init(sksFileName: String, size: CGSize, reloadData: ReloadData?) {
@@ -26,6 +26,78 @@ class LetterZ_Scene: BaseScene{
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func addEnemy(node: SKNode) {
+        super.addEnemy(node: node)
+        
+        let positionValue = node.userData?.value(forKey: "position") as! NSValue
+        let position = positionValue.cgPointValue
+        
+        if let nodeName = node.name,nodeName.contains("Enemy/"){
+            
+            if nodeName.contains("Animal/"){
+                
+                if nodeName.contains("Hippo"){
+                    
+                    let hippo = Animal(animalType: .Hippo, position: position, nodeName: "hippo\(position)", scalingFactor: 0.20)
+                    
+                    entityManager.addToWorld(hippo)
+                }
+                
+                if nodeName.contains("Giraffe"){
+                    
+                    let giraffe = Animal(animalType: .Giraffe, position: position, nodeName: "giraffe\(position)", scalingFactor: 0.20)
+                    
+                    entityManager.addToWorld(giraffe)
+                }
+                
+                if nodeName.contains("Parrot"){
+                    
+                    let parrot = Animal(animalType: .Parrot, position: position, nodeName: "parrot\(position)", scalingFactor: 0.20)
+                    
+                    entityManager.addToWorld(parrot)
+                }
+                
+                
+                if nodeName.contains("Pig"){
+                    
+                    let parrot = Animal(animalType: .Pig, position: position, nodeName: "pig\(position)", scalingFactor: 0.20)
+                    
+                    entityManager.addToWorld(parrot)
+                }
+                
+                if nodeName.contains("Panda"){
+                    
+                    let panda = Animal(animalType: .Panda, position: position, nodeName: "panda\(position)", scalingFactor: 0.20)
+                    
+                    entityManager.addToWorld(panda)
+                }
+                
+                if nodeName.contains("Monkey"){
+                    
+                    let monkey = Animal(animalType: .Monkey, position: position, nodeName: "monkey\(position)", scalingFactor: 0.20)
+                    
+                    entityManager.addToWorld(monkey)
+                }
+
+                if nodeName.contains("Penguin"){
+                    
+                    let penguin = Animal(animalType: .Penguin, position: position, nodeName: "penguin\(position)", scalingFactor: 0.20)
+                    
+                    entityManager.addToWorld(penguin)
+                }
+                
+                if nodeName.contains("Elephant"){
+                    
+                    let elephant = Animal(animalType: .Elephant, position: position, nodeName: "elephant\(position)", scalingFactor: 0.20)
+                    
+                    entityManager.addToWorld(elephant)
+                }
+
+                
+            }
+        }
+        
+    }
 
     
 }

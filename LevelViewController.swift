@@ -204,9 +204,25 @@ extension LevelViewController{
             
             print("Cell selected. Loading game..")
             
+            /**
+            if let resourceTags = gameMetaData.onDemandResourceTags, !resourceTags.isEmpty{
+                
+                let resourceRequest = NSBundleResourceRequest(tags: resourceTags)
+                
+                resourceRequest.beginAccessingResources(completionHandler: {_ in 
+                    
+                    self.loadGame(levelSceneMetaData: gameMetaData)
+                
+                })
+            } else {
+            
+                loadGame(levelSceneMetaData: gameMetaData)
+                
+            }**/
+            
             loadGame(levelSceneMetaData: gameMetaData)
-                
-                
+
+            
             //Start preload the ResourceLoadableTypes corresponding to the onDemangdResource tags (including the sks file)
                 
             //transition to a ProgressScene; call beginDownloadingResources on an NSBundleRequest, where its completion handler will involve presenting the scene whose resources have become fully available

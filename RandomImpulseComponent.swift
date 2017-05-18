@@ -24,11 +24,9 @@ class RandomImpulseComponent: GKComponent{
         
         self.impulseInterval = impulseInterval
         
-        let coinFlip = arc4random_uniform(1)
         
-        let adjustedMean = coinFlip == 0 ? meanImpulseValue : -meanImpulseValue
         
-        let randomDist = GKGaussianDistribution(randomSource: GKARC4RandomSource(), mean: adjustedMean, deviation: deviation)
+        let randomDist = GKGaussianDistribution(randomSource: GKARC4RandomSource(), mean: meanImpulseValue, deviation: deviation)
         
         let randomDy = randomDist.nextInt()
         let randomDx = randomDist.nextInt()

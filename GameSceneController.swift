@@ -31,6 +31,20 @@ class GameSceneController: UIViewController{
         super.viewWillDisappear(animated)
         
         screenRecorderHelper.presentingViewController = nil
+        
+        guard let letterScene = letterScene else {
+            print("Error: the letter scene must be set in order for loadable types to be deallocated")
+            return
+        }
+        
+        switch letterScene{
+            case .LetterG_Scene:
+                Animal.purgeResoures()
+                break
+            default:
+                break
+            
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,7 +52,6 @@ class GameSceneController: UIViewController{
         
         screenRecorderHelper.presentingViewController = self
         
-        print("Preaping to present the Base Scene...")
         
         if let skView = self.view as! SKView?, let letterScene = letterScene{
             
@@ -128,9 +141,19 @@ extension GameSceneController{
             baseScene = LetterF_Scene(size: screenSize, reloadData: reloadData)
             break
         case .LetterG_Scene:
+            Animal.loadResources {
+                print("Loaded animal class resources...")
+            }
+            
             baseScene = LetterG_Scene(size: screenSize, reloadData: reloadData)
+            print("Loaded animal class reources...")
+            
             break
         case .LetterH_Scene:
+            Animal.loadResources {
+                print("Loaded animal class resources...")
+            }
+            
             baseScene = LetterH_Scene(size: screenSize, reloadData: reloadData)
             break
         case .LetterI_Scene:
@@ -182,6 +205,9 @@ extension GameSceneController{
             baseScene = LetterX_Scene(size: screenSize, reloadData: reloadData)
             break
         case .LetterZ_Scene:
+            Animal.loadResources {
+                print("Loaded animal class resources...")
+            }
             baseScene = LetterZ_Scene(size: screenSize, reloadData: reloadData)
             break
             

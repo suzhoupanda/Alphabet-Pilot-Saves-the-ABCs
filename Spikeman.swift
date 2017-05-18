@@ -42,7 +42,7 @@ class Spikeman: GKEntity{
         physicsBody.isDynamic = true
         
         physicsBody.categoryBitMask = CollisionConfiguration.Enemy.categoryMask
-        physicsBody.collisionBitMask = CollisionConfiguration.Player.categoryMask | 256
+        physicsBody.collisionBitMask = CollisionConfiguration.Player.categoryMask | CollisionConfiguration.Barrier.categoryMask | 256
         physicsBody.contactTestBitMask = 256
         
         physicsBody.linearDamping = 0.00

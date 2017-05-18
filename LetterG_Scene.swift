@@ -12,9 +12,11 @@ import GameplayKit
 
 class LetterG_Scene: BaseScene{
     
+    
+    
     convenience init(size: CGSize, reloadData: ReloadData?){
         
-        self.init(sksFileName: "SpaceScene1", size: size, reloadData: reloadData)
+        self.init(sksFileName: "PlaneScene1", size: size, reloadData: reloadData)
     }
     
     required init(sksFileName: String, size: CGSize, reloadData: ReloadData?) {
@@ -27,5 +29,34 @@ class LetterG_Scene: BaseScene{
     }
     
     
+    override func didMove(to view: SKView) {
+        super.didMove(to: view)
+        
+        player.renderComponent.node.position = CGPoint(x: 0.0, y: 180.0)
+    }
+    
+    override func addEnemy(node: SKNode) {
+        super.addEnemy(node: node)
+        
+        let positionValue = node.userData?.value(forKey: "position") as! NSValue
+        let position = positionValue.cgPointValue
+        
+        if let nodeName = node.name,nodeName.contains("Enemy/"){
+            
+            if nodeName.contains("Animal/"){
+                
+                if nodeName.contains("Giraffe"){
+                    
+                    let giraffe = Animal(animalType: .Giraffe, position: position, nodeName: "elephant\(position)", scalingFactor: 0.20)
+                    
+                    entityManager.addToWorld(giraffe)
+                }
+            }
+        }
+        
+    }
+    
+ 
+
 
 }

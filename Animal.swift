@@ -67,9 +67,25 @@ class Animal: Enemy{
         let animationComponent = BasicAnimationComponent(animationsDict: Animal.AnimationsDict)
         addComponent(animationComponent)
         
+        /**
+        var deviation: Double
+        var meanImpulseValue: Double
         
+        switch animalType{
+        case .Hippo:
+            break
+        case .Giraffe:
+            break
+        case .Elephant:
+            break
+        default:
+            break
+        } **/
         
-        let randomImpulseComponent = RandomImpulseComponent(impulseInterval: 2.00, meanImpulseValue: 500.00, deviation: 20.00)
+        let randomDist = GKRandomDistribution(lowestValue: -300, highestValue: 300)
+        let randomImpulseValue = randomDist.nextUniform()
+        
+        let randomImpulseComponent = RandomImpulseComponent(impulseInterval: 1.00, meanImpulseValue: randomImpulseValue, deviation: 100.00)
         addComponent(randomImpulseComponent)
         
       
