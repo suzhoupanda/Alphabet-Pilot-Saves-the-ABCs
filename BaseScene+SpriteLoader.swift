@@ -316,8 +316,26 @@ extension BaseScene{
             if nodeName.contains("Bee"){
                 
                 let targetNode = player.renderComponent.node
-              
-                let bee = Bee(position: position, nodeName: "bee\(position)", targetNode: targetNode, minimumProximityDistance: 300.00, scalingFactor: 0.50)
+
+                var bee: Bee = Bee(position: position, nodeName: "bee\(position)", targetNode: targetNode, minimumProximityDistance: 300.00, scalingFactor: 0.50)
+                
+                if nodeName.contains("Queen"){
+                    bee =  Bee(position: position, nodeName: "bee\(position)", targetNode: targetNode, minimumProximityDistance: 100.0, scalingFactor: 1.4)
+                    
+                }
+                
+                
+                if nodeName.contains("King"){
+                    bee =  Bee(position: position, nodeName: "bee\(position)", targetNode: targetNode, minimumProximityDistance: 200.0, scalingFactor: 1.0)
+                    
+                }
+                
+                if nodeName.contains("Prince"){
+                    bee =  Bee(position: position, nodeName: "bee\(position)", targetNode: targetNode, minimumProximityDistance: 250.0, scalingFactor: 0.8)
+                    
+                }
+                
+               
                 entityManager.addToWorld(bee)
                 
             }

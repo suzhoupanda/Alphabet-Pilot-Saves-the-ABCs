@@ -160,8 +160,11 @@ class Bee: Enemy{
         addComponent(contactHandlerComponent)
         
         if let scalingFactor = scalingFactor{
+            
             node.xScale *= scalingFactor
             node.yScale *= scalingFactor
+           
+        
         }
     }
     
