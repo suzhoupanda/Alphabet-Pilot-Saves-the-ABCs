@@ -44,8 +44,8 @@ extension LevelSceneMetaData{
         LevelSceneMetaData(letterScene: .LetterG_Scene, previewImage: #imageLiteral(resourceName: "LetterG_Scene3"), titleText: "Letter G", subTitleText: "G is for Giraffe", descriptionText: "Get through the giant giraffe heads.", onDemandResourceTags: nil),
         
         LevelSceneMetaData(letterScene: .LetterH_Scene, previewImage: #imageLiteral(resourceName: "LetterH_Scene"), titleText: "Letter H", subTitleText: "H is for Helicopter", descriptionText: "Don't hit the helicopter man!", onDemandResourceTags: nil),
-        LevelSceneMetaData(letterScene: .LetterI_Scene, previewImage: #imageLiteral(resourceName: "PreviewSample"), titleText: "Letter I", subTitleText: "I is for Ice", descriptionText: "Too much ice is in the way!", onDemandResourceTags: nil),
-        LevelSceneMetaData(letterScene: .LetterJ_Scene, previewImage: #imageLiteral(resourceName: "PreviewSample"), titleText: "Letter J", subTitleText: "J is for Jack-o-Lantern", descriptionText: "Jack-o-Lanterns just don't want you to win.", onDemandResourceTags: nil),
+        LevelSceneMetaData(letterScene: .LetterI_Scene, previewImage: #imageLiteral(resourceName: "LetterI_Scene"), titleText: "Letter I", subTitleText: "I is for Ice", descriptionText: "Too much ice is in the way!", onDemandResourceTags: nil),
+        LevelSceneMetaData(letterScene: .LetterJ_Scene, previewImage: #imageLiteral(resourceName: "LetterJ_Scene"), titleText: "Letter J", subTitleText: "J is for Jagged Rocks", descriptionText: "Jagged rocks stand between you and winning!", onDemandResourceTags: nil),
         LevelSceneMetaData(letterScene: .LetterK_Scene, previewImage: #imageLiteral(resourceName: "PreviewSample"), titleText: "Letter K", subTitleText: "K is for Killer Fly", descriptionText: "The key is the key to winning!", onDemandResourceTags: nil),
         LevelSceneMetaData(letterScene: .LetterL_Scene, previewImage: #imageLiteral(resourceName: "PreviewSample"), titleText: "Letter L", subTitleText: "L is for Lollipop", descriptionText: "Lollipops like to lure you away.", onDemandResourceTags: nil),
         
@@ -56,14 +56,14 @@ extension LevelSceneMetaData{
         LevelSceneMetaData(letterScene: .LetterQ_Scene, previewImage: #imageLiteral(resourceName: "PreviewSample"), titleText: "Letter Q", subTitleText: "Q is for Question Mark", descriptionText: "Find the letter A, don't hit any bombs along the way", onDemandResourceTags: nil),
         
         LevelSceneMetaData(letterScene: .LetterR_Scene, previewImage: #imageLiteral(resourceName: "PreviewSample"), titleText: "Letter R", subTitleText: "R is for Robot", descriptionText: "Remember to run away from evil robots!", onDemandResourceTags: nil),
-        LevelSceneMetaData(letterScene: .LetterS_Scene, previewImage: #imageLiteral(resourceName: "PreviewSample"), titleText: "Letter S", subTitleText: "S is for Sun", descriptionText: "Find the letter A, don't hit any bombs along the way", onDemandResourceTags: nil),
+        LevelSceneMetaData(letterScene: .LetterS_Scene, previewImage: #imageLiteral(resourceName: "LetterS_Scene"), titleText: "Letter S", subTitleText: "S is for Snow", descriptionText: "Find the letter S, try to fly through the snow", onDemandResourceTags: nil),
         LevelSceneMetaData(letterScene: .LetterT_Scene, previewImage: #imageLiteral(resourceName: "LetterT_Scene"), titleText: "Letter T", subTitleText: "T is for Tree", descriptionText: "Find the letter T, don't hit any sharp tree tops.", onDemandResourceTags: nil),
         LevelSceneMetaData(letterScene: .LetterU_Scene, previewImage: #imageLiteral(resourceName: "PreviewSample"), titleText: "Letter U", subTitleText: "U is for UFO", descriptionText: "Find the letter A, don't hit any bombs along the way", onDemandResourceTags: nil),
         LevelSceneMetaData(letterScene: .LetterV_Scene, previewImage: #imageLiteral(resourceName: "PreviewSample"), titleText: "Letter V", subTitleText: "V is for Volcano", descriptionText: "Find the letter A, don't hit any bombs along the way", onDemandResourceTags: nil),
         
         LevelSceneMetaData(letterScene: .LetterW_Scene, previewImage: #imageLiteral(resourceName: "PreviewSample"), titleText: "Letter W", subTitleText: "W is for Worm", descriptionText: "Find the letter A, don't hit any bombs along the way", onDemandResourceTags: nil),
-        LevelSceneMetaData(letterScene: .LetterX_Scene, previewImage: #imageLiteral(resourceName: "PreviewSample"), titleText: "Letter X", subTitleText: "X is for X-Ray", descriptionText: "Find the letter A, don't hit any bombs along the way", onDemandResourceTags: nil),
-        LevelSceneMetaData(letterScene: .LetterY_Scene, previewImage: #imageLiteral(resourceName: "PreviewSample"), titleText: "Letter Y", subTitleText: "Y is for Yo-Yo", descriptionText: "Find the letter A, don't hit any bombs along the way", onDemandResourceTags: nil),
+        LevelSceneMetaData(letterScene: .LetterX_Scene, previewImage: #imageLiteral(resourceName: "LetterX_Scene"), titleText: "Letter X", subTitleText: "X is for X-Ray Gun", descriptionText: "Watch out for deadly X-Ray guns that stand in your way", onDemandResourceTags: nil),
+        LevelSceneMetaData(letterScene: .LetterY_Scene, previewImage: #imageLiteral(resourceName: "LetterY_Scene"), titleText: "Letter Y", subTitleText: "Y is for Yummy Ice Cream", descriptionText: "Find the letter Y, try not to let the yummy ice cream tempt you", onDemandResourceTags: nil),
 
         LevelSceneMetaData(letterScene: .LetterZ_Scene, previewImage: #imageLiteral(resourceName: "LetterZ_Scene2"), titleText: "Letter Z", subTitleText: "Z is for Zoo Animals", descriptionText: "Find the letter Z, but watch out for all the zoo animals!", onDemandResourceTags: nil)
         

@@ -106,6 +106,8 @@ class HUDManager{
         if let mainHealthMeter = heartDisplay{
             mainHealthMeter.run(hudUpdateAction)
         }
+        
+        resetCoinMeter()
     }
     
     func updateHUD(forHealthLevel healthLevel: Int){
@@ -128,6 +130,7 @@ class HUDManager{
     
     func updateCoinMeter(numberOfGoldCoins: Int?, numberOfSilverCoins: Int?, numberOfBronzeCoins: Int?){
         
+        
         let numberFormatter = NumberFormatter()
         numberFormatter.minimumIntegerDigits = 3
         numberFormatter.minimumFractionDigits = 0
@@ -135,11 +138,13 @@ class HUDManager{
         
         if let numberOfGoldCoins = numberOfGoldCoins{
             let numberGoldCoins = NSNumber(value: numberOfGoldCoins)
-            let numberString = numberFormatter.string(from: numberGoldCoins)
+            
 
             
-            if let coinMeter = coinMeter,let goldCoinLabel = coinMeter.childNode(withName: "GoldCoinLabel") as? SKLabelNode{
+            if let coinMeter = coinMeter,let goldCoinLabel = coinMeter.childNode(withName: "GoldCoinLabel") as? SKLabelNode,let numberString = numberFormatter.string(from: numberGoldCoins){
                 
+                    print("Updating gold coin meter for goldCoinLabel \(goldCoinLabel) with \(numberString)...")
+
                     goldCoinLabel.text = numberString
             }
         }
@@ -147,10 +152,11 @@ class HUDManager{
         
         if let numberOfSilverCoins = numberOfSilverCoins{
             let numberSilverCoins = NSNumber(value: numberOfSilverCoins)
-            let numberString = numberFormatter.string(from: numberSilverCoins)
 
-            if let coinMeter = coinMeter,let silverCoinLabel = coinMeter.childNode(withName: "SilverCoinLabel") as? SKLabelNode{
+        if let coinMeter = coinMeter,let silverCoinLabel = coinMeter.childNode(withName: "SilverCoinLabel") as? SKLabelNode, let numberString = numberFormatter.string(from: numberSilverCoins){
                 
+                print("Updating silver coin meter for silverCoinLabel\(silverCoinLabel)...\(numberString)")
+
                 silverCoinLabel.text = numberString
             }
             
@@ -158,10 +164,12 @@ class HUDManager{
         
         if let numberOfBronzeCoins = numberOfBronzeCoins{
             let numberBronzeCoins = NSNumber(value: numberOfBronzeCoins)
-            let numberString = numberFormatter.string(from: numberBronzeCoins)
+            
 
-            if let coinMeter = coinMeter,let bronzeCoinLabel = coinMeter.childNode(withName: "BronzeCoinLabel") as? SKLabelNode{
+            if let coinMeter = coinMeter,let bronzeCoinLabel = coinMeter.childNode(withName: "BronzeCoinLabel") as? SKLabelNode, let numberString = numberFormatter.string(from: numberBronzeCoins){
                 
+                print("Updating bronze coin meter...\(bronzeCoinLabel) ...\(numberString)")
+
                 bronzeCoinLabel.text = numberString
             }
             

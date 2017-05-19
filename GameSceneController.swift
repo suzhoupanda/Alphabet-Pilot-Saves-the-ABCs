@@ -157,6 +157,9 @@ extension GameSceneController{
             baseScene = LetterH_Scene(size: screenSize, reloadData: reloadData)
             break
         case .LetterI_Scene:
+            Animal.loadResources {
+                print("Loaded animal class resources...")
+            }
             baseScene = LetterI_Scene(size: screenSize, reloadData: reloadData)
             break
         case .LetterJ_Scene:
@@ -204,15 +207,16 @@ extension GameSceneController{
         case .LetterX_Scene:
             baseScene = LetterX_Scene(size: screenSize, reloadData: reloadData)
             break
+        case .LetterY_Scene:
+            baseScene = LetterY_Scene(size: screenSize, reloadData: reloadData)
+            break
         case .LetterZ_Scene:
             Animal.loadResources {
                 print("Loaded animal class resources...")
             }
             baseScene = LetterZ_Scene(size: screenSize, reloadData: reloadData)
             break
-            
-        default:
-            break
+    
         }
         
         return baseScene

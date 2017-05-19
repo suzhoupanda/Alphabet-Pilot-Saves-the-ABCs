@@ -13,8 +13,19 @@ import SpriteKit
 
 class CollectibleStorageComponent: GKComponent{
     
-    var totalCoinValue = 0
+    var totalCoinValue: Int{
+    
+        get{
+            return goldCoinCount*5+silverCoinCount*3+bronzeCoinCount*2
+        }
+        
+       
+    }
+    
+    
     var lifeThreshold = 20
+    var thresholdJumpCount = 1
+    
     var processedNodeNames = [String]()
     
     var goldCoinCount: Int = 0
@@ -27,10 +38,13 @@ class CollectibleStorageComponent: GKComponent{
         self.init()
         
         self.lifeThreshold = lifeThreshold
+        self.thresholdJumpCount = 1
         self.goldCoinCount = 0
         self.silverCoinCount = 0
         self.bronzeCoinCount = 0
+        
     }
+    
     
     override init() {
         super.init()
@@ -51,9 +65,10 @@ class CollectibleStorageComponent: GKComponent{
             return
         }
         
-        if totalCoinValue > lifeThreshold{
+        if totalCoinValue > lifeThreshold*thresholdJumpCount{
             healthComponent.currentHealth += 1
-            totalCoinValue = 0
+            hudManager.updateHUD(forHealthLevel: healthComponent.currentHealth)
+            thresholdJumpCount += 1
         }
         
         
@@ -81,7 +96,6 @@ class CollectibleStorageComponent: GKComponent{
             return
         }
         
-        totalCoinValue += contactedCoinType.coinValue
         
         switch(contactedCoinType){
             case .Gold:

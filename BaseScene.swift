@@ -90,6 +90,8 @@ class BaseScene: SKScene {
         /** Set up HUD display **/
         setupHUD()
         
+        
+        
         /** Set up the pause button **/
         setupPauseButton()
         

@@ -81,7 +81,7 @@ extension BaseScene{
                                 
                                 if let optionsGroup = SKScene(fileNamed: "OverlayButtons")?.childNode(withName: "OptionsGroup"){
                                     optionsGroup.move(toParent: overlayNode)
-                                    optionsGroup.position = .zero
+                                    optionsGroup.position = CGPoint(x: 0.00, y: ScreenSizeConstants.HalfScreenHeight*0.20)
                                 }
                                 
                                 pauseButtonLabel.text = "Resume"
@@ -140,6 +140,26 @@ extension BaseScene{
                         saveCurrentGameSession()
                     }
                     
+                    if let coinMeterButton = button.childNode(withName: "CoinCount") as? SKSpriteNode, coinMeterButton.contains(touchLocationInOptionGroup){
+                        print("Saving Game...")
+                        
+                        button.removeFromParent()
+                        
+                        if let coinMeter = SKScene(fileNamed: "OverlayButtons")?.childNode(withName: "CoinMeter"){
+                            coinMeter.move(toParent: overlayNode)
+                            coinMeter.position = .zero
+                        }
+                        
+                        guard let coinComponent = player.component(ofType: CollectibleStorageComponent.self) else {
+                            print("Error: could not retrieve coin component for player after loading the coin meter from .sks file")
+                            return
+                        }
+                        
+                        hudManager.updateCoinMeter(numberOfGoldCoins: coinComponent.goldCoinCount, numberOfSilverCoins: coinComponent.silverCoinCount, numberOfBronzeCoins: coinComponent.bronzeCoinCount)
+                        
+                    }
+                    
+                    
                     if let recordButtonGroup = button.childNode(withName: "RecordGameplay") as? SKSpriteNode, recordButtonGroup.contains(touchLocationInOptionGroup){
                         
                         print("Showing restart buttons...")
@@ -155,6 +175,25 @@ extension BaseScene{
                         
                     }
                     
+                    
+                }
+                
+                
+                if button.name ==  "CoinMeter" && button.contains(touchLocationUI){
+                    
+                    let touchLocationInCoinMeter = touch.location(in: button)
+
+                    if let backButton = button.childNode(withName: "BackButton"), backButton.contains(touchLocationInCoinMeter){
+                        button.removeFromParent()
+                        
+                        if let optionsGroup = SKScene(fileNamed: "OverlayButtons")?.childNode(withName: "OptionsGroup"){
+                            optionsGroup.move(toParent: overlayNode)
+                            optionsGroup.position = CGPoint(x: 0.00, y: ScreenSizeConstants.HalfScreenHeight*0.20)
+                            
+                            
+                        }
+                        
+                    }
                     
                 }
                 
@@ -194,7 +233,7 @@ extension BaseScene{
                         
                         if let optionsGroup = SKScene(fileNamed: "OverlayButtons")?.childNode(withName: "OptionsGroup"){
                             optionsGroup.move(toParent: overlayNode)
-                            optionsGroup.position = .zero
+                            optionsGroup.position = CGPoint(x: 0.00, y: ScreenSizeConstants.HalfScreenHeight*0.20)
                         }
                         
                     }
