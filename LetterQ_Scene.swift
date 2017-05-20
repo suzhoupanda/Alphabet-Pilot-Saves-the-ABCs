@@ -27,5 +27,11 @@ class LetterQ_Scene: BaseScene{
     }
     
     
+    override func didMove(to view: SKView) {
+        super.didMove(to: view)
+        
+        letterScene = .LetterQ_Scene
+        sceneLetterTarget = "Q"
+    }
 
 }

@@ -84,7 +84,10 @@ class SavedGameDetailViewController: UIViewController{
         levelViewController.managedContext = managedContext
         levelViewController.collectionView?.backgroundColor = UIColor.GetCustomColor(customColor: .SharkFinWhite)
         
-        let reloadData = ReloadData(letterScene: .LetterA_Scene, planeColor: .Blue, playerXPos: 4000.00, playerYPos: -200.0, playerXVelocity: 50.0, playerYVelocity: 12.0, playerHealth: 3, playerGoldCoins: 1, playerSilverCoins: 1, playerBronzeCoins: 1, isDamaged: false)
+        guard let reloadData = reloadData else {
+            print("Error: failed to retrieve the reload data required to reload saved game")
+            return
+        }
         
         present(levelViewController, animated: true, completion: {
             

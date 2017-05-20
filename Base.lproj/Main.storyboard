@@ -10,6 +10,7 @@
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -298,12 +299,12 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E0S-jR-9KB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2354" y="-4255"/>
+            <point key="canvasLocation" x="-1833" y="-4644"/>
         </scene>
-        <!--Root View Controller-->
+        <!--Saved Games-->
         <scene sceneID="ymO-qZ-tzK">
             <objects>
-                <tableViewController id="81E-X9-QF3" customClass="SavedGameController" customModule="BadBoy_Bunny_Alphabet_Learner" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Saved Games" id="81E-X9-QF3" customClass="SavedGameController" customModule="BadBoy_Bunny_Alphabet_Learner" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="o7i-Od-qq4">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -313,18 +314,18 @@
                                 <rect key="frame" x="0.0" y="28" width="480" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WTv-n8-Bvb" id="Twn-2g-Ybc">
-                                    <rect key="frame" x="0.0" y="0.0" width="480" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="480" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="a9s-X1-fdk">
-                                            <rect key="frame" x="15" y="12" width="33.5" height="20.5"/>
+                                            <rect key="frame" x="15" y="11" width="34" height="21"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Q08-eb-UPj">
-                                            <rect key="frame" x="406" y="12" width="59" height="20.5"/>
+                                            <rect key="frame" x="406" y="11" width="59" height="21"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
@@ -340,24 +341,36 @@
                         </connections>
                     </tableView>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="naa-9o-59N">
+                    <navigationItem key="navigationItem" title="Saved Games" id="naa-9o-59N">
                         <barButtonItem key="leftBarButtonItem" title="Main Menu" id="O8Q-OF-2bu">
                             <connections>
                                 <segue destination="fQD-ju-V1w" kind="unwind" unwindAction="returnToMainMenuWithUnwindSavedGameSegue:" id="iDC-tE-Gz4"/>
                             </connections>
                         </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="trash" id="If9-7j-dGO">
+                                <connections>
+                                    <action selector="deleteSavedGame:" destination="81E-X9-QF3" id="A8N-zk-YZa"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="search" id="RFa-Lt-hL2">
+                                <connections>
+                                    <action selector="searchForSavedGame:" destination="81E-X9-QF3" id="xOs-Bc-cxC"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LEO-ib-4lY" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="fQD-ju-V1w" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-3828" y="-9409"/>
+            <point key="canvasLocation" x="-4018" y="-9791"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Saved Games-->
         <scene sceneID="bCe-hh-oal">
             <objects>
-                <navigationController id="cBA-lU-bZP" sceneMemberID="viewController">
+                <navigationController title="Saved Games" id="cBA-lU-bZP" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="mI1-VJ-6VH">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -368,7 +381,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vEM-Y9-hHn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4595" y="-9407"/>
+            <point key="canvasLocation" x="-4679" y="-9583"/>
         </scene>
         <!--MenuOptionsViewController-->
         <scene sceneID="WsN-0a-GaD">
@@ -667,7 +680,7 @@
                                 <rect key="frame" x="0.0" y="28" width="480" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Dkv-bY-SfT" id="5Zs-dq-P3p">
-                                    <rect key="frame" x="0.0" y="0.0" width="480" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="480" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -753,7 +766,7 @@
                                     </barButtonItem>
                                     <barButtonItem title="Load Game" width="150" id="cc9-Fu-s0Z">
                                         <connections>
-                                            <segue destination="qsx-uD-mdZ" kind="show" id="lIj-dA-MSX"/>
+                                            <segue destination="1Tv-HX-Q0A" kind="show" identifier="ShowSGCSegue" id="lIj-dA-MSX"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem title="Start Game" width="150" id="12Y-Qa-O9U">
@@ -891,22 +904,22 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vIT-Jd-Lxr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1429" y="-7639"/>
+            <point key="canvasLocation" x="-1639" y="-6019"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Saved Games-->
         <scene sceneID="2Wd-gI-YJO">
             <objects>
-                <tableViewController id="qsx-uD-mdZ" sceneMemberID="viewController">
+                <tableViewController id="qsx-uD-mdZ" customClass="SavedGameController" customModule="BadBoy_Bunny_Alphabet_Learner" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="zwo-h3-aiq">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="P3U-1h-yTD">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="GameSessionCell" id="P3U-1h-yTD">
                                 <rect key="frame" x="0.0" y="28" width="480" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="P3U-1h-yTD" id="rKK-QV-Jxz">
-                                    <rect key="frame" x="0.0" y="0.0" width="480" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="480" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -916,10 +929,25 @@
                             <outlet property="delegate" destination="qsx-uD-mdZ" id="7Pu-kv-wP4"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Saved Games" id="bK9-sG-IKD">
+                        <barButtonItem key="leftBarButtonItem" systemItem="search" id="WKP-XE-yxw">
+                            <connections>
+                                <action selector="searchForSavedGame:" destination="qsx-uD-mdZ" id="fZm-Kd-tKu"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Delete Game" id="63m-KQ-VE4">
+                            <connections>
+                                <action selector="deleteSavedGame:" destination="qsx-uD-mdZ" id="MHi-4L-VTO"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="navigationBar" destination="bK9-sG-IKD" id="Wgd-zJ-Guh"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SAq-24-ZVA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1141" y="-4172"/>
+            <point key="canvasLocation" x="-168" y="-4573"/>
         </scene>
         <!--Collection View Controller-->
         <scene sceneID="PbM-6i-ahd">
@@ -961,7 +989,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lbo-QV-JXn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-467" y="-4864"/>
+            <point key="canvasLocation" x="-35" y="-6463"/>
         </scene>
         <!--Game View Controller-->
         <scene sceneID="wGo-HJ-khc">
@@ -1475,6 +1503,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-697" y="-215"/>
+        </scene>
+        <!--Saved Games-->
+        <scene sceneID="uac-0F-ubY">
+            <objects>
+                <navigationController title="Saved Games" automaticallyAdjustsScrollViewInsets="NO" id="1Tv-HX-Q0A" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="TGz-Ot-7Ih">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="qsx-uD-mdZ" kind="relationship" relationship="rootViewController" id="RdG-OM-p7l"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HfK-Zt-GJf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-905" y="-5289"/>
         </scene>
     </scenes>
     <resources>

@@ -135,13 +135,11 @@ extension BaseScene{
                     }
                     
                     if let saveGameButton = button.childNode(withName: "SaveGame") as? SKSpriteNode, saveGameButton.contains(touchLocationInOptionGroup){
-                        print("Saving Game...")
                         
                         saveCurrentGameSession()
                     }
                     
                     if let coinMeterButton = button.childNode(withName: "CoinCount") as? SKSpriteNode, coinMeterButton.contains(touchLocationInOptionGroup){
-                        print("Saving Game...")
                         
                         button.removeFromParent()
                         

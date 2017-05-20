@@ -12,16 +12,66 @@ import CoreData
 
 class SavedGameController: UITableViewController{
     
+    
+    
+    @IBOutlet weak var navigationBar: UINavigationItem!
+    
+    
     var managedContext: NSManagedObjectContext!
     
-    var savedGames = [GameSession]()
+    var fetchedResultsController: NSFetchedResultsController<GameSession>!
+    
+    @IBAction func searchForSavedGame(_ sender: UIBarButtonItem) {
+        
+    }
+    
+    @IBAction func deleteSavedGame(_ sender: UIBarButtonItem) {
+        
+        tableView.isEditing = !tableView.isEditing
+    }
     
     @IBAction func returnToSavedGameMenu(savedGameSegue: UIStoryboardSegue){
         
         
+    
     }
   
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+      
+        
+    
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        
+        
+        let fetchRequest: NSFetchRequest<GameSession> = GameSession.fetchRequest()
+        
+        let levelSort = NSSortDescriptor(key: #keyPath(GameSession.scene), ascending: true)
+        
+        let dateSort = NSSortDescriptor(key: #keyPath(GameSession.dateSaved), ascending: true)
+        
+        fetchRequest.sortDescriptors = [levelSort,dateSort]
+        
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedContext, sectionNameKeyPath: #keyPath(GameSession.scene), cacheName: "savedGames")
+        
+        fetchedResultsController.delegate = self
+        
+        do{
+            try fetchedResultsController.performFetch()
+        } catch let error as NSError{
+            print("Fetching error: \(error), \(error.userInfo)")
+        }
+ 
+    
+    }
 }
+
+
 
 
 extension SavedGameController{
@@ -29,24 +79,97 @@ extension SavedGameController{
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         
-        return 1
+        guard let sections = fetchedResultsController.sections else {
+            return 0
+        }
+        return sections.count
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return savedGames.count
+        guard let sectionInfo = fetchedResultsController.sections?[section] else {
+            return 0
+        }
+        
+        return sectionInfo.numberOfObjects
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         var cell = tableView.dequeueReusableCell(withIdentifier: "GameSessionCell", for: indexPath)
         
-        let gameSession = savedGames[indexPath.row]
+        let gameSession = fetchedResultsController.object(at: indexPath)
         
         configureTableViewCell(forTableViewCell: &cell, withGameSessionDataFrom: gameSession)
         
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        let sectionInfo = fetchedResultsController.sections?[section]
+        
+        return sectionInfo?.name
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete{
+            
+            
+            /**
+            
+            var shouldDelete = true
+            
+            let alertController = UIAlertController(title: "Delete Saved Game", message: "Are you want to delete the saved game?", preferredStyle: .alert)
+            
+            let confirmAction = UIAlertAction(title: "Confirm", style: .default, handler: nil)
+            
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {
+                
+                _ in
+                
+                shouldDelete = false
+                
+            })
+            
+            alertController.addAction(confirmAction)
+            alertController.addAction(cancelAction)
+            
+            present(alertController, animated: true, completion: {
+            
+                if shouldDelete {
+                    
+                    //Row-deletion code
+                    
+                }
+            
+            
+            })
+            **/
+            
+            
+            let objectToDelete = self.fetchedResultsController.object(at: indexPath)
+            self.managedContext.delete(objectToDelete)
+            
+            do{
+                try self.managedContext.save()
+            } catch let error as NSError{
+                print("Error occurred while saving fetched results controller data after deletion.  \(error), \(error.userInfo)")
+            }
+            
+            
+        }
+    }
+    
+   
+    
     
 }
 
@@ -59,7 +182,7 @@ extension SavedGameController{
         
         //Retrieve the GameSession information corresponding to the selected row 
         
-        let gameSession = savedGames[indexPath.row]
+        let gameSession = fetchedResultsController.object(at: indexPath)
         
         //Instantatied a SavedGameDetailViewController from the GameSession data
         
@@ -73,8 +196,12 @@ extension SavedGameController{
     
     func configureTableViewCell(forTableViewCell cell: inout UITableViewCell, withGameSessionDataFrom gameSession: GameSession){
         
-        cell.textLabel?.text = gameSession.scene
         
+        let planeColorText = gameSession.planeColor ?? "Red"
+        
+        cell.textLabel?.text = "Player Color: \(planeColorText)"
+
+
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .short
@@ -137,6 +264,9 @@ extension SavedGameController{
         
     }
    
+    //MARK::    ********** Restrictions on User-Interface Orientations (restrict the SaveGameController to portrait mode)
+    
+    
     override var supportedInterfaceOrientations:UIInterfaceOrientationMask {
         return UIInterfaceOrientationMask.portrait
     }
@@ -145,7 +275,33 @@ extension SavedGameController{
         return .portrait
     }
     
-    override var shouldAutorotate: Bool{
-        return false
+    
+}
+
+
+//MARK: ******** NSFetchedResultsControllerDelegate
+
+extension SavedGameController: NSFetchedResultsControllerDelegate{
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        
+        switch type{
+        case .delete:
+            tableView.deleteRows(at: [indexPath!], with: .automatic)
+            break
+        default:
+            break
+        }
+    }
+    
+    
+    
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
     }
 }

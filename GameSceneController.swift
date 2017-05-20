@@ -172,12 +172,21 @@ extension GameSceneController{
             baseScene = LetterL_Scene(size: screenSize, reloadData: reloadData)
             break
         case .LetterM_Scene:
+            Animal.loadResources {
+                print("Loaded resources for monkey scene..")
+            }
             baseScene = LetterM_Scene(size: screenSize, reloadData: reloadData)
             break
         case .LetterN_Scene:
+            Animal.loadResources {
+                print("Loaded resources for snake scene...")
+            }
             baseScene = LetterN_Scene(size: screenSize, reloadData: reloadData)
             break
         case .LetterO_Scene:
+            Animal.loadResources {
+                print("Loaded resources for penguin scene...")
+            }
             baseScene = LetterO_Scene(size: screenSize, reloadData: reloadData)
             break
         case .LetterP_Scene:
@@ -187,6 +196,9 @@ extension GameSceneController{
             baseScene = LetterQ_Scene(size: screenSize, reloadData: reloadData)
             break
         case .LetterR_Scene:
+            Animal.loadResources {
+                print("Loaded resources for rabbit scene...")
+            }
             baseScene = LetterR_Scene(size: screenSize, reloadData: reloadData)
             break
         case .LetterS_Scene:
@@ -196,6 +208,9 @@ extension GameSceneController{
             baseScene = LetterT_Scene(size: screenSize, reloadData: reloadData)
             break
         case .LetterU_Scene:
+            Animal.loadResources {
+                print("Loaded resources for penguin scene...")
+            }
             baseScene = LetterU_Scene(size: screenSize, reloadData: reloadData)
             break
         case .LetterV_Scene:

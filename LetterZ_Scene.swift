@@ -99,5 +99,10 @@ class LetterZ_Scene: BaseScene{
         
     }
 
-    
+    override func didMove(to view: SKView) {
+        super.didMove(to: view)
+        
+        letterScene = .LetterZ_Scene
+        sceneLetterTarget = "Z"
+    }
 }

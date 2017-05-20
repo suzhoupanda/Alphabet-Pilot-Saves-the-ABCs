@@ -1,0 +1,63 @@
+ [
+  
+  kPlayerMovementInfoKey : [
+                      {
+                      "Question": "How can the player be moved up and down?",
+                      "Answer": "Africa",
+                      },
+                      
+                      {
+                      "Question": "Can the player be moved backwards?",
+                      "Answer": "Africa",
+                      },
+                      
+                      {
+                      "Question": "Can the player's forward speed be adjusted?",
+                      "Answer": "Africa",
+                      }
+                      
+                      ],
+  
+  kGameWinLossKey : [
+  
+                        {
+                          "Question": "How does the player win?",
+                          "Answer": "",
+                        },
+                        
+                        {
+                        "Question": "How does the player lose?",
+                        "Answer": "",
+                        }
+                               
+                    ],
+  
+  kEnemiesInfoKey : [
+                               
+                    {
+                    "Question": "How does the player win?",
+                    "Answer": "",
+                    },
+                               
+                    {
+                    "Question": "How does the player lose?",
+                    "Answer": "",
+                    }
+                               
+              ],
+  
+  kOtherFAQKey : [
+              
+              {
+              "Question": "How does the player win?",
+              "Answer": "",
+              },
+              
+              {
+              "Question": "How does the player lose?",
+              "Answer": "",
+              }
+              
+            ],
+  
+  ]

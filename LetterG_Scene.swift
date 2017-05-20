@@ -33,6 +33,10 @@ class LetterG_Scene: BaseScene{
         super.didMove(to: view)
         
         player.renderComponent.node.position = CGPoint(x: 0.0, y: 180.0)
+        
+        
+        letterScene = .LetterG_Scene
+        sceneLetterTarget = "G"
     }
     
     override func addEnemy(node: SKNode) {

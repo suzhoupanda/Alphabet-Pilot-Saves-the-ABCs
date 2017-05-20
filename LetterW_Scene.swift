@@ -14,7 +14,7 @@ class LetterW_Scene: BaseScene{
     
     convenience init(size: CGSize, reloadData: ReloadData?){
         
-        self.init(sksFileName: "SpaceScene1", size: size, reloadData: reloadData)
+        self.init(sksFileName: "MetalScene2", size: size, reloadData: reloadData)
     }
     
     required init(sksFileName: String, size: CGSize, reloadData: ReloadData?) {
@@ -26,6 +26,11 @@ class LetterW_Scene: BaseScene{
         fatalError("init(coder:) has not been implemented")
     }
     
-    
+    override func didMove(to view: SKView) {
+        super.didMove(to: view)
+        
+        letterScene = .LetterW_Scene
+        sceneLetterTarget = "W"
+    }
 
 }

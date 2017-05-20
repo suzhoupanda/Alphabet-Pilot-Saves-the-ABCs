@@ -58,6 +58,10 @@ class LetterA_Scene: BaseScene{
         }
         
         super.didMove(to: view)
+        
+        letterScene = .LetterA_Scene
+        sceneLetterTarget = "A"
+        
     }
     
     

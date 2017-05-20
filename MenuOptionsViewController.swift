@@ -27,6 +27,7 @@ class MenuOptionsViewController: UIViewController{
         
         //Make sure the texture atlas manager singleton is instantiated
         TextureAtlasManager.sharedManager
+        JSONManager.sharedHelper.printJSONData()
         
     }
 
@@ -147,18 +148,9 @@ class MenuOptionsViewController: UIViewController{
             savedGameController.managedContext = self.managedContext
             
             
+           
             
-            
-            //Fetch all saved games prior to showing the saved game view controller
-            
-            do{
-              
-                let fetchRequest = NSFetchRequest<GameSession>(entityName: "GameSession")
-                
-                savedGameController.savedGames = try managedContext.fetch(fetchRequest)
-            } catch let error as NSError{
-                print("Failed to load saved game: \(error),\(error.localizedDescription)")
-            }
+
             
         }
     }

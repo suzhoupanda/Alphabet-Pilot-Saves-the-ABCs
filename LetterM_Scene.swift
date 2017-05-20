@@ -14,7 +14,7 @@ class LetterM_Scene: BaseScene{
     
     convenience init(size: CGSize, reloadData: ReloadData?){
         
-        self.init(sksFileName: "SpaceScene1", size: size, reloadData: reloadData)
+        self.init(sksFileName: "PlaneScene4", size: size, reloadData: reloadData)
     }
     
     required init(sksFileName: String, size: CGSize, reloadData: ReloadData?) {
@@ -26,5 +26,32 @@ class LetterM_Scene: BaseScene{
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func didMove(to view: SKView) {
+        super.didMove(to: view)
+        
+        letterScene = .LetterM_Scene
+        sceneLetterTarget = "M"
+    }
+    
+    override func addEnemy(node: SKNode) {
+        super.addEnemy(node: node)
+        
+        let positionValue = node.userData?.value(forKey: "position") as! NSValue
+        let position = positionValue.cgPointValue
+        
+        if let nodeName = node.name,nodeName.contains("Enemy/"){
+            
+            if nodeName.contains("Animal/"){
+                
+                if nodeName.contains("Monkey"){
+                    
+                    let monkey = Animal(animalType: .Monkey, position: position, nodeName: "monkey\(position)", scalingFactor: 0.20)
+                    
+                    entityManager.addToWorld(monkey)
+                }
+            }
+        }
+        
+    }
 
 }

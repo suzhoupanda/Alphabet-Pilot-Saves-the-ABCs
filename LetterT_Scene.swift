@@ -26,4 +26,11 @@ class LetterT_Scene: BaseScene{
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func didMove(to view: SKView) {
+        super.didMove(to: view)
+        
+        letterScene = .LetterT_Scene
+        sceneLetterTarget = "T"
+    }
+    
 }

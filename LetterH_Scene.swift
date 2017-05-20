@@ -29,6 +29,10 @@ class LetterH_Scene: BaseScene{
     override func didMove(to view: SKView) {
         super.didMove(to: view)
         
+        
+        letterScene = .LetterH_Scene
+        sceneLetterTarget = "H"
+        
         player.renderComponent.node.position = CGPoint(x: 0.00, y: 0.00)
         player.renderComponent.node.zPosition = 4
     }

@@ -14,7 +14,7 @@ class LetterO_Scene: BaseScene{
     
     convenience init(size: CGSize, reloadData: ReloadData?){
         
-        self.init(sksFileName: "SpaceScene1", size: size, reloadData: reloadData)
+        self.init(sksFileName: "IceScene1", size: size, reloadData: reloadData)
     }
     
     required init(sksFileName: String, size: CGSize, reloadData: ReloadData?) {
@@ -26,6 +26,32 @@ class LetterO_Scene: BaseScene{
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func didMove(to view: SKView) {
+        super.didMove(to: view)
+        
+        letterScene = .LetterO_Scene
+        sceneLetterTarget = "O"
+    }
     
+    override func addEnemy(node: SKNode) {
+        super.addEnemy(node: node)
+        
+        let positionValue = node.userData?.value(forKey: "position") as! NSValue
+        let position = positionValue.cgPointValue
+        
+        if let nodeName = node.name,nodeName.contains("Enemy/"){
+            
+            if nodeName.contains("Animal/"){
+                
+                if nodeName.contains("Penguin"){
+                    
+                    let penguin = Animal(animalType: .Penguin, position: position, nodeName: "penguin\(position)", scalingFactor: 0.20)
+                    
+                    entityManager.addToWorld(penguin)
+                }
+            }
+        }
+        
+    }
 
 }

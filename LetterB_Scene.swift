@@ -24,5 +24,12 @@ class LetterB_Scene: BaseScene{
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func didMove(to view: SKView) {
+        super.didMove(to: view)
+        
+        letterScene = .LetterB_Scene
+        sceneLetterTarget = "B"
+    }
 
 }
