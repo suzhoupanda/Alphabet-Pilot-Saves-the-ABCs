@@ -358,8 +358,23 @@ extension BaseScene{
             if nodeName.contains("EvilSun"){
                 
                 let evilSun = EvilSun(position: position, nodeName: "evilSun\(position)", scalingFactor: 0.50)
+                
+                if let renderNode = evilSun.component(ofType: RenderComponent.self)?.node,let fireNode = SKScene(fileNamed: "Fire.sks"), nodeName.contains("Fire"){
+                    
+                    renderNode.xScale *= 0.5
+                    renderNode.yScale *= 0.5
+                    
+                    renderNode.addChild(fireNode)
+                    fireNode.position = .zero
+                    fireNode.zPosition = -3
+                    
+                   
+
+                }
+                
                 entityManager.addToWorld(evilSun)
                 
+               
  
             }
             

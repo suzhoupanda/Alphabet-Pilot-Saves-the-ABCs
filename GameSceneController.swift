@@ -169,6 +169,9 @@ extension GameSceneController{
             baseScene = LetterK_Scene(size: screenSize, reloadData: reloadData)
             break
         case .LetterL_Scene:
+            Animal.loadResources {
+                print("Loaded resources for panda scene...")
+            }
             baseScene = LetterL_Scene(size: screenSize, reloadData: reloadData)
             break
         case .LetterM_Scene:

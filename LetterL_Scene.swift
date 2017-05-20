@@ -14,7 +14,7 @@ class LetterL_Scene: BaseScene{
     
     convenience init(size: CGSize, reloadData: ReloadData?){
         
-        self.init(sksFileName: "SpaceScene1", size: size, reloadData: reloadData)
+        self.init(sksFileName: "ForestScene3", size: size, reloadData: reloadData)
     }
     
     required init(sksFileName: String, size: CGSize, reloadData: ReloadData?) {
@@ -31,5 +31,26 @@ class LetterL_Scene: BaseScene{
         
         letterScene = .LetterL_Scene
         sceneLetterTarget = "L"
+    }
+    
+    override func addEnemy(node: SKNode) {
+        super.addEnemy(node: node)
+        
+        let positionValue = node.userData?.value(forKey: "position") as! NSValue
+        let position = positionValue.cgPointValue
+        
+        if let nodeName = node.name,nodeName.contains("Enemy/"){
+            
+            if nodeName.contains("Animal/"){
+                
+                if nodeName.contains("Panda"){
+                    
+                    let panda = Animal(animalType: .Panda, position: position, nodeName: "panda\(position)", scalingFactor: 0.20)
+                    
+                    entityManager.addToWorld(panda)
+                }
+            }
+        }
+        
     }
 }
