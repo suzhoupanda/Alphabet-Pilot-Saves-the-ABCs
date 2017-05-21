@@ -43,16 +43,27 @@ class HUDManager{
     
     init(){
         
-        if let sksHeartDisplay = SKScene(fileNamed: "OverlayButtons")?.childNode(withName: "HeartDisplay") as? SKSpriteNode {
+        loadHUDfromCache()
         
+    }
+    
+    func loadHUDfromCache(){
+        if let sksHeartDisplay = SKScene(fileNamed: "OverlayButtons")?.childNode(withName: "HeartDisplay") as? SKSpriteNode {
+            
             heartDisplay = sksHeartDisplay
         }
         
         if let sksCoinMeter = SKScene(fileNamed: "OverlayButtons")?.childNode(withName: "CoinMeter") as? SKSpriteNode{
             coinMeter = sksCoinMeter
         }
-        
+
     }
+    
+    func clearHUDCache(){
+        heartDisplay = nil
+        coinMeter = nil
+    }
+    
     
     func getMainHealthMeter() -> SKSpriteNode?{
         return heartDisplay

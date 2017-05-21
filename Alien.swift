@@ -34,16 +34,16 @@ class Alien: Enemy{
         
         switch(alienColor){
         case .Pink:
-            texture = SKTexture(image: #imageLiteral(resourceName: "shipPink_manned"))
+            texture = TextureAtlasManager.sharedManager.alienTextureAtlas?.textureNamed("shipPink_manned")
             break
         case .Blue:
-            texture = SKTexture(image: #imageLiteral(resourceName: "shipBlue_manned"))
+             texture = TextureAtlasManager.sharedManager.alienTextureAtlas?.textureNamed("shipBlue_manned")
             break
         case .Beige:
-            texture = SKTexture(image: #imageLiteral(resourceName: "shipBeige_manned"))
+             texture = TextureAtlasManager.sharedManager.alienTextureAtlas?.textureNamed("shipBeige_manned")
             break
         case .Yellow:
-            texture = SKTexture(image: #imageLiteral(resourceName: "shipYellow_manned"))
+             texture = TextureAtlasManager.sharedManager.alienTextureAtlas?.textureNamed("shipYellow_manned")
             break
         }
         

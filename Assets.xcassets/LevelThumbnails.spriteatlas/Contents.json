@@ -4,6 +4,7 @@
     "author" : "xcode"
   },
   "properties" : {
+    "compression-type" : "lossy",
     "on-demand-resource-tags" : [
       "LevelThumbnails"
     ]

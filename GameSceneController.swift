@@ -18,6 +18,8 @@ class GameSceneController: UIViewController{
     
     var reloadData: ReloadData?
     
+    var baseScene: BaseScene?
+    
     override func viewWillLayoutSubviews() {
         
         print("Laying out subview in GameScene ViewController...")
@@ -31,6 +33,12 @@ class GameSceneController: UIViewController{
         super.viewWillDisappear(animated)
         
         screenRecorderHelper.presentingViewController = nil
+        
+        HUDManager.sharedHUDManager.clearHUDCache()
+        
+        letterScene!.purgeResources()
+        
+        baseScene = nil
         
         guard let letterScene = letterScene else {
             print("Error: the letter scene must be set in order for loadable types to be deallocated")
@@ -52,6 +60,9 @@ class GameSceneController: UIViewController{
         
         screenRecorderHelper.presentingViewController = self
         
+        HUDManager.sharedHUDManager.loadHUDfromCache()
+        
+        letterScene!.loadSceneResources()
         
         if let skView = self.view as! SKView?, let letterScene = letterScene{
             
@@ -59,7 +70,7 @@ class GameSceneController: UIViewController{
             
             
             
-            let baseScene: BaseScene = reloadData != nil ? GameSceneController.GetSceneForLetterSceneType(letterScene: letterScene, reloadData: reloadData!) : GameSceneController.GetSceneForLetterSceneType(letterScene: letterScene, reloadData: nil)
+            baseScene = reloadData != nil ? GameSceneController.GetSceneForLetterSceneType(letterScene: letterScene, reloadData: reloadData!) : GameSceneController.GetSceneForLetterSceneType(letterScene: letterScene, reloadData: nil)
             
             print("About to present the Base Scene...")
             
@@ -141,25 +152,16 @@ extension GameSceneController{
             baseScene = LetterF_Scene(size: screenSize, reloadData: reloadData)
             break
         case .LetterG_Scene:
-            Animal.loadResources {
-                print("Loaded animal class resources...")
-            }
-            
+          
             baseScene = LetterG_Scene(size: screenSize, reloadData: reloadData)
             print("Loaded animal class reources...")
             
             break
         case .LetterH_Scene:
-            Animal.loadResources {
-                print("Loaded animal class resources...")
-            }
             
             baseScene = LetterH_Scene(size: screenSize, reloadData: reloadData)
             break
         case .LetterI_Scene:
-            Animal.loadResources {
-                print("Loaded animal class resources...")
-            }
             baseScene = LetterI_Scene(size: screenSize, reloadData: reloadData)
             break
         case .LetterJ_Scene:
@@ -169,27 +171,17 @@ extension GameSceneController{
             baseScene = LetterK_Scene(size: screenSize, reloadData: reloadData)
             break
         case .LetterL_Scene:
-            Animal.loadResources {
-                print("Loaded resources for panda scene...")
-            }
             baseScene = LetterL_Scene(size: screenSize, reloadData: reloadData)
             break
         case .LetterM_Scene:
-            Animal.loadResources {
-                print("Loaded resources for monkey scene..")
-            }
             baseScene = LetterM_Scene(size: screenSize, reloadData: reloadData)
             break
         case .LetterN_Scene:
-            Animal.loadResources {
-                print("Loaded resources for snake scene...")
-            }
+          
             baseScene = LetterN_Scene(size: screenSize, reloadData: reloadData)
             break
         case .LetterO_Scene:
-            Animal.loadResources {
-                print("Loaded resources for penguin scene...")
-            }
+           
             baseScene = LetterO_Scene(size: screenSize, reloadData: reloadData)
             break
         case .LetterP_Scene:
@@ -199,9 +191,6 @@ extension GameSceneController{
             baseScene = LetterQ_Scene(size: screenSize, reloadData: reloadData)
             break
         case .LetterR_Scene:
-            Animal.loadResources {
-                print("Loaded resources for rabbit scene...")
-            }
             baseScene = LetterR_Scene(size: screenSize, reloadData: reloadData)
             break
         case .LetterS_Scene:
@@ -211,9 +200,6 @@ extension GameSceneController{
             baseScene = LetterT_Scene(size: screenSize, reloadData: reloadData)
             break
         case .LetterU_Scene:
-            Animal.loadResources {
-                print("Loaded resources for penguin scene...")
-            }
             baseScene = LetterU_Scene(size: screenSize, reloadData: reloadData)
             break
         case .LetterV_Scene:
@@ -229,13 +215,15 @@ extension GameSceneController{
             baseScene = LetterY_Scene(size: screenSize, reloadData: reloadData)
             break
         case .LetterZ_Scene:
-            Animal.loadResources {
-                print("Loaded animal class resources...")
-            }
             baseScene = LetterZ_Scene(size: screenSize, reloadData: reloadData)
             break
     
         }
+        
+        let bg = SKAudioNode(fileNamed: letterScene.getBackGroundMusicFileName())
+        bg.autoplayLooped = true
+        baseScene.addChild(bg)
+       
         
         return baseScene
     }

@@ -77,15 +77,10 @@ class TextureAtlasManager{
     ]
     
     static let commonTextureAtlases: [String] = [
-        "UIButtonsBlue",
-        "HUD",
         "Planes",
         "RegularExplosion",
         "Letter",
-        "Coins",
-        "Collectibles",
-        "LevelThumbnails",
-        "RecordButtons"
+        "Coins"
     ]
     
     //MARK: ********* Texture atlases below are pre-loaded at the start of the app because of recurring usage throughout different scene-levels (i.e. UI texture atlas)
@@ -133,6 +128,8 @@ class TextureAtlasManager{
     
     private init(){
         loadCommonTextureAtlases()
+
+        
     }
     
     private func loadAllTextureAtlases(){
@@ -195,15 +192,11 @@ class TextureAtlasManager{
                 print("Error: error occurred while preloading common texture atlases \(error?.localizedDescription)")
             }
             
-            self.uiButtonsTextureAtlas = commonTextureAtlases[0]
-            self.hudTextureAtlas = commonTextureAtlases[1]
-            self.planeTextureAtlas = commonTextureAtlases[2]
-            self.regularExplosionTextureAtlas = commonTextureAtlases[3]
-            self.letterTextureAtlas = commonTextureAtlases[4]
-            self.coinTextureAtlas = commonTextureAtlases[5]
-            self.collectiblesTextureAtlas = commonTextureAtlases[6]
-            self.levelThumbnailsAtlas = commonTextureAtlases[7]
-            self.recordButtonsAtlas = commonTextureAtlases[8]
+            self.planeTextureAtlas = commonTextureAtlases[0]
+            self.regularExplosionTextureAtlas = commonTextureAtlases[1]
+            self.letterTextureAtlas = commonTextureAtlases[2]
+            self.coinTextureAtlas = commonTextureAtlases[3]
+
         })
         
         print("Common texture atlases loaded!")

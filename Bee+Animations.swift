@@ -51,27 +51,29 @@ extension Bee{
     static let AnimationsDict: [String: SKAction] = [
         
         "beeFlyLeft": SKAction.animate(with: [
-            SKTexture(image: #imageLiteral(resourceName: "bee_fly")),
-            SKTexture(image: #imageLiteral(resourceName: "bee"))
+            TextureAtlasManager.sharedManager.beeTextureAtlas!.textureNamed("bee_fly"),
+            TextureAtlasManager.sharedManager.beeTextureAtlas!.textureNamed("bee"),
             ], timePerFrame: 0.10),
         
         "beeFlyRight": SKAction.animate(with: [
-            SKTexture(image: #imageLiteral(resourceName: "beeRight")),
-            SKTexture(image: #imageLiteral(resourceName: "bee_flyRight"))
+            TextureAtlasManager.sharedManager.beeTextureAtlas!.textureNamed("beeRight"),
+            TextureAtlasManager.sharedManager.beeTextureAtlas!.textureNamed("bee_flyRight")
+
             ], timePerFrame: 0.10),
         
-        "beeDeadLeft": SKAction.setTexture(SKTexture(image: #imageLiteral(resourceName: "bee_dead"))),
+        "beeDeadLeft": SKAction.setTexture(TextureAtlasManager.sharedManager.beeTextureAtlas!.textureNamed("bee_dead")),
         
-        "beeDeadRight": SKAction.setTexture(SKTexture(image: #imageLiteral(resourceName: "beeDeadRight"))),
+        "beeDeadRight": SKAction.setTexture(TextureAtlasManager.sharedManager.beeTextureAtlas!.textureNamed("beeDeadRight")),
         
         "beeAttackLeft": SKAction.animate(with: [
-            SKTexture(image: #imageLiteral(resourceName: "bee_hit")),
-            SKTexture(image: #imageLiteral(resourceName: "bee"))
+            TextureAtlasManager.sharedManager.beeTextureAtlas!.textureNamed("bee_hit"),
+            TextureAtlasManager.sharedManager.beeTextureAtlas!.textureNamed("bee"),
+
             ], timePerFrame: 0.10),
         
         "beeAttackRight": SKAction.animate(with: [
-            SKTexture(image: #imageLiteral(resourceName: "beeRight")),
-            SKTexture(image: #imageLiteral(resourceName: "bee_hitRight"))
+            TextureAtlasManager.sharedManager.beeTextureAtlas!.textureNamed("beeRight"),
+            TextureAtlasManager.sharedManager.beeTextureAtlas!.textureNamed("bee_hitRight")
             ], timePerFrame: 0.10)
         
     ]

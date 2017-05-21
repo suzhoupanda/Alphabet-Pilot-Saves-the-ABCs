@@ -11,7 +11,6 @@ import UIKit
 
 
 protocol GameMetaData{
-    var previewImage: UIImage { get set }
     var titleText: String { get set }
     var subTitleText: String { get set }
     var descriptionText: String? { get set }

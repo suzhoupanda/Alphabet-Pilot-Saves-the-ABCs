@@ -25,14 +25,15 @@ class LevelViewController: UICollectionViewController{
     
     var screenRecorderHelper = ScreenRecorderHelper.sharedHelper
     
-    var levelInformationArray = [LevelInformation]()
+   // var levelInformationArray = [LevelInformation]()
     
-    var completedLevels: [LevelInformation]{
+    /**
+     var completedLevels: [LevelInformation]{
         get{
             return levelInformationArray.filter{ $0.completed }
         }
     }
-    
+    **/
     
     var managedContext: NSManagedObjectContext?
     
@@ -43,6 +44,7 @@ class LevelViewController: UICollectionViewController{
         
         screenRecorderHelper.presentingViewController = nil
         
+        MusicHelper.sharedHelper.turnOffBackgroundMusic()
     }
     
     
@@ -51,6 +53,9 @@ class LevelViewController: UICollectionViewController{
         
         screenRecorderHelper.presentingViewController = self
         
+        MusicHelper.sharedHelper.playBackgroundMusic(musicFileName: "Wacky Waiting")
+        
+        /**
         if let managedContext = managedContext{
             
             do{
@@ -65,7 +70,7 @@ class LevelViewController: UICollectionViewController{
             
         }
         
-        
+        **/
     }
     
     override func viewWillLayoutSubviews() {
@@ -129,6 +134,8 @@ class LevelViewController: UICollectionViewController{
         
     }
     
+
+    
     override func didMove(toParentViewController parent: UIViewController?) {
         super.didMove(toParentViewController: parent)
         
@@ -170,13 +177,36 @@ extension LevelViewController{
             cell.titleText = levelSceneMetaData.titleText
             
             
-            let subTitleText = completedLevels.filter{ $0.levelScene == levelSceneMetaData.letterScene.rawValue}.isEmpty ? "INCOMPLETE" : "COMPLETED"
+           // let subTitleText = completedLevels.filter{ $0.levelScene == levelSceneMetaData.letterScene.rawValue}.isEmpty ? "INCOMPLETE" : "COMPLETED"
                 
 
             
-            cell.subtitleText = subTitleText
+           // cell.subtitleText = subTitleText
+            
+            
+            if let cachedThumbnail = LevelThumbnailCache.sharedCache.imageForLetterScene(letterScene: levelSceneMetaData.letterScene){
+                
+                cell.previewImage = cachedThumbnail
+
+            } else {
+                DispatchQueue.global().async {
+                    LevelThumbnailCache.sharedCache.setImage(forLetterScene: levelSceneMetaData.letterScene){
+                        
+                        thumbnailImage in
+                        
+                        DispatchQueue.main.async {
+                            if thumbnailImage != nil{
+                                cell.previewImage = thumbnailImage!
+                            } else {
+                                cell.previewImage = UIImage()
+                            }
+                        }
+                    }
+                    
+                }
+            }
+            
             cell.descriptionText = levelSceneMetaData.descriptionText
-            cell.previewImage = levelSceneMetaData.previewImage
             
             
             cell.backgroundColor =  UIColor.GetCustomColor(customColor: .GrassyGreen)
@@ -243,6 +273,9 @@ extension LevelViewController{
         
         print("Starting to load game...")
         
+        //Clear the level thumbnail cache, since user is not likely to be scrolling through collection view thumbnails while gameplay is in progress
+        LevelThumbnailCache.sharedCache.clearCache()
+
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
         
         self.mainMotionManager.startDeviceMotionUpdates()
@@ -310,8 +343,21 @@ extension LevelViewController{
     
     func exitGame(notification: Notification){
         
+
         if let gameSceneViewController = presentedViewController as? GameSceneController{
+            
             gameSceneViewController.dismiss(animated: true, completion: {
+                
+            
+                //Release the GameScene controller's view from memory and purge the currently-running base scene from memory cache, as well as the ReloadData (if any) and LevelScene configuration data used to initialize the Base Scene
+                
+                gameSceneViewController.view = nil
+
+                gameSceneViewController.baseScene = nil
+                
+                gameSceneViewController.letterScene = nil
+                
+                gameSceneViewController.reloadData = nil
                 
                 //Once the Game Scene Controller is dismissed, it's no longer necessary to continue receiving motion updates for player position
                 
@@ -342,6 +388,47 @@ extension LevelViewController{
         
         NotificationCenter.default.addObserver(self, selector: #selector(LevelViewController.reloadCurrentGame(notification:)), name: Notification.Name.ReloadCurrentGameNotification, object: nil)
         
+       /** NotificationCenter.default.addObserver(forName: Notification.Name.ExitGameToLevelViewControllerNotification, object: nil, queue: OperationQueue(), using: {
+        
+        
+            [unowned self] notification in
+            
+            if let gameSceneViewController = self.presentedViewController as? GameSceneController{
+                
+                gameSceneViewController.dismiss(animated: true, completion: {
+                    
+                    
+                    //Release the GameScene controller's view from memory and purge the currently-running base scene from memory cache, as well as the ReloadData (if any) and LevelScene configuration data used to initialize the Base Scene
+                    
+                    gameSceneViewController.view = nil
+                    
+                    gameSceneViewController.baseScene = nil
+                    
+                    gameSceneViewController.letterScene = nil
+                    
+                    gameSceneViewController.reloadData = nil
+                    
+                    //Once the Game Scene Controller is dismissed, it's no longer necessary to continue receiving motion updates for player position
+                    
+                    self.mainMotionManager.stopDeviceMotionUpdates()
+                    
+                    
+                    //Upon exiting game, deselect the game scene that is being loaded
+                    
+                    guard let collectionView = self.collectionView, let indexPaths = collectionView.indexPathsForSelectedItems  else {
+                        print("Error: collection view unavailable for modification or no collection view items have been selected")
+                        return
+                    }
+                    for indexPath in indexPaths{
+                        collectionView.deselectItem(at: indexPath, animated: true)
+                        print("Previously selected scenes have been deselected")
+                    }
+                    
+                })
+            }
+        
+        })
+        **/
         
     }
     
@@ -356,7 +443,27 @@ extension LevelViewController{
     
   
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        
+        LevelThumbnailCache.sharedCache.clearCache()
+        
+    }
     
+    
+   
+
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        coordinator.animate(alongsideTransition: { (context) in
+            self.collectionView?.collectionViewLayout.invalidateLayout()
+        }, completion: nil)
+    }
+
+
+  
    
 }
 

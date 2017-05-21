@@ -15,18 +15,22 @@ extension Spikeman{
     static let AnimationsDict: [String: SKAction] = [
     
         "walkLeft" : SKAction.animate(with: [
-            SKTexture(image: #imageLiteral(resourceName: "spikeMan_walk2_left")),
-            SKTexture(image: #imageLiteral(resourceName: "spikeMan_walk1_left"))
+        TextureAtlasManager.sharedManager.spikemanTextureAtlas!.textureNamed("spikeMan_walk2_left"),
+        TextureAtlasManager.sharedManager.spikemanTextureAtlas!.textureNamed("spikeMan_walk1_left"),
+    
             ], timePerFrame: 0.20),
         
         "walkRight" : SKAction.animate(with: [
-            SKTexture(image: #imageLiteral(resourceName: "spikeMan_walk2")),
-            SKTexture(image: #imageLiteral(resourceName: "spikeMan_walk1"))
+            
+        TextureAtlasManager.sharedManager.spikemanTextureAtlas!.textureNamed("spikeMan_walk2"),
+        TextureAtlasManager.sharedManager.spikemanTextureAtlas!.textureNamed("spikeMan_walk1"),
+           
             ], timePerFrame: 0.20),
         
-        "stand" : SKAction.setTexture(SKTexture(image: #imageLiteral(resourceName: "spikeMan_stand"))),
+        "stand" :
+            SKAction.setTexture(TextureAtlasManager.sharedManager.spikemanTextureAtlas!.textureNamed("spikeMan_stand")),
         
-        "jump" : SKAction.setTexture(SKTexture(image: #imageLiteral(resourceName: "spikeMan_jump")))
+        "jump" : SKAction.setTexture(TextureAtlasManager.sharedManager.spikemanTextureAtlas!.textureNamed("spikeMan_jump"))
     
     
     ]

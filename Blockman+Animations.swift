@@ -16,11 +16,11 @@ extension BlockMan{
     
         switch blockType{
             case .Grass:
-                return SKTexture(image: #imageLiteral(resourceName: "grassBlock"))
+                return TextureAtlasManager.sharedManager.blockmanTextureAtlas!.textureNamed("grassBlock")
             
             case .Slime:
-                return SKTexture(image: #imageLiteral(resourceName: "slimeBlock"))
-                
+                return TextureAtlasManager.sharedManager.blockmanTextureAtlas!.textureNamed("slimeBlock")
+            
         }
     }
     
@@ -37,21 +37,22 @@ extension BlockMan{
     
     static let AnimationsDictGrass: [String: SKAction] = [
         "flashing" : SKAction.animate(with: [
-            SKTexture(image: #imageLiteral(resourceName: "grassBlock")),
-            SKTexture(image: #imageLiteral(resourceName: "grassBlock_hit"))
+            TextureAtlasManager.sharedManager.blockmanTextureAtlas!.textureNamed("grassBlock"),
+            TextureAtlasManager.sharedManager.blockmanTextureAtlas!.textureNamed("grassBlock_hit"),
+
             ], timePerFrame: 0.10),
         
-        "normal" : SKAction.setTexture(SKTexture(image: #imageLiteral(resourceName: "grassBlock")))
+        "normal" : SKAction.setTexture(TextureAtlasManager.sharedManager.blockmanTextureAtlas!.textureNamed("grassBlock"))
     ]
     
     static let AnimationsDictSlime: [String: SKAction] = [
     
         "flashing" : SKAction.animate(with: [
-            SKTexture(image: #imageLiteral(resourceName: "slimeBlock")),
-            SKTexture(image: #imageLiteral(resourceName: "slimeBlock_hit"))
+            TextureAtlasManager.sharedManager.blockmanTextureAtlas!.textureNamed("slimeBlock"),
+            TextureAtlasManager.sharedManager.blockmanTextureAtlas!.textureNamed("slimeBlock_hit")
             ], timePerFrame: 0.10),
         
-        "normal" : SKAction.setTexture(SKTexture(image: #imageLiteral(resourceName: "slimeBlock")))
+        "normal" : SKAction.setTexture(TextureAtlasManager.sharedManager.blockmanTextureAtlas!.textureNamed("slimeBlock"))
     ]
 
 }

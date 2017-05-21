@@ -15,7 +15,7 @@ import CoreMotion
 
 class MenuOptionsViewController: UIViewController{
     
-    var textureAtlasManager = TextureAtlasManager.sharedManager
+   var textureAtlasManager = TextureAtlasManager.sharedManager
     
     var canViewHelpContent: Bool = true
     var managedContext: NSManagedObjectContext!
@@ -26,8 +26,8 @@ class MenuOptionsViewController: UIViewController{
         super.viewDidAppear(animated)
         
         //Make sure the texture atlas manager singleton is instantiated
-        TextureAtlasManager.sharedManager
-        JSONManager.sharedHelper.printJSONData()
+       // TextureAtlasManager.sharedManager
+       // JSONManager.sharedHelper.printJSONData()
         
     }
 
@@ -38,12 +38,23 @@ class MenuOptionsViewController: UIViewController{
        
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        MusicHelper.sharedHelper.playBackgroundMusic(musicFileName: "Sad Town")
+
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //Preload all of the texture atlases
         
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         
+        MusicHelper.sharedHelper.turnOffBackgroundMusic()
     }
     
     @IBAction func loadLevelViewControllerFromPortraitMenu(_ sender: UIButton) {
@@ -63,22 +74,7 @@ class MenuOptionsViewController: UIViewController{
         //Configure LevelViewController layout properties (since the itemSize will be fixed, the layout delegate callback methods are not implemented for efficiency reasons
         
         
-        let currentVerticalSizeClass = traitCollection.verticalSizeClass
-        
-        let longSide = currentVerticalSizeClass == .compact ? view.bounds.size.width : view.bounds.size.height
-        
-        let shortSide = currentVerticalSizeClass == .compact ? view.bounds.size.height : view.bounds.size.height
-        
-        let aspectRatio = shortSide/longSide
-        
-        let itemWidth = longSide*0.50
-        let itemHeight = itemWidth*aspectRatio*1.5
-        
-        let levelViewLayout = UICollectionViewFlowLayout()
-        levelViewLayout.scrollDirection = .horizontal
-        levelViewLayout.sectionInset = UIEdgeInsets(top: 0.00, left: 20.00, bottom: 0.00, right: 20.00)
-        levelViewLayout.itemSize = CGSize(width: itemWidth, height: itemHeight)
-        
+        let levelViewLayout = LevelControllerCollectionViewLayout()
         
         ///Initialize LevelViewController 
         
