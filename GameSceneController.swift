@@ -58,25 +58,49 @@ class GameSceneController: UIViewController{
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        screenRecorderHelper.presentingViewController = self
+   
         
-        HUDManager.sharedHUDManager.loadHUDfromCache()
         
-        letterScene!.loadSceneResources()
+            self.screenRecorderHelper.presentingViewController = self
+            
+            HUDManager.sharedHUDManager.loadHUDfromCache()
+            
         
-        if let skView = self.view as! SKView?, let letterScene = letterScene{
             
-            //Initialize the base scene based on the value of the letterScene property for the GameSceneView controller
-            
-            
-            
-            baseScene = reloadData != nil ? GameSceneController.GetSceneForLetterSceneType(letterScene: letterScene, reloadData: reloadData!) : GameSceneController.GetSceneForLetterSceneType(letterScene: letterScene, reloadData: nil)
-            
-            print("About to present the Base Scene...")
-            
-            skView.presentScene(baseScene)
         
+            if let skView = self.view as! SKView?, let letterScene = self.letterScene{
+                    
+                    //Initialize the base scene based on the value of the letterScene property for the GameSceneView controller
+                
+                    let loadTexturesOperation = LoadSceneTexturesOperation(letterScene: letterScene)
+                
+                
+                    DispatchQueue.global().async {
+                        
+                        loadTexturesOperation.start()
+                        
+                        
+                        
+                        
+                        DispatchQueue.main.sync {
+                            
+                            self.baseScene = self.reloadData != nil ? GameSceneController.GetSceneForLetterSceneType(letterScene: letterScene, reloadData: self.reloadData) : GameSceneController.GetSceneForLetterSceneType(letterScene: letterScene, reloadData: nil)
+                            
+                            skView.presentScene(self.baseScene)
+
+                        }
+                    }
+                
+                
+                
+                
+                
+                
+                
+            
         }
+        
+     
     }
     
    

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Coins and Collectibles</key>
+	<array>
+		<dict>
+			<key>Answer</key>
+			<string>When the total coin value exceeds 20 points, an additional life is earned, as indicated in the life meter. </string>
+			<key>Question</key>
+			<string>How many coins are needed to earn additional lives?</string>
+		</dict>
+		<dict>
+			<key>Answer</key>
+			<string>Gold coins are worth 5 points, silvers coins worth 3 points, and bronze coins worth 2 points.</string>
+			<key>Question</key>
+			<string>How much are coins worth?</string>
+		</dict>
+	</array>
+	<key>Enemies</key>
+	<array>
+		<dict>
+			<key>Answer</key>
+			<string>Some enemies can be static (e.g. harmful barriers such as spikes, ice water, etc). Some enemies (e.g. aliens) will chase the player and follow the player&apos;s path.  Other enemies will perform randomized movements and actions but not necessarily chase the player.  In addition, some enemies only become active when they detect the player within close proximity. </string>
+			<key>Question</key>
+			<string>What kind of enemies should the player avoid?</string>
+		</dict>
+		<dict>
+			<key>Answer</key>
+			<string>No, enemies can only be avoided through skillful maneuvering of the player, though some enemies be damaged by contact with the player.</string>
+			<key>Question</key>
+			<string>Can enemies be attacked?</string>
+		</dict>
+		<dict>
+			<key>Answer</key>
+			<string>No, contact with any enemy results in the same amount of damage to the player.</string>
+			<key>Question</key>
+			<string>Do some enemies cause more damage than others?</string>
+		</dict>
+	</array>
+	<key>Game Rules</key>
+	<array>
+		<dict>
+			<key>Answer</key>
+			<string>When the player reaches the letter at the end of the scene, a level is considered completed.</string>
+			<key>Question</key>
+			<string>When is a player considered to have won the game?</string>
+		</dict>
+		<dict>
+			<key>Answer</key>
+			<string>When health level falls below zero, the player is considered to have lost the game.</string>
+			<key>Question</key>
+			<string>When is a player considered to have lost the game?</string>
+		</dict>
+	</array>
+	<key>Player Information</key>
+	<array>
+		<dict>
+			<key>Answer</key>
+			<string>The player moves vertically by tilting the phone away from or towards the user.  The player&apos;s horizontal speed can be adjusted by tapping to the right or left of the player.  However, the player can only move in the forward direction and cannot reverse direction.</string>
+			<key>Question</key>
+			<string>How can the player be moved?</string>
+		</dict>
+		<dict>
+			<key>Answer</key>
+			<string>The player&apos;s starting health is always set to 8.</string>
+			<key>Question</key>
+			<string>What is the player&apos;s starting health?</string>
+		</dict>
+		<dict>
+			<key>Answer</key>
+			<string>The player is killed when health level falls to zero. </string>
+			<key>Question</key>
+			<string>How can the player be killed?</string>
+		</dict>
+		<dict>
+			<key>Answer</key>
+			<string>They player is hurt each time contact is made with a harmful barrier (e.g. spike or poisonous lollipop), or if the player collides with an enemy.  After being hurt, the player is invulnerable for a short period of time, during which he is unaffected by any additional collisions with the enemies.</string>
+			<key>Question</key>
+			<string>How can the player be hurt?</string>
+		</dict>
+		<dict>
+			<key>Answer</key>
+			<string>The hearts in the upper left of the screen indicate player health. A full heart indicates 2 health points.  A player whose health has decreased to 4 will begin emitting smoke, and a player who has just been hurt recently will fade in and out repeatedly.</string>
+			<key>Question</key>
+			<string>How can the player&apos;s health status be determined?</string>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -25,6 +25,7 @@ class LevelViewController: UICollectionViewController{
     
     var screenRecorderHelper = ScreenRecorderHelper.sharedHelper
     
+    /**
     var levelInformationArray = [LevelInformation]()
     
 
@@ -34,10 +35,11 @@ class LevelViewController: UICollectionViewController{
         }
     }
 
+    **/
     
     var managedContext: NSManagedObjectContext?
     
-    
+
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -55,7 +57,7 @@ class LevelViewController: UICollectionViewController{
         
         MusicHelper.sharedHelper.playBackgroundMusic(musicFileName: "Wacky Waiting")
         
-    
+        /**
         if let managedContext = managedContext{
             
             do{
@@ -69,7 +71,7 @@ class LevelViewController: UICollectionViewController{
             }
             
         }
-        
+        **/
  
     }
     
@@ -177,11 +179,12 @@ extension LevelViewController{
             cell.titleText = levelSceneMetaData.titleText
             
             
+            /**
            let subTitleText = completedLevels.filter{ $0.levelScene == levelSceneMetaData.letterScene.rawValue}.isEmpty ? "INCOMPLETE" : "COMPLETED"
             
             
            cell.subtitleText = subTitleText
-            
+            **/
             
             if let cachedThumbnail = LevelThumbnailCache.sharedCache.imageForLetterScene(letterScene: levelSceneMetaData.letterScene){
                 
@@ -205,7 +208,7 @@ extension LevelViewController{
                 }
             }
             
-            cell.descriptionText = levelSceneMetaData.descriptionText
+            cell.subtitleText = levelSceneMetaData.descriptionText
             
             
             cell.backgroundColor =  UIColor.GetCustomColor(customColor: .GrassyGreen)
