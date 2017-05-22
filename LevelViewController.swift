@@ -25,15 +25,15 @@ class LevelViewController: UICollectionViewController{
     
     var screenRecorderHelper = ScreenRecorderHelper.sharedHelper
     
-   // var levelInformationArray = [LevelInformation]()
+    var levelInformationArray = [LevelInformation]()
     
-    /**
+
      var completedLevels: [LevelInformation]{
         get{
             return levelInformationArray.filter{ $0.completed }
         }
     }
-    **/
+
     
     var managedContext: NSManagedObjectContext?
     
@@ -55,7 +55,7 @@ class LevelViewController: UICollectionViewController{
         
         MusicHelper.sharedHelper.playBackgroundMusic(musicFileName: "Wacky Waiting")
         
-        /**
+    
         if let managedContext = managedContext{
             
             do{
@@ -70,7 +70,7 @@ class LevelViewController: UICollectionViewController{
             
         }
         
-        **/
+ 
     }
     
     override func viewWillLayoutSubviews() {
@@ -177,11 +177,10 @@ extension LevelViewController{
             cell.titleText = levelSceneMetaData.titleText
             
             
-           // let subTitleText = completedLevels.filter{ $0.levelScene == levelSceneMetaData.letterScene.rawValue}.isEmpty ? "INCOMPLETE" : "COMPLETED"
-                
-
+           let subTitleText = completedLevels.filter{ $0.levelScene == levelSceneMetaData.letterScene.rawValue}.isEmpty ? "INCOMPLETE" : "COMPLETED"
             
-           // cell.subtitleText = subTitleText
+            
+           cell.subtitleText = subTitleText
             
             
             if let cachedThumbnail = LevelThumbnailCache.sharedCache.imageForLetterScene(letterScene: levelSceneMetaData.letterScene){
@@ -332,9 +331,22 @@ extension LevelViewController{
         
         if let letterScene = presentedViewController.letterScene{
        
-            let baseScene = GameSceneController.GetSceneForLetterSceneType(letterScene: letterScene, reloadData: nil)
+            
+            
+            DispatchQueue.global().async {
+                
+                
+                presentedViewController.baseScene = nil
+
+                
+                let baseScene = GameSceneController.GetSceneForLetterSceneType(letterScene: letterScene, reloadData: nil)
+                
+                DispatchQueue.main.sync {
+                    presentingView.presentScene(baseScene, transition: transition)
+
+                }
+            }
         
-            presentingView.presentScene(baseScene, transition: transition)
         
         }
         

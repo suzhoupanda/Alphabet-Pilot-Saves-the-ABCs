@@ -12,7 +12,7 @@ import SpriteKit
 
 class AlienInactiveState: GKState{
     
-    let alienEntity: Alien
+    unowned let alienEntity: Alien
     
     var frameCount: TimeInterval = 0.00
     var inactiveInterval : TimeInterval = 2.00

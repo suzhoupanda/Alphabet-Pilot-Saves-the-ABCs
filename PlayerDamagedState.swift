@@ -13,7 +13,7 @@ import SpriteKit
 
 class PlayerDamagedState: GKState{
     
-    let playerEntity: Player
+    unowned let playerEntity: Player
     
     var frameCount: TimeInterval = 0.00
     var damageInterval: TimeInterval = 5.00

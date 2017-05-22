@@ -131,8 +131,7 @@ extension PlayerPositionBroadcasterComponent{
                     return lower
                 case .Range10(let lower, _):
                     return lower
-                default:
-                    return -10
+               
             }
         }
         
@@ -161,8 +160,6 @@ extension PlayerPositionBroadcasterComponent{
                 return upper
             case .Range10(_ , let upper):
                 return upper
-            default:
-                return -10
             }
         }
         

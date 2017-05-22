@@ -162,30 +162,7 @@ class MenuViewController: UIViewController{
         
     }
     
-    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        
-        let CurrentSizeClassConfiguration = (newCollection.verticalSizeClass, newCollection.horizontalSizeClass)
-        
-      
-        
-        
-        //Adjust the axis of the main stack view based on the new trait collection
-        
-        switch(CurrentSizeClassConfiguration){
-            case (.regular,.compact),(.regular,.compact):
-                mainStackView.axis = .vertical
-                break
-            case (.compact,.regular),(.compact,.regular):
-                mainStackView.axis = .horizontal
-                break
-            default:
-                break
-            
-        }
-        
-        
-    
-    }
+   
     
     
     //Helper functions for configuring UI Element constraints based on size class

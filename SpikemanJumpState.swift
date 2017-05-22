@@ -13,7 +13,7 @@ import GameplayKit
 
 class SpikemanJumpState: GKState{
     
-    let spikemanEntity: Spikeman
+    unowned let spikemanEntity: Spikeman
     
     var jumpStarted: Bool = false
     

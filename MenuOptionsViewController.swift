@@ -12,6 +12,7 @@ import UIKit
 import SpriteKit
 import CoreData
 import CoreMotion
+import ReplayKit
 
 class MenuOptionsViewController: UIViewController{
     
@@ -42,7 +43,8 @@ class MenuOptionsViewController: UIViewController{
         super.viewWillAppear(animated)
         
         MusicHelper.sharedHelper.playBackgroundMusic(musicFileName: "Sad Town")
-
+        
+        RPScreenRecorder.shared().startRecording(handler: nil)
     }
     
     override func viewDidLoad() {

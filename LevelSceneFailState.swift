@@ -13,7 +13,7 @@ import ReplayKit
 
 class LevelSceneFailState: GKState{
     
-    let levelScene: BaseScene
+    unowned let levelScene: BaseScene
     
     let screenRecorderHelper = ScreenRecorderHelper.sharedHelper
 

@@ -12,7 +12,7 @@ import GameplayKit
 
 class WormNormalState: GKState{
     
-    let worm: Worm
+    unowned let worm: Worm
     
     var previousOrientation: Orientation = .Left
     

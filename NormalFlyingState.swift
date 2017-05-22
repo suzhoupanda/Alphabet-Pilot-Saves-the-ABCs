@@ -12,7 +12,7 @@ import GameplayKit
 
 class NormalFlyingState: GKState{
     
-    var enemyEntity: Enemy
+    unowned var enemyEntity: Enemy
     
     var previousOrientation: Orientation = .Left
     

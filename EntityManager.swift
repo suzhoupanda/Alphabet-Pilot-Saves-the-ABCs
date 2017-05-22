@@ -28,8 +28,6 @@ class EntityManager{
         
         let collectibleCoinComponent = GKComponentSystem(componentClass: CollectibleStorageComponent.self)
         
-        let playerPositionBroadcasterComponent = GKComponentSystem(componentClass: PlayerPositionBroadcasterComponent.self)
-        
         //Physics Components
         
         let physicsComponent = GKComponentSystem(componentClass: PhysicsComponent.self)

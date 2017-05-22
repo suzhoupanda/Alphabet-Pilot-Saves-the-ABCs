@@ -14,7 +14,7 @@ import ReplayKit
 
 class LevelSceneSuccessState: GKState{
     
-    let levelScene: BaseScene
+    unowned let levelScene: BaseScene
     
     let screenRecorderHelper = ScreenRecorderHelper.sharedHelper
     
@@ -62,13 +62,7 @@ class LevelSceneSuccessState: GKState{
         
         print("Saving game data...")
         
-        
-        guard let playerHealthComponent = levelScene.player.component(ofType: HealthComponent.self) else {
-            
-            print("Error: Unable to load player health component while saving game")
-            return
-        }
-        
+
         
         guard let playerCollectibleComponent = levelScene.player.component(ofType: CollectibleStorageComponent.self) else {
             

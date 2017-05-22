@@ -12,7 +12,7 @@ import SpriteKit
 
 class SunPathMoveState: GKState{
     
-    var enemyEntity: Enemy
+    unowned var enemyEntity: Enemy
     
     var frameCount: TimeInterval = 0.00
     var stateDurationInterval = 10.00

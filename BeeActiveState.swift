@@ -12,7 +12,7 @@ import SpriteKit
 
 class BeeActiveState: GKState{
     
-    let bee: Bee
+    unowned let bee: Bee
     
     var previousOrientation: Orientation = .Left
     

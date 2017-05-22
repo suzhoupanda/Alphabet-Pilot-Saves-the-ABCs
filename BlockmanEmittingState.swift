@@ -13,7 +13,7 @@ import GameplayKit
 
 class BlockmanEmittingState: GKState{
     
-    let blockman: BlockMan
+    unowned let blockman: BlockMan
     
     init(blockman: BlockMan){
         self.blockman = blockman

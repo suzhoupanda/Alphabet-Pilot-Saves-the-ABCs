@@ -27,7 +27,8 @@ class ScreenRecorderHelper: NSObject, RPScreenRecorderDelegate, RPPreviewViewCon
         super.init()
         
         sharedRecorder.delegate = self
-
+        
+    
     }
     
     var previewViewController: RPPreviewViewController?
@@ -75,6 +76,8 @@ class ScreenRecorderHelper: NSObject, RPScreenRecorderDelegate, RPPreviewViewCon
         
         print("About to stop screen recording...")
         
+        
+
         let sharedRecorder = RPScreenRecorder.shared()
         
         if !sharedRecorder.isRecording{
@@ -215,6 +218,7 @@ class ScreenRecorderHelper: NSObject, RPScreenRecorderDelegate, RPPreviewViewCon
     //RPPreviewViewControllerDelegate
     func previewControllerDidFinish(_ previewController: RPPreviewViewController) {
         previewViewController?.dismiss(animated: true, completion: {})
+        
     }
     
 

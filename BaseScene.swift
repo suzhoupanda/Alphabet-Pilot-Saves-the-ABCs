@@ -18,6 +18,11 @@ class BaseScene: SKScene {
     var player: Player!
     var reloadData: ReloadData? = nil
     
+   
+
+    
+     
+    
     var worldNode: SKSpriteNode!
     var overlayNode: SKSpriteNode!
     var hudManager = HUDManager.sharedHUDManager
@@ -76,7 +81,7 @@ class BaseScene: SKScene {
     
     override func didMove(to view: SKView) {
         super.didMove(to: view)
-    
+        
         self.physicsWorld.contactDelegate = self
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         

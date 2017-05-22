@@ -15,7 +15,7 @@ class AlienActiveState: GKState{
     var frameCount: TimeInterval = 0.00
     var activeInterval: TimeInterval = 7.00
     
-    let alienEntity: Alien
+    unowned let alienEntity: Alien
     
     init(alienEntity: Alien) {
         self.alienEntity = alienEntity

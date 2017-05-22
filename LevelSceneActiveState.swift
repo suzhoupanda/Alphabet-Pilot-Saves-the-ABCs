@@ -12,7 +12,7 @@ import SpriteKit
 
 class LevelSceneActiveState: GKState{
     
-    let levelScene: BaseScene
+    unowned let levelScene: BaseScene
     
     
     init(levelScene: BaseScene){

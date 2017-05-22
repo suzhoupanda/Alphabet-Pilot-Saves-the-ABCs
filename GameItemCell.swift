@@ -64,13 +64,13 @@ class GameItemCell: UICollectionViewCell{
         
         contentView.backgroundColor = UIColor.GetCustomColor(customColor: .GrassyGreen)
         
-        let previewImageFrame = CGRect(x: frame.size.width*0.10, y: frame.size.height*0.20, width: frame.size.width*0.80, height: frame.size.height*0.50)
+        let previewImageFrame = CGRect(x: frame.size.width*0.03, y: frame.size.height*0.03, width: frame.size.width*0.90, height: frame.size.height*0.90)
         
         previewImageView = UIImageView(frame: previewImageFrame)
         previewImageView.contentMode = .scaleAspectFit
         contentView.addSubview(previewImageView)
         
-        let titleLabelFrame = CGRect(x: Double(previewImageFrame.origin.x), y: Double(previewImageFrame.origin.y + previewImageFrame.size.height - frame.size.height*0.40), width: Double(frame.size.width), height: Double(frame.size.height*0.10))
+        let titleLabelFrame = CGRect(x: Double(previewImageFrame.origin.x), y: Double(previewImageFrame.origin.y + previewImageFrame.size.height - frame.size.height*0.40), width: Double(frame.size.width), height: Double(frame.size.height*0.15))
         
         titleLabel = UILabel(frame: titleLabelFrame)
         titleLabel.textColor = UIColor.GetCustomColor(customColor: .StopSignRed)
@@ -78,7 +78,7 @@ class GameItemCell: UICollectionViewCell{
         titleLabel.textAlignment = .center
         contentView.addSubview(titleLabel)
         
-        let subtitleLabelFrame = CGRect(x: Double(titleLabelFrame.origin.x), y: Double(titleLabelFrame.origin.y + titleLabelFrame.size.height + frame.size.height*0.05), width: Double(frame.size.width), height: Double(frame.size.height*0.10))
+        let subtitleLabelFrame = CGRect(x: Double(titleLabelFrame.origin.x), y: Double(titleLabelFrame.origin.y + titleLabelFrame.size.height + frame.size.height*0.05), width: Double(frame.size.width), height: Double(frame.size.height*0.15))
         
         subtitleLabel = UILabel(frame: subtitleLabelFrame)
         subtitleLabel.textColor = UIColor.GetCustomColor(customColor: .BluishGrey)
@@ -88,8 +88,8 @@ class GameItemCell: UICollectionViewCell{
         subtitleLabel.lineBreakMode = .byWordWrapping
         contentView.addSubview(subtitleLabel)
         
-        descriptionLabel = UILabel(frame: CGRect(x: frame.size.width*0.00, y: frame.size.height*0.70, width: frame.size.width, height: frame.size.height*0.30))
-        descriptionLabel.textColor = UIColor.GetCustomColor(customColor: .SharkFinWhite)
+        descriptionLabel = UILabel(frame: CGRect(x: frame.size.width*0.00, y: frame.size.height*0.75, width: frame.size.width, height: frame.size.height*0.30))
+        descriptionLabel.textColor = UIColor.GetCustomColor(customColor: .DirtBrown)
         descriptionLabel.font = UIFont(name: "BradleyHandITCTT-Bold", size: 20.0)
         descriptionLabel.textAlignment = .center
         descriptionLabel.numberOfLines = 0

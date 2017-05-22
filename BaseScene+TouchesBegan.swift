@@ -219,6 +219,9 @@ extension BaseScene{
                         screenRecorderHelper.stopScreenRecording(withHandler: {
                         
                             print("Stopping recording due to user-initiated termination")
+                            
+        
+                            
                         })
             
                      

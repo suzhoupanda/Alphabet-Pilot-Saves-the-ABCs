@@ -23,7 +23,8 @@ class BladeIsland: Enemy{
         
         
         //The node for the blade island is loaded from the appropriate sks file
-        guard let node = SKScene(fileNamed: "BladeIsland")?.childNode(withName: "BladeIslandCake") as? SKSpriteNode, let spinnerNode = node.childNode(withName: "Spinner") as? SKSpriteNode, let nodeTexture = node.texture, let spinnerTexture = spinnerNode.texture else {
+        
+        guard let node = SKScene(fileNamed: "BladeIsland")?.childNode(withName: "BladeIslandCake") as? SKSpriteNode /** let spinnerNode = node.childNode(withName: "Spinner") as? SKSpriteNode, let nodeTexture = node.texture, let spinnerTexture = spinnerNode.texture**/ else {
             fatalError("Error: failed to load the node for blade island from the appropriate SKS file")
         }
         

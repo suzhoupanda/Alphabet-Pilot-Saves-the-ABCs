@@ -12,7 +12,7 @@ import SpriteKit
 
 class BarnacleEmittingState: GKState{
     
-    let barnacle: Barnacle
+    unowned let barnacle: Barnacle
     
     init(barnacle: Barnacle){
         self.barnacle = barnacle

@@ -17,7 +17,7 @@ class AlienAttackState: GKState{
  
     **/
     
-    let alienEntity: Alien
+    unowned let alienEntity: Alien
     var targetNode: SKSpriteNode?
     
     /** Get a reference to the obstacles graph for the scene to which the alien entity's render node has been added

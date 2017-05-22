@@ -220,11 +220,11 @@ extension GameSceneController{
     
         }
         
-        let bg = SKAudioNode(fileNamed: letterScene.getBackGroundMusicFileName())
-        bg.autoplayLooped = true
-        baseScene.addChild(bg)
+        let backgroundMusicAudioNode = SKAudioNode(fileNamed: letterScene.getBackGroundMusicFileName())
+        backgroundMusicAudioNode.autoplayLooped = true
+        backgroundMusicAudioNode.name = "audioNode"
+        baseScene.addChild(backgroundMusicAudioNode)
        
-        
         return baseScene
     }
 

@@ -16,14 +16,18 @@ extension Bomb{
     static let AnimationsDict: [String: SKAction] = [
     
         "explode" : SKAction.animate(with: [
-            SKTexture(image: #imageLiteral(resourceName: "regularExplosion01")),
-            SKTexture(image: #imageLiteral(resourceName: "regularExplosion02")),
-            SKTexture(image: #imageLiteral(resourceName: "regularExplosion03")),
-            SKTexture(image: #imageLiteral(resourceName: "regularExplosion04")),
-            SKTexture(image: #imageLiteral(resourceName: "regularExplosion05")),
-            SKTexture(image: #imageLiteral(resourceName: "regularExplosion06")),
-            SKTexture(image: #imageLiteral(resourceName: "regularExplosion07")),
-            SKTexture(image: #imageLiteral(resourceName: "regularExplosion08"))
+            
+        TextureAtlasManager.sharedManager.regularExplosionTextureAtlas!.textureNamed("regularExplosion01"),
+        TextureAtlasManager.sharedManager.regularExplosionTextureAtlas!.textureNamed("regularExplosion02"),
+        TextureAtlasManager.sharedManager.regularExplosionTextureAtlas!.textureNamed("regularExplosion03"),
+        TextureAtlasManager.sharedManager.regularExplosionTextureAtlas!.textureNamed("regularExplosion04"),
+        TextureAtlasManager.sharedManager.regularExplosionTextureAtlas!.textureNamed("regularExplosion05"),
+        TextureAtlasManager.sharedManager.regularExplosionTextureAtlas!.textureNamed("regularExplosion06"),
+            
+        TextureAtlasManager.sharedManager.regularExplosionTextureAtlas!.textureNamed("regularExplosion07"),
+            
+        TextureAtlasManager.sharedManager.regularExplosionTextureAtlas!.textureNamed("regularExplosion08")
+            
             ], timePerFrame: 0.10)
     
     ]

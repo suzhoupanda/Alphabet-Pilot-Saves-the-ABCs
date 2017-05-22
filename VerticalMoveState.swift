@@ -12,7 +12,7 @@ import SpriteKit
 
 class VerticalMoveState: GKState{
     
-    let enemyEntity: Enemy
+    unowned let enemyEntity: Enemy
     
     var frameCount: TimeInterval = 0.00
     var stateDurationInterval = 10.00

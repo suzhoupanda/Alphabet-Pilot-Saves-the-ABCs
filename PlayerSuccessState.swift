@@ -12,7 +12,7 @@ import SpriteKit
 
 class PlayerSuccessState: GKState{
     
-    let playerEntity: Player
+    unowned let playerEntity: Player
     
     
     init(playerEntity: Player){

@@ -18,11 +18,11 @@ class LevelControllerCollectionViewLayout: UICollectionViewFlowLayout{
     override func prepare() {
         
        
-        let cvWidth = collectionView?.bounds.width ?? 800
-        let cvHeight = collectionView?.bounds.height ?? 600
+        let cvWidth = collectionView?.bounds.width ?? 1200
+        let cvHeight = collectionView?.bounds.height ?? 800
         let aspectRatio = cvHeight/cvWidth
         
-        let itemWidth = cvWidth*0.80
+        let itemWidth = cvWidth*0.60
         let itemHeight = itemWidth*aspectRatio
         
         

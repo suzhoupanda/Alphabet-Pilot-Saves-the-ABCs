@@ -8,7 +8,7 @@
 
 import AVFoundation
 
-class MusicHelper {
+class MusicHelper: NSObject, AVAudioPlayerDelegate {
     
     
     static let sharedHelper = MusicHelper()
@@ -35,6 +35,14 @@ class MusicHelper {
             audioPlayer.stop()
 
         }
+        
+    }
+    
+    func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
+        
+    }
+    
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         
     }
 }

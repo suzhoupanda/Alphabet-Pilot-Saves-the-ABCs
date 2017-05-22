@@ -12,7 +12,7 @@ import GameplayKit
 
 class SpikemanNormalState: GKState{
     
-    let spikemanEntity: Spikeman
+    unowned let spikemanEntity: Spikeman
     
     var previousOrientation: Orientation = .Left
     

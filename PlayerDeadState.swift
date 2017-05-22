@@ -12,7 +12,7 @@ import SpriteKit
 
 class PlayerDeadState: GKState{
     
-    let playerEntity: Player
+    unowned let playerEntity: Player
     
     
     init(playerEntity: Player){

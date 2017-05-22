@@ -109,58 +109,58 @@ enum LetterScene: String{
     func getResourceLoadableTypes() -> [ResourceLoadableType.Type]{
         
         switch self{
-            case .LetterA_Scene:
+            case .LetterA_Scene:                        //SpaceScene1
                 return [Alien.self, EvilSun.self, Bee.self, Spikeball.self]
-            case .LetterB_Scene:
-                return [Alien.self, EvilSun.self, Bee.self, Spikeball.self]
-            case .LetterC_Scene:
-                return [Alien.self, EvilSun.self, Bee.self, Spikeball.self]
-            case .LetterD_Scene:
-                return [Alien.self, EvilSun.self, Bee.self, Spikeball.self]
-            case .LetterE_Scene:
-                return [Alien.self, EvilSun.self, Bee.self, Spikeball.self]
+            case .LetterB_Scene:                        //CandyScene1
+                return [Bee.self]
+            case .LetterC_Scene:                        //CandyScene2
+                return [BlockMan.self, Bomb.self]
+            case .LetterD_Scene:                        //CandyScene3
+                return [Alien.self, BlockMan.self]
+            case .LetterE_Scene:                        //CandyScene4
+                return [Bomb.self, Bee.self, Animal.self, BlockMan.self]
             case .LetterF_Scene:
-                return [Alien.self, EvilSun.self, Bee.self, Spikeball.self]
-            case .LetterG_Scene:
+                return [Alien.self, Bomb.self, Bee.self, BlockMan.self]
+            case .LetterG_Scene:                        //Giraffe Scene
                 return [Animal.self]
-            case .LetterH_Scene:
-                return [Alien.self, EvilSun.self, Bee.self, Spikeball.self]
-            case .LetterI_Scene:
-                return [Alien.self, EvilSun.self, Bee.self, Spikeball.self]
-            case .LetterJ_Scene:
-                return [Alien.self, EvilSun.self, Bee.self, Spikeball.self]
-            case .LetterK_Scene:
-                return [Alien.self, EvilSun.self, Bee.self, Spikeball.self]
-            case .LetterL_Scene:
-                return [Alien.self, EvilSun.self, Bee.self, Spikeball.self]
-            case .LetterM_Scene:
-                return [Alien.self, EvilSun.self, Bee.self, Spikeball.self]
-            case .LetterN_Scene:
-                return [Alien.self, EvilSun.self, Bee.self, Spikeball.self]
-            case .LetterO_Scene:
-                return [Alien.self, EvilSun.self, Bee.self, Spikeball.self]
-            case .LetterP_Scene:
-                return [Alien.self, EvilSun.self, Bee.self, Spikeball.self]
-            case .LetterQ_Scene:
-                return [Alien.self, EvilSun.self, Bee.self, Spikeball.self]
-            case .LetterR_Scene:
-                return [Alien.self, EvilSun.self, Bee.self, Spikeball.self]
-            case .LetterS_Scene:
-                return [Alien.self, EvilSun.self, Bee.self, Spikeball.self]
-            case .LetterT_Scene:
-                return [Alien.self, EvilSun.self, Bee.self, Spikeball.self]
-            case .LetterU_Scene:
-                return [Alien.self, EvilSun.self, Bee.self, Spikeball.self]
-            case .LetterV_Scene:
-                return [Alien.self, EvilSun.self, Bee.self, Spikeball.self]
-            case .LetterW_Scene:
-                return [Alien.self, EvilSun.self, Bee.self, Spikeball.self]
-            case .LetterX_Scene:
-                return [Alien.self, EvilSun.self, Bee.self, Spikeball.self]
-            case .LetterY_Scene:
-                return [Alien.self, EvilSun.self, Bee.self, Spikeball.self]
-            case .LetterZ_Scene:
-                return [Alien.self, EvilSun.self, Bee.self, Spikeball.self]
+            case .LetterH_Scene:                        //Hippo Scene
+                return [Animal.self]
+            case .LetterI_Scene:                        //Ice Scene
+                return [Animal.self, Bee.self]
+            case .LetterJ_Scene:                        //CaveScene1
+                return []
+            case .LetterK_Scene:                        //CaveScene2
+                return [Fly.self, Bee.self]
+            case .LetterL_Scene:                        //ForestScene3
+                return [Animal.self, Bee.self]
+            case .LetterM_Scene:                        //PlaneScene4
+                return [Fly.self, Animal.self]
+            case .LetterN_Scene:                        //SandScene3
+                return [Fly.self, Animal.self]
+            case .LetterO_Scene:                        //IceScene1
+                return [Animal.self, EvilSun.self, Spikeman.self]
+            case .LetterP_Scene:                        //SandScene3
+                return [BlockMan.self, EvilSun.self, Bee.self]
+            case .LetterQ_Scene:                        //CaveScene3
+                return [Bee.self]
+            case .LetterR_Scene:                        //SandScene4
+                return [Animal.self, Bee.self]
+            case .LetterS_Scene:                        //IceScene3
+                return [EvilSun.self, Spikeball.self]
+            case .LetterT_Scene:                        //ForestScene2
+                return [Spikeball.self, EvilSun.self, Spikeman.self]
+            case .LetterU_Scene:                        //FireScene
+                return [Animal.self, Spikeball.self, EvilSun.self]
+            case .LetterV_Scene:                        //FireScene2
+                return [BlockMan.self, EvilSun.self]
+            case .LetterW_Scene:                        //MetalScene2
+                return [Spikeman.self, BlockMan.self]
+            case .LetterX_Scene:                        //MetalScene1
+                return [Bee.self, BlockMan.self]
+            case .LetterY_Scene:                        //CandySceen5
+                return [Fly.self, Bee.self]
+            case .LetterZ_Scene:                        //PlaneScene
+                return [Animal.self]
 
         }
     }

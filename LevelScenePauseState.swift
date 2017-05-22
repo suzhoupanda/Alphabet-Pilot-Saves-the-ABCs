@@ -12,7 +12,7 @@ import SpriteKit
 
 class LevelScenePauseState: GKState{
     
-    let levelScene: BaseScene
+    unowned let levelScene: BaseScene
     
     
     init(levelScene: BaseScene){

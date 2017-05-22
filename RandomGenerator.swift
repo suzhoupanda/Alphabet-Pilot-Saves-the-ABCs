@@ -26,7 +26,7 @@ class RandomGenerator{
         let maxVertical = Int(ScreenSizeConstants.HalfScreenHeight)
         
         let rDistHorizontal = GKRandomDistribution(lowestValue: minHorizontal, highestValue: maxHorizontal)
-        let rDistVertical = GKRandomDistribution(lowestValue: minVertical, highestValue: maxHorizontal)
+        let rDistVertical = GKRandomDistribution(lowestValue: minVertical, highestValue: maxVertical)
         
         
         let randomXPos = rDistHorizontal.nextInt()

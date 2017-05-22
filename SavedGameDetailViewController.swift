@@ -54,23 +54,13 @@ class SavedGameDetailViewController: UIViewController{
     
     @IBAction func loadSavedGame(_ sender: UIBarButtonItem) {
         
-        let currentVerticalSizeClass = traitCollection.verticalSizeClass
+        //TODO: Test for the performance benefits of loading this game on a background queue
         
-        let longSide = currentVerticalSizeClass == .compact ? view.bounds.size.width : view.bounds.size.height
+        DispatchQueue.global().async {
+         
         
-        let shortSide = currentVerticalSizeClass == .compact ? view.bounds.size.height : view.bounds.size.height
-        
-        let aspectRatio = shortSide/longSide
-        
-        let itemWidth = longSide*0.50
-        let itemHeight = itemWidth*aspectRatio*1.5
-        
-        let levelViewLayout = UICollectionViewFlowLayout()
-        levelViewLayout.scrollDirection = .horizontal
-        levelViewLayout.sectionInset = UIEdgeInsets(top: 0.00, left: 20.00, bottom: 0.00, right: 20.00)
-        levelViewLayout.itemSize = CGSize(width: itemWidth, height: itemHeight)
-        
-        
+        let levelViewLayout = LevelControllerCollectionViewLayout()
+       
         ///Initialize LevelViewController
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
@@ -84,17 +74,23 @@ class SavedGameDetailViewController: UIViewController{
         levelViewController.managedContext = managedContext
         levelViewController.collectionView?.backgroundColor = UIColor.GetCustomColor(customColor: .SharkFinWhite)
         
-        guard let reloadData = reloadData else {
+        guard let reloadData = self.reloadData else {
             print("Error: failed to retrieve the reload data required to reload saved game")
             return
         }
         
-        present(levelViewController, animated: true, completion: {
+            
+            DispatchQueue.main.sync {
+                
+                self.present(levelViewController, animated: true, completion: {
             
             
-            levelViewController.reloadSavedGame(reloadData: reloadData)
+                    levelViewController.reloadSavedGame(reloadData: reloadData)
             
-        })
+                })
+            }
+            
+        }
         
        /**
         if let goldCoinCount = goldCoinCount, let silverCoinCount = silverCoinCount, let bronzeCoinCount = bronzeCoinCount, let xVelocity = xVelocityValue, let yVelocity = yVelocityValue, let xPos = xPosValue, let yPos = yPosValue, let sceneLabelText = sceneLabelText,  let letterScene = LetterScene(rawValue: sceneLabelText), let planeColorString = planeColor, let playerPlaneColor = Player.PlaneColor(rawValue: planeColorString), let healthLevel = healthLevel{

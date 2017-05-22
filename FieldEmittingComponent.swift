@@ -113,7 +113,7 @@ class FieldEmittingComponent: GKComponent{
     
     
     override func willRemoveFromEntity() {
-        if var fieldNode = fieldNode{
+        if let fieldNode = fieldNode{
             fieldNode.removeFromParent()
 
         }

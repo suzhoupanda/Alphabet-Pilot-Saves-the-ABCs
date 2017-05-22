@@ -14,7 +14,7 @@ import SpriteKit
 
 class PlayerActiveState: GKState{
     
-    let playerEntity: Player
+    unowned let playerEntity: Player
     
     var currentVelocityCategory: PlayerVelocityCategory?
      

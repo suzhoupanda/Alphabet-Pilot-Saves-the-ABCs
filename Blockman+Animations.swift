@@ -20,7 +20,7 @@ extension BlockMan{
             
             case .Slime:
                 return TextureAtlasManager.sharedManager.blockmanTextureAtlas!.textureNamed("slimeBlock")
-            
+    
         }
     }
     
