@@ -18,6 +18,14 @@ class HelpTopicsController: UITableViewController{
     var selectedQuestionAnswerSet: QuestionAnswerSet?
     
     
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask{
+        return .portrait
+    }
+    
+    override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation{
+        return .portrait
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -72,6 +80,8 @@ extension HelpTopicsController{
          
             let helpTopicsDetailController = HelpDetailController()
             helpTopicsDetailController.QASet = selectedQASet
+            helpTopicsDetailController.modalPresentationStyle = .popover
+            
             
             present(helpTopicsDetailController, animated: true, completion: nil)
             

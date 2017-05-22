@@ -56,41 +56,27 @@ class SavedGameDetailViewController: UIViewController{
         
         //TODO: Test for the performance benefits of loading this game on a background queue
         
-        DispatchQueue.global().async {
-         
-        
-        let levelViewLayout = LevelControllerCollectionViewLayout()
-       
-        ///Initialize LevelViewController
-        
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
-        
-        let levelViewController = LevelViewController(collectionViewLayout: levelViewLayout)
-        
-        levelViewController.view.backgroundColor = UIColor.GetCustomColor(customColor: .SharkFinWhite)
-        
-        levelViewController.managedContext = managedContext
-        levelViewController.collectionView?.backgroundColor = UIColor.GetCustomColor(customColor: .SharkFinWhite)
-        
         guard let reloadData = self.reloadData else {
             print("Error: failed to retrieve the reload data required to reload saved game")
             return
         }
         
+        
+        let userInfo = ["reloadData":reloadData]
+
+        
+        dismiss(animated: true, completion: {
             
-            DispatchQueue.main.sync {
+            
+                NotificationCenter.default.post(name: Notification.Name.ReloadSavedGameNotification, object: nil, userInfo: userInfo)
                 
-                self.present(levelViewController, animated: true, completion: {
+                
+            })
             
+    
+    
             
-                    levelViewController.reloadSavedGame(reloadData: reloadData)
-            
-                })
-            }
-            
-        }
+    }
         
        /**
         if let goldCoinCount = goldCoinCount, let silverCoinCount = silverCoinCount, let bronzeCoinCount = bronzeCoinCount, let xVelocity = xVelocityValue, let yVelocity = yVelocityValue, let xPos = xPosValue, let yPos = yPosValue, let sceneLabelText = sceneLabelText,  let letterScene = LetterScene(rawValue: sceneLabelText), let planeColorString = planeColor, let playerPlaneColor = Player.PlaneColor(rawValue: planeColorString), let healthLevel = healthLevel{
@@ -109,7 +95,7 @@ class SavedGameDetailViewController: UIViewController{
         **/
      
         
-    }
+    
     
     //MARK: ******* Player Velocity Information
     

@@ -124,9 +124,15 @@ class GameSceneController: UIViewController{
         present(alertViewController, animated: false, completion: nil)
     }
     
+    
+    func dismissGameSceneController(notification: Notification){
+        dismiss(animated: true, completion: nil)
+    }
+    
     func registerForNotifications(){
         NotificationCenter.default.addObserver(self, selector: #selector(GameSceneController.notifyPlayerOfGameSaveCompletion(notification:)), name: Notification.Name.UserRequestedGameSaveNotification, object: BaseScene.self)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(GameSceneController.dismissGameSceneController(notification:)), name: Notification.Name.ExitGameToMainMenuNotification, object: nil)
        
     }
     

@@ -43,6 +43,8 @@ extension Notification.Name{
     static let UserRequestedGameSaveNotification = Notification.Name(rawValue: "userRequestedGameSaveNotification")
     
     static let ExitGameToLevelViewControllerNotification = Notification.Name(rawValue: "exitGameToLevelViewControllerNotification")
+    static let ExitGameToMainMenuNotification = Notification.Name(rawValue: "exitGameToMainMenuNotification")
+    static let ReloadSavedGameNotification = Notification.Name(rawValue: "reloadSavedGameNotification")
     
     static let ReloadCurrentGameNotification = Notification.Name(rawValue: "reloadCurrentGameNotification")
     

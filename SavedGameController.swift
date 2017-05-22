@@ -47,7 +47,7 @@ class SavedGameController: UITableViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(SavedGameController.reloadSaveGame(notification:)), name: Notification.Name.ReloadSavedGameNotification, object: nil)
         
         let fetchRequest: NSFetchRequest<GameSession> = GameSession.fetchRequest()
         
@@ -68,6 +68,26 @@ class SavedGameController: UITableViewController{
         }
  
     
+    }
+    
+    func reloadSaveGame(notification: Notification){
+        
+        guard let reloadData = notification.userInfo?["reloadData"] as? ReloadData, let menuOptionsController = presentingViewController as? MenuOptionsViewController else {
+            print("Error: failed to retrieve reloadData from the ReloadSavedGame notification dictionary")
+            return
+        }
+        
+        
+        dismiss(animated: true, completion: {
+            
+            menuOptionsController.reloadSavedGame(reloadData: reloadData)
+            
+        })
+    }
+    
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }
 

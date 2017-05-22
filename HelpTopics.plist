@@ -6,13 +6,13 @@
 	<array>
 		<dict>
 			<key>Answer</key>
-			<string>When the total coin value exceeds 20 points, an additional life is earned, as indicated in the life meter. </string>
+			<string>When the total coin value exceeds 20 points, an additional life is earned, as indicated in the life meter.   A full health point corresponds to one-half of a heart, while 2 health points correspond to a single heart in the health meter.</string>
 			<key>Question</key>
 			<string>How many coins are needed to earn additional lives?</string>
 		</dict>
 		<dict>
 			<key>Answer</key>
-			<string>Gold coins are worth 5 points, silvers coins worth 3 points, and bronze coins worth 2 points.</string>
+			<string>Gold coins are worth 5 points, silvers coins worth 3 points, and bronze coins worth 2 points. Once 20 points are earned, the player health level is increased by 1 point, and the accumulated coin value is reset to zero.</string>
 			<key>Question</key>
 			<string>How much are coins worth?</string>
 		</dict>

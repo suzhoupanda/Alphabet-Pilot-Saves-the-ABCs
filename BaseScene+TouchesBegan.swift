@@ -124,14 +124,16 @@ extension BaseScene{
                     if let restartButton = button.childNode(withName: "Restart") as? SKSpriteNode, restartButton.contains(touchLocationInOptionGroup){
                         print("Restarting level...")
                         
-                        NotificationCenter.default.post(name: Notification.Name.ReloadCurrentGameNotification, object: nil)
+                        let userInfo = ["letterScene": letterScene]
+                        
+                        NotificationCenter.default.post(name: Notification.Name.ReloadCurrentGameNotification, object: nil, userInfo: userInfo)
                     }
                     
                     
                     if let mainMenuButton = button.childNode(withName: "MainMenu") as? SKSpriteNode, mainMenuButton.contains(touchLocationInOptionGroup){
                         
                         
-                        NotificationCenter.default.post(name: Notification.Name.ExitGameToLevelViewControllerNotification, object: nil)
+                        NotificationCenter.default.post(name: Notification.Name.ExitGameToMainMenuNotification, object: nil)
                     }
                     
                     if let saveGameButton = button.childNode(withName: "SaveGame") as? SKSpriteNode, saveGameButton.contains(touchLocationInOptionGroup){

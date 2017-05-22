@@ -99,11 +99,13 @@ class LevelViewController: UICollectionViewController{
         
         let returnToMainMenuItem = UIBarButtonItem(title: "Return to Main Menu", style: .plain, target: self, action: #selector(LevelViewController.returnToMainMenu))
         
+        let viewCompletedLevels = UIBarButtonItem(title: "View Completed Levels", style: .plain, target: self, action: #selector(LevelViewController.showCompletedLevelsController))
+        
         let uiOffset1 = UIOffset(horizontal: 50.00, vertical: 0.00)
         
         returnToMainMenuItem.setTitlePositionAdjustment(uiOffset1, for: .default)
         
-        toolBar.setItems([replayPreviewItem, returnToMainMenuItem], animated: true)
+        toolBar.setItems([replayPreviewItem, returnToMainMenuItem, viewCompletedLevels], animated: true)
         
         
         toolBar.translatesAutoresizingMaskIntoConstraints = false
@@ -121,6 +123,17 @@ class LevelViewController: UICollectionViewController{
             ])
         
         
+    }
+    
+    func showCompletedLevelsController(){
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        let navController = storyBoard.instantiateViewController(withIdentifier: "CompletedLevelNavigationController") as! UINavigationController
+        
+        let completedLevelsController = navController.viewControllers.first! as! CompletedLevelsController
+
+        completedLevelsController.managedContext = managedContext
+        
+        present(navController, animated: true, completion: nil)
     }
     
     func returnToMainMenu(){
@@ -236,28 +249,19 @@ extension LevelViewController{
             
             print("Cell selected. Loading game..")
             
-            /**
-            if let resourceTags = gameMetaData.onDemandResourceTags, !resourceTags.isEmpty{
-                
-                let resourceRequest = NSBundleResourceRequest(tags: resourceTags)
-                
-                resourceRequest.beginAccessingResources(completionHandler: {_ in 
-                    
-                    self.loadGame(levelSceneMetaData: gameMetaData)
-                
-                })
-            } else {
             
-                loadGame(levelSceneMetaData: gameMetaData)
+            dismiss(animated: true, completion: {
                 
-            }**/
-            
-            loadGame(levelSceneMetaData: gameMetaData)
+                    LevelThumbnailCache.sharedCache.clearCache()
 
             
-            //Start preload the ResourceLoadableTypes corresponding to the onDemangdResource tags (including the sks file)
+                    let userInfo = ["letterScene": gameMetaData.letterScene.rawValue]
                 
-            //transition to a ProgressScene; call beginDownloadingResources on an NSBundleRequest, where its completion handler will involve presenting the scene whose resources have become fully available
+                    NotificationCenter.default.post(name: Notification.Name.LevelChosenNotification, object: LevelViewController.self, userInfo: userInfo)
+               
+
+            })
+            
         }
     
     }
@@ -270,139 +274,15 @@ extension LevelViewController{
     }
     
     
-    
-    func loadGame(levelSceneMetaData: LevelSceneMetaData){
-        
-        print("Starting to load game...")
-        
-        //Clear the level thumbnail cache, since user is not likely to be scrolling through collection view thumbnails while gameplay is in progress
-        LevelThumbnailCache.sharedCache.clearCache()
-
-        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
-        
-        self.mainMotionManager.startDeviceMotionUpdates()
-        self.mainMotionManager.deviceMotionUpdateInterval = 0.50
-        
-        
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        let gscController = storyBoard.instantiateViewController(withIdentifier: "GameSceneControllerSB") as! GameSceneController
-        
-        //let gscController = GameSceneController(nibName: nil, bundle: nil)
-        gscController.letterScene = levelSceneMetaData.letterScene
-        
-        self.present(gscController, animated: true, completion: nil)
-          
-        
-        
-    }
+   
     
     
-    func reloadSavedGame(reloadData: ReloadData){
         
-        
-        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
-        
-        self.mainMotionManager.startDeviceMotionUpdates()
-        self.mainMotionManager.deviceMotionUpdateInterval = 0.50
-        
-        
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        let gscController = storyBoard.instantiateViewController(withIdentifier: "GameSceneControllerSB") as! GameSceneController
-        
-        //let gscController = GameSceneController(nibName: nil, bundle: nil)
-        gscController.letterScene = reloadData.letterScene
-        gscController.reloadData = reloadData
-        
-        self.present(gscController, animated: true, completion: nil)
-        
-        
-        
-    }
-    
-    func reloadCurrentGame(notification: Notification){
-        
-        guard let presentedViewController = presentedViewController as? GameSceneController else {
-            print("Error: There is no Game Scene controller currently being presented")
-            return
-        }
-        
-        let presentingView = presentedViewController.view as! SKView
-        
-        
-        let transition = SKTransition.crossFade(withDuration: 2.00)
-        
-        
-        if let letterScene = presentedViewController.letterScene{
-       
-            
-            
-            DispatchQueue.global().async {
-                
-                
-                presentedViewController.baseScene = nil
-
-                
-                let baseScene = GameSceneController.GetSceneForLetterSceneType(letterScene: letterScene, reloadData: nil)
-                
-                DispatchQueue.main.sync {
-                    presentingView.presentScene(baseScene, transition: transition)
-
-                }
-            }
-        
-        
-        }
-        
-    }
-    
-    
-    func exitGame(notification: Notification){
-        
-
-        if let gameSceneViewController = presentedViewController as? GameSceneController{
-            
-            gameSceneViewController.dismiss(animated: true, completion: {
-                
-            
-                //Release the GameScene controller's view from memory and purge the currently-running base scene from memory cache, as well as the ReloadData (if any) and LevelScene configuration data used to initialize the Base Scene
-                
-                gameSceneViewController.view = nil
-
-                gameSceneViewController.baseScene = nil
-                
-                gameSceneViewController.letterScene = nil
-                
-                gameSceneViewController.reloadData = nil
-                
-                //Once the Game Scene Controller is dismissed, it's no longer necessary to continue receiving motion updates for player position
-                
-                self.mainMotionManager.stopDeviceMotionUpdates()
-                
-                
-                //Upon exiting game, deselect the game scene that is being loaded
-                
-                guard let collectionView = self.collectionView, let indexPaths = collectionView.indexPathsForSelectedItems  else {
-                    print("Error: collection view unavailable for modification or no collection view items have been selected")
-                    return
-                }
-                for indexPath in indexPaths{
-                    collectionView.deselectItem(at: indexPath, animated: true)
-                    print("Previously selected scenes have been deselected")
-                }
-                
-            })
-        }
-        
-    }
-    
    
     
     func registerNotifications(){
         
-        NotificationCenter.default.addObserver(self, selector: #selector(LevelViewController.exitGame(notification:)), name: Notification.Name.ExitGameToLevelViewControllerNotification, object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(LevelViewController.reloadCurrentGame(notification:)), name: Notification.Name.ReloadCurrentGameNotification, object: nil)
-        
+      
        /** NotificationCenter.default.addObserver(forName: Notification.Name.ExitGameToLevelViewControllerNotification, object: nil, queue: OperationQueue(), using: {
         
         
