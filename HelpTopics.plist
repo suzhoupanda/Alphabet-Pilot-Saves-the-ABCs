@@ -57,7 +57,7 @@
 	<array>
 		<dict>
 			<key>Answer</key>
-			<string>The player moves vertically by tilting the phone away from or towards the user.  The player&apos;s horizontal speed can be adjusted by tapping to the right or left of the player.  However, the player can only move in the forward direction and cannot reverse direction.</string>
+			<string>The player moves vertically by tilting the phone away from or towards the user.  The player&apos;s horizontal speed can be adjusted by tapping to the right or left of the player.  The player can move in the forward direction or the reverse direction, but propeller speed only changes for movement in the forward direction.</string>
 			<key>Question</key>
 			<string>How can the player be moved?</string>
 		</dict>

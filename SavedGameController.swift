@@ -171,14 +171,24 @@ extension SavedGameController{
             })
             **/
             
+            tableView.endUpdates()
             
-            let objectToDelete = self.fetchedResultsController.object(at: indexPath)
-            self.managedContext.delete(objectToDelete)
+            DispatchQueue.global().async {
+                
             
-            do{
-                try self.managedContext.save()
-            } catch let error as NSError{
-                print("Error occurred while saving fetched results controller data after deletion.  \(error), \(error.userInfo)")
+            
+                let objectToDelete = self.fetchedResultsController.object(at: indexPath)
+                self.managedContext.delete(objectToDelete)
+            
+                do{
+                    try self.managedContext.save()
+                } catch let error as NSError{
+                    print("Error occurred while saving fetched results controller data after deletion.  \(error), \(error.userInfo)")
+                }
+                
+                DispatchQueue.main.sync {
+                    self.tableView.reloadData()
+                }
             }
             
             
@@ -308,7 +318,14 @@ extension SavedGameController: NSFetchedResultsControllerDelegate{
         
         switch type{
         case .delete:
-            tableView.deleteRows(at: [indexPath!], with: .automatic)
+            let alertController = UIAlertController(title: "Game Deleted", message: "The previously saved game has been deleted", preferredStyle: .actionSheet)
+            
+            let okayAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
+            
+            alertController.addAction(okayAction)
+            
+            present(alertController, animated: true, completion: nil)
+            
             break
         default:
             break

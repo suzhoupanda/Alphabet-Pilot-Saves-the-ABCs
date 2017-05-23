@@ -16,7 +16,7 @@ import ReplayKit
 
 class MenuOptionsViewController: UIViewController{
     
-   var textureAtlasManager = TextureAtlasManager.sharedManager
+   var textureAtlasManagevar = TextureAtlasManager.sharedManager
     var mainMotionManager = MainMotionManager.sharedMotionManager
     
     var canViewHelpContent: Bool = true
@@ -34,23 +34,59 @@ class MenuOptionsViewController: UIViewController{
     }
 
     override func viewWillLayoutSubviews() {
+        
         super.viewWillLayoutSubviews()
         
+        let hasLaunchedApp = UserDefaults.standard.bool(forKey: "hasLaunchedApp")
+        
+        if !hasLaunchedApp{
+            let alertController = UIAlertController(title: "User Alert", message: "Recording must be enabled in order for game audio to be available. You can enable or disable recording from the game level scene to turn audio on or off respectively", preferredStyle: .actionSheet)
+            
+            let dismissAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            
+            alertController.addAction(dismissAction)
+            
+            self.present(alertController, animated: true, completion: {
+                
+                UserDefaults.standard.set(true, forKey: "hasLaunchedApp")
+                
+                ScreenRecorderHelper.sharedHelper.startScreenRecording()
+            })
+            
+            
+            
+        }
     
        
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
+        
+        
         super.viewWillAppear(animated)
         
         MusicHelper.sharedHelper.playBackgroundMusic(musicFileName: "Sad Town")
         
+        
+        
+       
+        
     }
+    
+    override func didMove(toParentViewController parent: UIViewController?) {
+        super.didMove(toParentViewController: parent)
+        
+       
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         registerForNotifications()
+        
+      
         
     }
     
