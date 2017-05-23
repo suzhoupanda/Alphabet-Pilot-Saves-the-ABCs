@@ -25,23 +25,46 @@ class CompletedLevelsController: UITableViewController, NSFetchedResultsControll
     
     @IBAction func clearLevelData(_ sender: UIBarButtonItem) {
         
+        tableView.endUpdates()
+        
         guard let levelInformationArray = fetchedResultsController.fetchedObjects else {
             print("clearLevelData function warning: no data in the fetched results controller")
             return
         }
         
-        for levelInformation in levelInformationArray{
-            managedContext.delete(levelInformation)
+        
+        DispatchQueue.global().async {
+
+        
+        
+            for levelInformation in levelInformationArray{
+            
+                self.managedContext.delete(levelInformation)
+                
+                do{
+                    
+                    try self.managedContext.save()
+                    
+        
+                    
+                } catch let error as NSError{
+                    print("Error \(error),\(error.localizedDescription)")
+                }
+                
+                
+
+            }
+            
+            DispatchQueue.main.sync {
+                
+                self.tableView.reloadData()
+            }
 
         }
         
-        do{
+       
             
-            try managedContext.save()
             
-        } catch let error as NSError{
-            print("Error \(error),\(error.localizedDescription)")
-        }
         
     }
     
@@ -167,11 +190,20 @@ extension CompletedLevelsController{
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         
         switch type{
-        case .insert:
-            tableView.insertRows(at: [newIndexPath!], with: .automatic)
-            break
-        default:
-            break
+            case .insert:
+                tableView.insertRows(at: [newIndexPath!], with: .automatic)
+                break
+            case .delete:
+                let alertController = UIAlertController(title: "Deletion Completed", message: "Level completion status data has been deleted", preferredStyle: .alert)
+            
+                let okayAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                
+                alertController.addAction(okayAction)
+                
+                present(alertController, animated: true, completion: nil)
+            
+            default:
+                break
         }
     }
     

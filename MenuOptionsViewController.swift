@@ -45,7 +45,6 @@ class MenuOptionsViewController: UIViewController{
         
         MusicHelper.sharedHelper.playBackgroundMusic(musicFileName: "Sad Town")
         
-        RPScreenRecorder.shared().startRecording(handler: nil)
     }
     
     override func viewDidLoad() {
@@ -129,7 +128,6 @@ class MenuOptionsViewController: UIViewController{
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowGameHelpSegue"{
-            let helpController = segue.destination as! HelpTopicsController
             
             
         }
@@ -167,19 +165,37 @@ class MenuOptionsViewController: UIViewController{
         
         //Clear the level thumbnail cache, since user is not likely to be scrolling through collection view thumbnails while gameplay is in progress
         
-        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
+        DispatchQueue.global().async {
+            
         
-        mainMotionManager.startDeviceMotionUpdates()
-        mainMotionManager.deviceMotionUpdateInterval = 0.50
+            UIDevice.current.beginGeneratingDeviceOrientationNotifications()
+        
+            self.mainMotionManager.startDeviceMotionUpdates()
+            self.mainMotionManager.deviceMotionUpdateInterval = 0.50
         
         
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        let gscController = storyBoard.instantiateViewController(withIdentifier: "GameSceneControllerSB") as! GameSceneController
+            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+            let gscController = storyBoard.instantiateViewController(withIdentifier: "GameSceneControllerSB") as! GameSceneController
         
-        //let gscController = GameSceneController(nibName: nil, bundle: nil)
-        gscController.letterScene = LetterScene(rawValue: letterSceneString)
+            //let gscController = GameSceneController(nibName: nil, bundle: nil)
+            
+            let letterScene = LetterScene(rawValue: letterSceneString)
+            
+            gscController.letterScene = letterScene
+            
+            let loadTexturesOperation = LoadSceneTexturesOperation(letterScene: letterScene!)
+            
+            loadTexturesOperation.start()
+            
+            
+            gscController.baseScene =  GameSceneController.GetSceneForLetterSceneType(letterScene: letterScene!, reloadData: nil)
+            
+            DispatchQueue.main.sync {
+                self.present(gscController, animated: true, completion: nil)
+
+            }
         
-        present(gscController, animated: true, completion: nil)
+        }
         
         
         
@@ -189,25 +205,44 @@ class MenuOptionsViewController: UIViewController{
     func reloadSavedGame(notification: Notification){
         
         
+        if presentedViewController != nil{
+            presentedViewController?.dismiss(animated: true, completion: nil)
+        }
+        
         guard let reloadData = notification.userInfo?["reloadData"] as? ReloadData else {
             print("Error: failed to retrieved reloadData from the ReloadSaveGameNotification's userInfo dict")
             return
         }
         
-        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
-        
-        self.mainMotionManager.startDeviceMotionUpdates()
-        self.mainMotionManager.deviceMotionUpdateInterval = 0.50
-        
         
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let gscController = storyBoard.instantiateViewController(withIdentifier: "GameSceneControllerSB") as! GameSceneController
         
-        //let gscController = GameSceneController(nibName: nil, bundle: nil)
-        gscController.letterScene = reloadData.letterScene
-        gscController.reloadData = reloadData
+        DispatchQueue.global().async {
+            
         
-        self.present(gscController, animated: true, completion: nil)
+            UIDevice.current.beginGeneratingDeviceOrientationNotifications()
+        
+            self.mainMotionManager.startDeviceMotionUpdates()
+            self.mainMotionManager.deviceMotionUpdateInterval = 0.50
+        
+        
+            
+            let loadTexturesOperation = LoadSceneTexturesOperation(letterScene: reloadData.letterScene)
+            
+            loadTexturesOperation.start()
+        
+            //let gscController = GameSceneController(nibName: nil, bundle: nil)
+            gscController.letterScene = reloadData.letterScene
+            gscController.reloadData = reloadData
+            
+            gscController.baseScene =  GameSceneController.GetSceneForLetterSceneType(letterScene: reloadData.letterScene, reloadData: reloadData)
+            
+            DispatchQueue.main.sync {
+            
+                self.present(gscController, animated: true, completion: nil)
+            }
+        }
         
         
         
@@ -318,6 +353,9 @@ class MenuOptionsViewController: UIViewController{
         NotificationCenter.default.addObserver(self, selector: #selector(MenuOptionsViewController.reloadCurrentGame(notification:)), name: Notification.Name.ReloadCurrentGameNotification, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(MenuOptionsViewController.reloadSavedGame(notification:)), name: Notification.Name.ReloadSavedGameNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(MenuOptionsViewController.reloadSavedGame(notification:)), name: Notification.Name.ReloadSavedGameNotification, object: nil)
+        
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask{

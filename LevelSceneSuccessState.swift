@@ -89,7 +89,7 @@ class LevelSceneSuccessState: GKState{
       
         NotificationCenter.default.post(name: Notification.Name.LevelCompletedNotification, object: BaseScene.self, userInfo: userInfo)
         
-        NotificationCenter.default.post(name: Notification.Name.ExitGameToLevelViewControllerNotification, object: nil)
+         NotificationCenter.default.post(name: Notification.Name.ExitGameToMainMenuNotification, object: nil)
         
         
         

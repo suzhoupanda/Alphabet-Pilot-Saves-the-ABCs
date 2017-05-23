@@ -40,25 +40,13 @@ class GameSceneController: UIViewController{
         
         baseScene = nil
         
-        guard let letterScene = letterScene else {
-            print("Error: the letter scene must be set in order for loadable types to be deallocated")
-            return
-        }
-        
-        switch letterScene{
-            case .LetterG_Scene:
-                Animal.purgeResoures()
-                break
-            default:
-                break
-            
-        }
+    
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-   
+        
         
         
             self.screenRecorderHelper.presentingViewController = self
@@ -72,25 +60,10 @@ class GameSceneController: UIViewController{
                     
                     //Initialize the base scene based on the value of the letterScene property for the GameSceneView controller
                 
-                    let loadTexturesOperation = LoadSceneTexturesOperation(letterScene: letterScene)
                 
-                
-                    DispatchQueue.global().async {
-                        
-                        loadTexturesOperation.start()
-                        
-                        
-                        
-                        
-                        DispatchQueue.main.sync {
+                //gscController.baseScene =  reloadData != nil ? GameSceneController.GetSceneForLetterSceneType(letterScene: letterScene, reloadData: self.reloadData) : GameSceneController.GetSceneForLetterSceneType(letterScene: letterScene, reloadData: nil)
                             
-                            self.baseScene = self.reloadData != nil ? GameSceneController.GetSceneForLetterSceneType(letterScene: letterScene, reloadData: self.reloadData) : GameSceneController.GetSceneForLetterSceneType(letterScene: letterScene, reloadData: nil)
-                            
-                            skView.presentScene(self.baseScene)
-
-                        }
-                    }
-                
+                skView.presentScene(self.baseScene)
                 
                 
                 

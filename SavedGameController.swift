@@ -47,8 +47,7 @@ class SavedGameController: UITableViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(SavedGameController.reloadSaveGame(notification:)), name: Notification.Name.ReloadSavedGameNotification, object: nil)
-        
+       
         let fetchRequest: NSFetchRequest<GameSession> = GameSession.fetchRequest()
         
         let levelSort = NSSortDescriptor(key: #keyPath(GameSession.scene), ascending: true)
@@ -86,9 +85,7 @@ class SavedGameController: UITableViewController{
     }
     
     
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
+   
 }
 
 

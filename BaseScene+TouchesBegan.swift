@@ -55,7 +55,7 @@ extension BaseScene{
                         if let mainMenuButton = button.childNode(withName: "MainMenu") as? SKSpriteNode, mainMenuButton.contains(touchLocationInGameFailGroup){
                             
                             
-                            NotificationCenter.default.post(name: Notification.Name.ExitGameToLevelViewControllerNotification, object: nil)
+                             NotificationCenter.default.post(name: Notification.Name.ExitGameToMainMenuNotification, object: nil)
                         }
                         
                 }

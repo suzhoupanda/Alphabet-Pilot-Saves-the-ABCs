@@ -10,19 +10,33 @@ import Foundation
 import UIKit
 
 
-class HelpDetailController: UIViewController, UIScrollViewDelegate{
+class HelpDetailController: UICollectionViewController{
     
     typealias QuestionAnswerSet = [[String:String]]
     
     var QASet: QuestionAnswerSet!
     
+    /**
     var mainStackView: UIStackView!
+    var toolbar: UIToolbar!
+    
+    var mainStackViewConstraints: [NSLayoutConstraint]{
+        get{
+            return [
+                mainStackView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 20.00),
+                mainStackView.bottomAnchor.constraint(equalTo: toolbar.topAnchor),
+                mainStackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20.00),
+                mainStackView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 20.00)
+            ]
+        }
+    }
+    **/
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        
-        let toolbar = UIToolbar()
+        /**
+        toolbar = UIToolbar()
         toolbar.translatesAutoresizingMaskIntoConstraints = false
         
         let backItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(HelpDetailController.returnToHelpTopicsMenu))
@@ -33,9 +47,10 @@ class HelpDetailController: UIViewController, UIScrollViewDelegate{
         
         toolbar.backgroundColor = UIColor.GetCustomColor(customColor: .GrassyGreen)
         
-        mainStackView.translatesAutoresizingMaskIntoConstraints = false
 
         mainStackView = UIStackView()
+        mainStackView.translatesAutoresizingMaskIntoConstraints = false
+
         view.addSubview(mainStackView)
         
         
@@ -49,15 +64,10 @@ class HelpDetailController: UIViewController, UIScrollViewDelegate{
             toolbar.rightAnchor.constraint(equalTo: view.rightAnchor),
             toolbar.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.08),
             
-            //Configure constraints for scroll view
-            mainStackView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 20.00),
-            mainStackView.bottomAnchor.constraint(equalTo: toolbar.topAnchor),
-            mainStackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20.00),
-            mainStackView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 20.00)
             
             ])
       
-       
+       NSLayoutConstraint.activate(mainStackViewConstraints)
       
         view.backgroundColor = UIColor.GetCustomColor(customColor: .SharkFinWhite)
         
@@ -100,6 +110,8 @@ class HelpDetailController: UIViewController, UIScrollViewDelegate{
             
             mainStackView.addArrangedSubview(QAStackView)
         }
+ 
+        **/
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -108,9 +120,26 @@ class HelpDetailController: UIViewController, UIScrollViewDelegate{
         
     }
     
+    
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        
+        /**
+        let removeConstraintsOperationQueue = OperationQueue()
+        removeConstraintsOperationQueue.addOperation {
+            NSLayoutConstraint.deactivate(self.mainStackViewConstraints)
+        }
+        
+        removeConstraintsOperationQueue.waitUntilAllOperationsAreFinished()
+        **/
+        
+        super.viewWillDisappear(animated)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "QACell")
        
     }
     
@@ -134,10 +163,79 @@ class HelpDetailController: UIViewController, UIScrollViewDelegate{
 }
 
 
-//MARK: ScrollViewDelegate Methods
+//MARK: CollectionView DataSource Methods
 
 extension HelpDetailController{
+    
+    
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return QASet.count
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        var cell = collectionView.dequeueReusableCell(withReuseIdentifier: "QACell", for: indexPath)
+        
+        let QAPair = QASet[indexPath.row]
+        
+        configureCell(forCollectionViewCell: &cell, andForQAPair: QAPair)
+        
+        return cell
+    }
+    
+    func configureCell(forCollectionViewCell cell: inout UICollectionViewCell, andForQAPair QAPair: [String:String]){
+        
+        cell.backgroundColor = UIColor.GetCustomColor(customColor: .BluishGrey)
+        
+        let question = QAPair["Question"]
+        let answer = QAPair["Answer"]
+        
+        let questionLabel = UILabel()
+        questionLabel.text = question
+        questionLabel.numberOfLines = 0
+        questionLabel.lineBreakMode = .byWordWrapping
+        questionLabel.font = UIFont(name: "Avenir-HeavyOblique", size: 20.0)
+        questionLabel.textColor = UIColor.GetCustomColor(customColor: .StopSignRed)
+        questionLabel.setContentHuggingPriority(110, for: .vertical)
+        questionLabel.setContentCompressionResistancePriority(90, for: .vertical)
+        
+        let answerLabel = UILabel()
+        answerLabel.text = answer
+        answerLabel.numberOfLines = 0
+        answerLabel.font = UIFont(name: "Avenir-Book", size: 15.0)
+        answerLabel.lineBreakMode = .byWordWrapping
+        answerLabel.setContentHuggingPriority(90, for: .vertical)
+        answerLabel.setContentCompressionResistancePriority(110, for: .vertical)
+        
+        
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .fillProportionally
+        stackView.addArrangedSubview(questionLabel)
+        stackView.addArrangedSubview(answerLabel)
+        
+        cell.contentView.addSubview(stackView)
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: cell.contentView.topAnchor, constant: 10.00),
+            stackView.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor, constant: -10.00),
+            stackView.leftAnchor.constraint(equalTo: cell.contentView.leftAnchor, constant: 10.00),
+            stackView.rightAnchor.constraint(equalTo: cell.contentView.rightAnchor, constant: -10.00)
+            
+            ])
+        
+        
+        cell.contentView.layoutSubviews()
+    }
 
+
+    /**
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
         
     }
@@ -149,5 +247,5 @@ extension HelpDetailController{
         }
       
     }
-    
+    **/
 }

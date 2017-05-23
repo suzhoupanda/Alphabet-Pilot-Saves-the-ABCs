@@ -78,12 +78,14 @@ extension HelpTopicsController{
         
         if let selectedQASet = selectedQuestionAnswerSet{
          
-            let helpTopicsDetailController = HelpDetailController()
+            
+            
+            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+            let helpTopicsDetailController = storyBoard.instantiateViewController(withIdentifier: "HelpDetailController") as! HelpDetailController
+            
             helpTopicsDetailController.QASet = selectedQASet
-            helpTopicsDetailController.modalPresentationStyle = .popover
             
-            
-            present(helpTopicsDetailController, animated: true, completion: nil)
+            navigationController?.pushViewController(helpTopicsDetailController, animated: true)
             
         }
 

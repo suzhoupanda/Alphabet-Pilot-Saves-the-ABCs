@@ -6,10 +6,12 @@
 //  Copyright © 2017 AlexMakedonski. All rights reserved.
 //
 
+
 import Foundation
 import SpriteKit
 import UIKit
 import ReplayKit
+
 
 class ScreenRecorderHelper: NSObject, RPScreenRecorderDelegate, RPPreviewViewControllerDelegate{
     
@@ -17,7 +19,7 @@ class ScreenRecorderHelper: NSObject, RPScreenRecorderDelegate, RPPreviewViewCon
     static let sharedHelper = ScreenRecorderHelper()
     
     
-    private let sharedRecorder =  RPScreenRecorder.shared()
+    private var sharedRecorder: RPScreenRecorder?
     
     var presentingViewController: UIViewController?
     
@@ -26,13 +28,23 @@ class ScreenRecorderHelper: NSObject, RPScreenRecorderDelegate, RPPreviewViewCon
         
         super.init()
         
-        sharedRecorder.delegate = self
         
-    
     }
+    
+    
     
     var previewViewController: RPPreviewViewController?
     
+    
+    func enableScreenRecorder(){
+        sharedRecorder = RPScreenRecorder.shared()
+        sharedRecorder!.delegate = self
+
+    }
+    
+    func disableScreenRecorder(){
+        sharedRecorder = nil
+    }
     
     func startScreenRecording(){
         
@@ -41,7 +53,7 @@ class ScreenRecorderHelper: NSObject, RPScreenRecorderDelegate, RPPreviewViewCon
         
         //Start the recorder; if an error occurs, then an AlertViewController is shown; the handler for errors that occur in starting the recording is asynchronous but the AlertController will be shown on the Main Queue
         
-        if sharedRecorder.isRecording{
+        if sharedRecorder != nil, sharedRecorder!.isRecording{
             
             let alertController = UIAlertController(title: "Warning: Recording in Progress", message: "A recording is already in progress. Do you want to stop recording?", preferredStyle: .alert)
             
@@ -78,9 +90,7 @@ class ScreenRecorderHelper: NSObject, RPScreenRecorderDelegate, RPPreviewViewCon
         
         
 
-        let sharedRecorder = RPScreenRecorder.shared()
-        
-        if !sharedRecorder.isRecording{
+        if sharedRecorder == nil || (sharedRecorder != nil && !sharedRecorder!.isRecording){
             
             let alertController = UIAlertController(title: "Warning: No Recording in Progress", message: "There is no recording in progress. Do you want to start recording?", preferredStyle: .alert)
             
@@ -114,9 +124,9 @@ class ScreenRecorderHelper: NSObject, RPScreenRecorderDelegate, RPPreviewViewCon
         
         
         
-        let sharedRecorder = RPScreenRecorder.shared()
+        enableScreenRecorder()
         
-        sharedRecorder.startRecording(handler: {
+        sharedRecorder!.startRecording(handler: {
             
             error in
             
@@ -128,10 +138,10 @@ class ScreenRecorderHelper: NSObject, RPScreenRecorderDelegate, RPPreviewViewCon
     }
     
     func stopRecordingAndSavePreviewViewController(){
-     
-        if !sharedRecorder.isRecording { return }
         
-        sharedRecorder.stopRecording(handler: {
+        if sharedRecorder == nil { return }
+        
+        sharedRecorder!.stopRecording(handler: {
             previewViewController, error in
             
             if let error = error{
@@ -145,7 +155,8 @@ class ScreenRecorderHelper: NSObject, RPScreenRecorderDelegate, RPPreviewViewCon
                 self.previewViewController = previewViewController
             }
             
-            
+            self.disableScreenRecorder()
+
         })
     }
     
