@@ -7,10 +7,12 @@
     },
     {
       "idiom" : "universal",
+      "filename" : "brownCastle800.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "brownCastle1200.png",
       "scale" : "3x"
     }
   ],

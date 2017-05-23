@@ -2,15 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "colored_desert.png",
+      "filename" : "colored_desert500.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "colored_desert.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "colored_desert1500.png",
       "scale" : "3x"
     }
   ],
