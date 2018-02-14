@@ -84,6 +84,8 @@ class SaveGameOperation: Operation, ProgressReporting{
         do{
             try managedContext.save()
             
+           // NotificationCenter.default.post(name: Notification.Name.GameFinishedSavingNotification, object: SaveGameOperation.self, userInfo: nil)
+            
         } catch let error as NSError{
             print("Error: Failed to save game \(error), \(error.localizedDescription)")
         }

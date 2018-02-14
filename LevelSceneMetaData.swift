@@ -29,6 +29,64 @@ enum LetterScene: String{
     ]
     
     
+    func getSKSFileName() -> String{
+        switch self{
+            case .LetterA_Scene:
+                return "SpaceScene1"
+            case .LetterB_Scene:
+                return "CandyScene1"
+            case .LetterC_Scene:
+                return "CandyScene2"
+            case .LetterD_Scene:
+                return "CandyScene3"
+            case .LetterE_Scene:
+                return "CandyScene4"
+            case .LetterF_Scene:
+                return "SpaceScene2"
+            case .LetterG_Scene:
+                return "PlaneScene1"
+            case .LetterH_Scene:
+                return "PlaneScene2"
+            case .LetterI_Scene:
+                return "IceScene2"
+            case .LetterJ_Scene:
+                return "CaveScene1"
+            case .LetterK_Scene:
+                return "CaveScene2"
+            case .LetterL_Scene:
+                return "ForestScene3"
+            case .LetterM_Scene:
+                return "PlaneScene4"
+            case .LetterN_Scene:
+                return "SandScene3"
+            case .LetterO_Scene:
+                return "IceScene1"
+            case .LetterP_Scene:
+                return "SandScene2"
+            case .LetterQ_Scene:
+                return "CaveScene3"
+            case .LetterR_Scene:
+                return "SandScene4"
+            case .LetterS_Scene:
+                return "IceScene3"
+            case .LetterT_Scene:
+                return "ForestScene2"
+            case .LetterU_Scene:
+                return "FireScene"
+            case .LetterV_Scene:
+                return "FireScene2"
+            case .LetterW_Scene:
+                return "MetalScene2"
+            case .LetterX_Scene:
+                return "MetalScene2"
+            case .LetterY_Scene:
+                return "CandyScene5"
+            case .LetterZ_Scene:
+                return "PlaneScene1"
+
+        }
+    }
+    
     func getBackGroundMusicFileName() -> String{
         switch self{
         case .LetterA_Scene:
@@ -46,9 +104,9 @@ enum LetterScene: String{
         case .LetterG_Scene:
             return BackgroundMusic.TimeDriving
         case .LetterH_Scene:
-            return BackgroundMusic.InfiniteDescent
+            return BackgroundMusic.TimeDriving
         case .LetterI_Scene:
-            return BackgroundMusic.ItalianMom
+            return BackgroundMusic.TimeDriving
         case .LetterJ_Scene:
             return BackgroundMusic.MishiefStroll
         case .LetterK_Scene:
@@ -58,7 +116,7 @@ enum LetterScene: String{
         case .LetterM_Scene:
             return BackgroundMusic.PolkaTrain
         case .LetterN_Scene:
-            return BackgroundMusic.SadDescent
+            return BackgroundMusic.PolkaTrain
         case .LetterO_Scene:
             return BackgroundMusic.SadTown
         case .LetterP_Scene:
@@ -110,13 +168,13 @@ enum LetterScene: String{
         
         switch self{
             case .LetterA_Scene:                        //SpaceScene1
-                return [Alien.self, EvilSun.self, Bee.self, Spikeball.self]
+                return [Alien.self, EvilSun.self, Bee.self, Spikeball.self, Bomb.self]
             case .LetterB_Scene:                        //CandyScene1
                 return [Bee.self]
             case .LetterC_Scene:                        //CandyScene2
                 return [BlockMan.self, Bomb.self]
             case .LetterD_Scene:                        //CandyScene3
-                return [Alien.self, BlockMan.self]
+                return [Alien.self, BlockMan.self, Bee.self]
             case .LetterE_Scene:                        //CandyScene4
                 return [Bomb.self, Bee.self, Animal.self, BlockMan.self]
             case .LetterF_Scene:

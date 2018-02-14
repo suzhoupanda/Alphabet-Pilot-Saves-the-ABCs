@@ -76,28 +76,28 @@ extension LaserBullet{
         
         switch laserConfiguration{
         case (.Red, .Horizontal):
-            laserTexture = SKTexture(image: #imageLiteral(resourceName: "laserRed"))
+            laserTexture = TextureAtlasManager.sharedManager.beamsTextureAtlas?.textureNamed("laserRed")
             break
         case (.Red, .Vertical):
-            laserTexture = SKTexture(image: #imageLiteral(resourceName: "laserRedTop"))
+            laserTexture = TextureAtlasManager.sharedManager.beamsTextureAtlas?.textureNamed("laserRedTop")
             break
         case (.Yellow, .Horizontal):
-            laserTexture = SKTexture(image: #imageLiteral(resourceName: "laserYellow"))
+            laserTexture = TextureAtlasManager.sharedManager.beamsTextureAtlas?.textureNamed("laserYellow")
             break
         case (.Yellow, .Vertical):
-            laserTexture = SKTexture(image: #imageLiteral(resourceName: "laserYellowTop"))
+            laserTexture = TextureAtlasManager.sharedManager.beamsTextureAtlas?.textureNamed("laserYellowTop")
             break
         case (.Green, .Horizontal):
-            laserTexture = SKTexture(image: #imageLiteral(resourceName: "laserGreen"))
+            laserTexture = TextureAtlasManager.sharedManager.beamsTextureAtlas?.textureNamed("laserGreen")
             break
         case (.Green, .Vertical) :
-            laserTexture = SKTexture(image: #imageLiteral(resourceName: "laserGreenTop"))
+            laserTexture = TextureAtlasManager.sharedManager.beamsTextureAtlas?.textureNamed("laserGreenTop")
             break
         case (.Blue, .Horizontal):
-            laserTexture = SKTexture(image: #imageLiteral(resourceName: "laserBlue"))
+            laserTexture = TextureAtlasManager.sharedManager.beamsTextureAtlas?.textureNamed("laserBlue")
             break
         case (.Blue, .Vertical) :
-            laserTexture = SKTexture(image: #imageLiteral(resourceName: "laserBlueTop"))
+            laserTexture = TextureAtlasManager.sharedManager.beamsTextureAtlas?.textureNamed("laserBlueTop")
             break
         }
         

@@ -21,6 +21,8 @@ class SavedGameController: UITableViewController{
     
     var fetchedResultsController: NSFetchedResultsController<GameSession>!
     
+    
+    
     @IBAction func searchForSavedGame(_ sender: UIBarButtonItem) {
         
     }
@@ -47,6 +49,15 @@ class SavedGameController: UITableViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.endUpdates()
+        
+       /** NotificationCenter.default.addObserver(forName: Notification.Name.GameFinishedSavingNotification, object: SaveGameOperation.self, queue: OperationQueue.main, using: {
+            
+            [unowned self] notification in
+            
+            
+            self.tableView.reloadData()
+        }) **/
        
         let fetchRequest: NSFetchRequest<GameSession> = GameSession.fetchRequest()
         
@@ -56,11 +67,12 @@ class SavedGameController: UITableViewController{
         
         fetchRequest.sortDescriptors = [levelSort,dateSort]
         
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedContext, sectionNameKeyPath: #keyPath(GameSession.scene), cacheName: "savedGames")
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedContext, sectionNameKeyPath: #keyPath(GameSession.scene), cacheName: nil)
         
         fetchedResultsController.delegate = self
         
         do{
+    
             try fetchedResultsController.performFetch()
         } catch let error as NSError{
             print("Fetching error: \(error), \(error.userInfo)")
@@ -85,7 +97,7 @@ class SavedGameController: UITableViewController{
     }
     
     
-   
+
 }
 
 
@@ -140,36 +152,7 @@ extension SavedGameController{
         if editingStyle == .delete{
             
             
-            /**
             
-            var shouldDelete = true
-            
-            let alertController = UIAlertController(title: "Delete Saved Game", message: "Are you want to delete the saved game?", preferredStyle: .alert)
-            
-            let confirmAction = UIAlertAction(title: "Confirm", style: .default, handler: nil)
-            
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {
-                
-                _ in
-                
-                shouldDelete = false
-                
-            })
-            
-            alertController.addAction(confirmAction)
-            alertController.addAction(cancelAction)
-            
-            present(alertController, animated: true, completion: {
-            
-                if shouldDelete {
-                    
-                    //Row-deletion code
-                    
-                }
-            
-            
-            })
-            **/
             
             tableView.endUpdates()
             
@@ -317,6 +300,9 @@ extension SavedGameController: NSFetchedResultsControllerDelegate{
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         
         switch type{
+        case .insert, .update:
+            tableView.insertRows(at: [newIndexPath!], with: .automatic)
+            break
         case .delete:
             let alertController = UIAlertController(title: "Game Deleted", message: "The previously saved game has been deleted", preferredStyle: .actionSheet)
             

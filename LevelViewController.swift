@@ -50,6 +50,14 @@ class LevelViewController: UICollectionViewController{
     }
     
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        MusicHelper.sharedHelper.turnOffBackgroundMusic()
+
+        
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -57,21 +65,24 @@ class LevelViewController: UICollectionViewController{
         
         MusicHelper.sharedHelper.playBackgroundMusic(musicFileName: "Wacky Waiting")
         
-        /**
-        if let managedContext = managedContext{
+       
+        if ScreenRecorderHelper.isFirstLaunch{
+            let alertController = UIAlertController(title: "User Alert", message: "Recording must be enabled in order for game audio to be available. You can enable or disable recording from the game level scene to turn audio on or off respectively", preferredStyle: .actionSheet)
             
-            do{
+            let dismissAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            
+            alertController.addAction(dismissAction)
+            
+            self.present(alertController, animated: true, completion: {
                 
-                let fetchRequest = NSFetchRequest<LevelInformation>(entityName: "LevelInformation")
+                ScreenRecorderHelper.isFirstLaunch = false
                 
-                levelInformationArray = try managedContext.fetch(fetchRequest)
-                
-            } catch let error as NSError{
-                
-            }
+                ScreenRecorderHelper.sharedHelper.startScreenRecording()
+            })
+            
+            
             
         }
-        **/
  
     }
     
@@ -160,6 +171,54 @@ class LevelViewController: UICollectionViewController{
     
     func showPreviewViewController(){
         screenRecorderHelper.showPreviewViewController()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        /**
+        Timer.scheduledTimer(timeInterval: 2.00, target: self, selector: #selector(LevelViewController.performCacheCheck), userInfo: nil, repeats: true)
+    
+        **/
+        
+        
+        }
+    
+    
+    @objc func performCacheCheck(){
+        
+        let percentageOccupied = LevelThumbnailCache.sharedCache.cachePercentageOccupied()
+        
+        print("Cache percentage occupied: \(percentageOccupied)")
+        
+        if percentageOccupied > 0.70{
+            LevelThumbnailCache.sharedCache.clearCache()
+        }
+        
+    }
+    
+    
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask{
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            return .landscapeLeft
+        } else {
+            return .landscape
+        }
+    }
+    
+    override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation{
+        
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            return .landscapeLeft
+        } else {
+            return .landscapeLeft
+        }
+    }
+    
+    
+    override var shouldAutorotate: Bool {
+        return false
     }
     
 }
@@ -328,20 +387,15 @@ extension LevelViewController{
     }
     
     
-    override var supportedInterfaceOrientations:UIInterfaceOrientationMask {
-        return UIInterfaceOrientationMask.landscape
-    }
-    
-    override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation{
-        return .landscapeLeft
-    }
-    
+  
   
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         
         LevelThumbnailCache.sharedCache.clearCache()
+        
+
         
     }
     

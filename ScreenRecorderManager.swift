@@ -16,10 +16,9 @@ import ReplayKit
 class ScreenRecorderHelper: NSObject, RPScreenRecorderDelegate, RPPreviewViewControllerDelegate{
     
     
-    
-    
     static let sharedHelper = ScreenRecorderHelper()
     
+    static var isFirstLaunch: Bool = true
     
     private var sharedRecorder: RPScreenRecorder?
     

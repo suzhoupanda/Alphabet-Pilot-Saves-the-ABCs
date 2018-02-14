@@ -19,18 +19,26 @@ class LaserGun: GKEntity{
     convenience init(laserGunOrientation: LaserGunOrientation, position: CGPoint, nodeName: String, targetNode: SKSpriteNode, proximityDistance: Double, bulletSpeed: CGFloat, bulletColor: LaserBullet.LaserColor, scalingFactor: CGFloat?) {
         self.init()
         
-            var gunTexture: SKTexture
+            var gunTexture: SKTexture?
         
             switch laserGunOrientation{
                 case .Top:
-                    gunTexture = SKTexture(image: #imageLiteral(resourceName: "laserGunTop1"))
+                    gunTexture = TextureAtlasManager.sharedManager.beamsTextureAtlas?.textureNamed("laserGunTop1")
+                    break
                 case .Bottom:
-                    gunTexture = SKTexture(image: #imageLiteral(resourceName: "laserGunBottom1"))
+                    gunTexture = TextureAtlasManager.sharedManager.beamsTextureAtlas?.textureNamed("laserGunBottom1")
+                    break
                 case .Left:
-                    gunTexture = SKTexture(image: #imageLiteral(resourceName: "laserGunLeft1"))
+                    gunTexture = TextureAtlasManager.sharedManager.beamsTextureAtlas?.textureNamed("laserGunLeft1")
+                    
             }
+        
+        guard let laserGunTexture = gunTexture else {
+            
+            fatalError("Error: gunTexture failed to load from texture atlas manager")
+        }
     
-        let node = SKSpriteNode(texture: gunTexture)
+        let node = SKSpriteNode(texture: laserGunTexture)
         
         node.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         node.position = position
@@ -41,7 +49,7 @@ class LaserGun: GKEntity{
         
       
         
-        let physicsBody = SKPhysicsBody(texture: gunTexture, size: gunTexture.size())
+        let physicsBody = SKPhysicsBody(texture: laserGunTexture, size: laserGunTexture.size())
         physicsBody.affectedByGravity = false
         physicsBody.allowsRotation = false
         physicsBody.isDynamic = false

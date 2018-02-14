@@ -47,11 +47,12 @@ extension BaseScene{
          hudManager.resetCoinMeter()
          **/
         
-        
+        /**
         guard let coinMeter = hudManager.getCoinMeter() else {
             print("Error: failed to load the coin meter")
             return
         }
+         **/
     }
     
     func setupPauseButton(){

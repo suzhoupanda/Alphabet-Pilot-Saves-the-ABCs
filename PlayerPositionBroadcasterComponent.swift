@@ -247,9 +247,6 @@ extension PlayerPositionBroadcasterComponent{
                 case .Range6(let lower, let upper):
                     if(positionIsWithinRange(testPosition: position, lower: lower, upper: upper)) { return range }
                     break
-                case .Range6(let lower, let upper):
-                    if(positionIsWithinRange(testPosition: position, lower: lower, upper: upper)) { return range }
-                    break
                 case .Range7(let lower, let upper):
                     if(positionIsWithinRange(testPosition: position, lower: lower, upper: upper)) { return range }
                     break

@@ -117,13 +117,13 @@ extension Worm{
     static let AnimationsDictPink: [String: SKAction] = [
         
         "crawlLeft" : SKAction.animate(with: [
-            SKTexture(image: #imageLiteral(resourceName: "wormPink")),
-            SKTexture(image: #imageLiteral(resourceName: "wormPink_move"))
+            TextureAtlasManager.sharedManager.wormTextureAtlas!.textureNamed("wormPink"),
+            TextureAtlasManager.sharedManager.wormTextureAtlas!.textureNamed("wormPink_move")
             ], timePerFrame: 0.20),
         
         "crawlRight" : SKAction.animate(with: [
-            SKTexture(image: #imageLiteral(resourceName: "wormPinkRight")),
-            SKTexture(image: #imageLiteral(resourceName: "wormPink_moveRight"))
+        TextureAtlasManager.sharedManager.wormTextureAtlas!.textureNamed("wormPinkRight"),
+        TextureAtlasManager.sharedManager.wormTextureAtlas!.textureNamed("wormPink_moveRight")
             ], timePerFrame: 0.20),
         
         
@@ -132,13 +132,13 @@ extension Worm{
     static let AnimationsDictGreen: [String: SKAction] = [
         
         "crawlLeft" : SKAction.animate(with: [
-            SKTexture(image: #imageLiteral(resourceName: "wormGreen")),
-            SKTexture(image: #imageLiteral(resourceName: "wormGreen_move"))
+            TextureAtlasManager.sharedManager.wormTextureAtlas!.textureNamed("wormGreen"),
+            TextureAtlasManager.sharedManager.wormTextureAtlas!.textureNamed("wormGreen_move")
             ], timePerFrame: 0.20),
         
         "crawlRight" : SKAction.animate(with: [
-            SKTexture(image: #imageLiteral(resourceName: "wormGreenRight")),
-            SKTexture(image: #imageLiteral(resourceName: "wormGreen_moveRight"))
+            TextureAtlasManager.sharedManager.wormTextureAtlas!.textureNamed("wormGreenRight"),
+            TextureAtlasManager.sharedManager.wormTextureAtlas!.textureNamed("wormGreen_moveRight")
             ], timePerFrame: 0.20),
         ]
     

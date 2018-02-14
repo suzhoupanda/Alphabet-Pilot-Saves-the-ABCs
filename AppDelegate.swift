@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard let menuOptionsController = window?.rootViewController as? MenuOptionsViewController
             else { return true }
         
-        menuOptionsController.managedContext = self.persistentContainer.viewContext
+       menuOptionsController.managedContext = self.persistentContainer.viewContext
         
         NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.performSaveGameOperation(notification:)), name: Notification.Name.UserRequestedGameSaveNotification, object: BaseScene.self)
      

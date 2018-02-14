@@ -13,6 +13,8 @@ extension BaseScene: SKPhysicsContactDelegate{
     
     func didBegin(_ contact: SKPhysicsContact) {
         
+        
+        
         /** These variables may be required later for implementing contact logic between different combinations of non-player entities: 
          
         guard let playerPhysicsBody = player.component(ofType: PhysicsComponent.self)?.physicsBody else { return }
@@ -40,6 +42,10 @@ extension BaseScene: SKPhysicsContactDelegate{
         ] as [String : Any]
         
         NotificationCenter.default.post(name: Notification.Name.PlayerDidMakeContactNotification, object: nil, userInfo: userInfo)
+        
+        
+       
+    
     }
     
     
@@ -73,7 +79,28 @@ extension BaseScene: SKPhysicsContactDelegate{
             ] as [String : Any]
         
         NotificationCenter.default.post(name: Notification.Name.PlayerDidEndContactNotification, object: nil, userInfo: userInfo)
+        /**
+        let otherBody = contact.bodyA.categoryBitMask & CollisionConfiguration.Player.categoryMask > 0 ? contact.bodyB : contact.bodyA
         
+        
+        switch(otherBody.categoryBitMask){
+        case CollisionConfiguration.Collectible.categoryMask:
+            player.renderComponent.node.run(powerUpSound1)
+            print("Sound should be playing....")
+            
+            break
+        case CollisionConfiguration.Barrier.categoryMask:
+            player.renderComponent.node.run(hitBarrierSound)
+            print("Hit barrier sound should be playing..")
+            break
+        case CollisionConfiguration.Enemy.categoryMask:
+            player.renderComponent.node.run(hitEnemySound)
+            print("Hit enemy sound should be playing...")
+            break
+        default:
+            break
+        }
+         **/
         
     }
 }

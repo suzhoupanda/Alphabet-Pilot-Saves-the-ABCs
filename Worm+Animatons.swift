@@ -16,10 +16,10 @@ extension Worm{
     
     static func GetWormTexture(wormColor: Worm.WormColor) -> SKTexture?{
         switch wormColor{
-            case .Green:
-                return SKTexture(image: #imageLiteral(resourceName: "wormGreen"))
-            case .Pink:
-                return SKTexture(image: #imageLiteral(resourceName: "wormPink"))
+        case .Green:
+            return TextureAtlasManager.sharedManager.wormTextureAtlas?.textureNamed("wormGreen")
+        case .Pink:
+            return TextureAtlasManager.sharedManager.wormTextureAtlas?.textureNamed("wormPink")
         }
     }
     

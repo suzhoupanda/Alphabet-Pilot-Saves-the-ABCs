@@ -22,7 +22,10 @@ class Bee: Enemy{
       
        
         
-        let beeTexture = SKTexture(image: #imageLiteral(resourceName: "bee"))
+        guard let beeTexture = TextureAtlasManager.sharedManager.beeTextureAtlas?.textureNamed("bee") else {
+            
+            fatalError("fatalError: bee texture failed to loead from bee texture atlas manager")
+        }
         //The selected alien texture is used to initialize the sprite node for the render component as well as the physics body for the physics body component; position arguments is used to initialize the graph node component as well as to set the initial position of the render component
         
         let node = SKSpriteNode(texture: beeTexture)

@@ -180,7 +180,8 @@ class HUDManager{
             if let coinMeter = coinMeter,let bronzeCoinLabel = coinMeter.childNode(withName: "BronzeCoinLabel") as? SKLabelNode, let numberString = numberFormatter.string(from: numberBronzeCoins){
                 
                 print("Updating bronze coin meter...\(bronzeCoinLabel) ...\(numberString)")
-
+                
+            
                 bronzeCoinLabel.text = numberString
             }
             

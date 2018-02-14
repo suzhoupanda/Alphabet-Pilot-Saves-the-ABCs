@@ -20,7 +20,11 @@ class Bomb: GKEntity{
         
         
         
-        let bombTexture = SKTexture(image: #imageLiteral(resourceName: "bomb"))
+        guard let bombTexture = TextureAtlasManager.sharedManager.bombTextureAtlas?.textureNamed("bomb") else {
+            
+            fatalError("Fatal error: bombTexture failed to load from texture atlas maanger")
+        }
+        
         
         
         let node = SKSpriteNode(texture: bombTexture)

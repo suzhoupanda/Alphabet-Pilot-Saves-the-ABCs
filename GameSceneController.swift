@@ -12,13 +12,16 @@ import SpriteKit
 
 class GameSceneController: UIViewController{
     
-    var letterScene: LetterScene?
     
     var screenRecorderHelper = ScreenRecorderHelper.sharedHelper
     
     var reloadData: ReloadData?
     
+    var letterScene: LetterScene?
+    
     var baseScene: BaseScene?
+    
+    var bundleResourceRequest: NSBundleResourceRequest?
     
     override func viewWillLayoutSubviews() {
         
@@ -27,20 +30,43 @@ class GameSceneController: UIViewController{
         super.viewWillLayoutSubviews()
         registerForNotifications()
         
+        MusicHelper.sharedHelper.turnOffBackgroundMusic()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+        
+
+        /** WITH ON-DEMAND RESOURCES ENABLED
+         
+        if let bundleResourceRequest = self.bundleResourceRequest{
+            
+            bundleResourceRequest.endAccessingResources()
+            
+        }
+        
+        self.bundleResourceRequest = nil
+
+        **/
+
+    
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
         screenRecorderHelper.presentingViewController = nil
         
         HUDManager.sharedHUDManager.clearHUDCache()
         
-        letterScene!.purgeResources()
-        
         baseScene = nil
         
-    
+        if let letterScene = letterScene{
+            letterScene.purgeResources()
+        }
+        
+        letterScene = nil
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -54,22 +80,14 @@ class GameSceneController: UIViewController{
             HUDManager.sharedHUDManager.loadHUDfromCache()
             
         
-            
         
-            if let skView = self.view as! SKView?, let letterScene = self.letterScene{
+            if let skView = self.view as! SKView?{
                     
-                    //Initialize the base scene based on the value of the letterScene property for the GameSceneView controller
-                
-                
-                //gscController.baseScene =  reloadData != nil ? GameSceneController.GetSceneForLetterSceneType(letterScene: letterScene, reloadData: self.reloadData) : GameSceneController.GetSceneForLetterSceneType(letterScene: letterScene, reloadData: nil)
+        
                             
                 skView.presentScene(self.baseScene)
                 
-                
-                
-                
-                
-                
+      
             
         }
         
@@ -115,13 +133,29 @@ class GameSceneController: UIViewController{
     
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask{
-        return .landscapeLeft
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            return .landscapeLeft
+        } else {
+            return .landscape
+        }
     }
     
     override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation{
-        return .landscapeLeft
+        
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            return .landscapeLeft
+        } else {
+            return .landscapeLeft
+        }
     }
     
+    
+    override var shouldAutorotate: Bool {
+        return false
+    }
+    
+   
+
   
 }
 
@@ -155,10 +189,8 @@ extension GameSceneController{
             baseScene = LetterF_Scene(size: screenSize, reloadData: reloadData)
             break
         case .LetterG_Scene:
-          
-            baseScene = LetterG_Scene(size: screenSize, reloadData: reloadData)
-            print("Loaded animal class reources...")
             
+            baseScene = LetterG_Scene(size: screenSize, reloadData: reloadData)
             break
         case .LetterH_Scene:
             

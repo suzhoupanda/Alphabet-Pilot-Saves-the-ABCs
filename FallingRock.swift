@@ -72,16 +72,16 @@ extension FallingRock{
         
         switch rockConfiguration{
             case (.Stone, .Large):
-                rockTexture = SKTexture(image: #imageLiteral(resourceName: "stoneCaveRockLarge"))
+                rockTexture = TextureAtlasManager.sharedManager.rocksTextureAtlas?.textureNamed("stoneCaveRockLarge")
                 break
             case (.Stone, .Small):
-                rockTexture = SKTexture(image: #imageLiteral(resourceName: "stoneCaveRockSmall"))
+                rockTexture = TextureAtlasManager.sharedManager.rocksTextureAtlas?.textureNamed("stoneCaveRockSmall")
                 break
             case (.Dirt, .Large):
-                rockTexture = SKTexture(image: #imageLiteral(resourceName: "dirtCaveRockLarge"))
+                rockTexture = TextureAtlasManager.sharedManager.rocksTextureAtlas?.textureNamed("dirtCaveRockLarge")
                 break
             case (.Dirt, .Small):
-                rockTexture = SKTexture(image: #imageLiteral(resourceName: "dirtCaveRockSmall"))
+                rockTexture = TextureAtlasManager.sharedManager.rocksTextureAtlas?.textureNamed("dirtCaveRockSmall")
                 break
                 }
         

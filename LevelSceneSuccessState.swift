@@ -25,20 +25,20 @@ class LevelSceneSuccessState: GKState{
     override func didEnter(from previousState: GKState?) {
         super.didEnter(from: previousState)
         
-        levelScene.worldNode.isPaused = true
         
         if let optionsGroup = SKScene(fileNamed: "OverlayButtons")?.childNode(withName: "GameSuccessGroup") {
             optionsGroup.move(toParent: levelScene.overlayNode)
             optionsGroup.position = .zero
             
-          
+            
             
             optionsGroup.run(SKAction.wait(forDuration: 3.00), completion: {
                 
                 
                 self.screenRecorderHelper.stopRecordingAndSavePreviewViewController()
                 
-                
+                self.levelScene.isPaused = true
+
                 self.postLevelCompletedNotifications()
                 
             })

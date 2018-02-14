@@ -34,22 +34,22 @@ extension LaserGun{
 
     static let AnimationsDictLeft : [String: SKAction] = [
         "fireAnimation" : SKAction.animate(with: [
-            SKTexture(image: #imageLiteral(resourceName: "laserGunLeft2")),
-            SKTexture(image: #imageLiteral(resourceName: "laserGunLeft1")),
+            TextureAtlasManager.sharedManager.beamsTextureAtlas!.textureNamed("laserGunLeft2"),
+            TextureAtlasManager.sharedManager.beamsTextureAtlas!.textureNamed("laserGunLeft1")
             ], timePerFrame: 0.20)
     ]
     
     static let AnimationsDictTop : [String: SKAction] = [
         "fireAnimation" : SKAction.animate(with: [
-            SKTexture(image: #imageLiteral(resourceName: "laserGunTop2")),
-            SKTexture(image: #imageLiteral(resourceName: "laserGunTop1")),
+            TextureAtlasManager.sharedManager.beamsTextureAtlas!.textureNamed("laserGunTop2"),
+            TextureAtlasManager.sharedManager.beamsTextureAtlas!.textureNamed("laserGunTop1")
             ], timePerFrame: 0.20)
     ]
     
     static let AnimationsDictBottom : [String: SKAction] = [
         "fireAnimation" : SKAction.animate(with: [
-            SKTexture(image: #imageLiteral(resourceName: "laserGunBottom2")),
-            SKTexture(image: #imageLiteral(resourceName: "laserGunBottom1")),
+        TextureAtlasManager.sharedManager.beamsTextureAtlas!.textureNamed("laserGunBottom2"),
+        TextureAtlasManager.sharedManager.beamsTextureAtlas!.textureNamed("laserGunBottom1")
             ], timePerFrame: 0.20)
     ]
     

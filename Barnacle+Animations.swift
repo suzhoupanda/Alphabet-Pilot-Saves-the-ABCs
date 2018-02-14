@@ -17,9 +17,9 @@ extension Barnacle{
         
         switch orientation{
             case .Up:
-                return SKTexture(image: #imageLiteral(resourceName: "barnacle_bite"))
+                return TextureAtlasManager.sharedManager.barnacleTextureAtlas!.textureNamed("barnacle_bite")
             case .Down:
-                return SKTexture(image: #imageLiteral(resourceName: "barnacle_down"))
+                return TextureAtlasManager.sharedManager.barnacleTextureAtlas!.textureNamed("barnacle_down")
         }
     }
     
@@ -36,26 +36,26 @@ extension Barnacle{
     
     static let AnimationsDictDown: [String: SKAction] = [
         
-        "closed" : SKAction.setTexture(SKTexture(image: #imageLiteral(resourceName: "barnacle_down"))),
+        "closed" : SKAction.setTexture(TextureAtlasManager.sharedManager.barnacleTextureAtlas!.textureNamed("barnacle_down")),
         
-        "open": SKAction.setTexture(SKTexture(image: #imageLiteral(resourceName: "barnacle_attack_down"))),
+        "open": SKAction.setTexture(TextureAtlasManager.sharedManager.barnacleTextureAtlas!.textureNamed("barnacle_attack_down")),
         
         "flashing" : SKAction.animate(with: [
-            SKTexture(image: #imageLiteral(resourceName: "barnacle_attack_down")),
-            SKTexture(image: #imageLiteral(resourceName: "barnacle_hit_down"))
+        TextureAtlasManager.sharedManager.barnacleTextureAtlas!.textureNamed("barnacle_attack_down"),
+        TextureAtlasManager.sharedManager.barnacleTextureAtlas!.textureNamed("barnacle_hit_down"),
             ], timePerFrame: 0.10)
         
     ]
     
     static let AnimationsDictUp: [String: SKAction] = [
         
-        "closed" : SKAction.setTexture(SKTexture(image: #imageLiteral(resourceName: "barnacle_bite"))),
+        "closed" : SKAction.setTexture(TextureAtlasManager.sharedManager.barnacleTextureAtlas!.textureNamed("barnacle_bite")),
         
-        "open": SKAction.setTexture(SKTexture(image: #imageLiteral(resourceName: "barnacle"))),
+        "open": SKAction.setTexture(TextureAtlasManager.sharedManager.barnacleTextureAtlas!.textureNamed("barnacle")),
         
         "flashing" : SKAction.animate(with: [
-                SKTexture(image: #imageLiteral(resourceName: "barnacle")),
-                SKTexture(image: #imageLiteral(resourceName: "barnacle_hit"))
+            TextureAtlasManager.sharedManager.barnacleTextureAtlas!.textureNamed("barnacle"),
+        TextureAtlasManager.sharedManager.barnacleTextureAtlas!.textureNamed("barnacle_hit")
             ], timePerFrame: 0.10)
         
     ]

@@ -20,7 +20,7 @@
         <attribute name="completed" attributeType="Boolean" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="dateCompleted" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="goldCoins" optional="YES" attributeType="Integer 16" minValueString="0" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="levelScene" attributeType="String" minValueString="12" maxValueString="14" defaultValueString="&quot;LetterA_Scene&quot;" syncable="YES"/>
+        <attribute name="levelScene" attributeType="String" minValueString="11" maxValueString="16" defaultValueString="LetterA_Scene" syncable="YES"/>
         <attribute name="silverCoins" optional="YES" attributeType="Integer 16" minValueString="0" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <elements>

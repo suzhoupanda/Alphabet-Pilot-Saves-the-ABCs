@@ -21,8 +21,10 @@ class Spikeman: GKEntity{
         self.horizontalVelocity = horizontalVelocity ?? 80
         
 
-        let spikemanTexture = SKTexture(image: #imageLiteral(resourceName: "spikeMan_stand"))
-       
+        guard let spikemanTexture = TextureAtlasManager.sharedManager.spikemanTextureAtlas?.textureNamed("spikeMan_stand") else {
+            fatalError("fatalError: spikeMan texture failed to load from texture atlas manager")
+        }
+        
         
         let node = SKSpriteNode(texture: spikemanTexture)
         node.position = position

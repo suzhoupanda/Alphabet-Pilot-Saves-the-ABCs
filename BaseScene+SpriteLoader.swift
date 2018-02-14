@@ -17,6 +17,15 @@ extension BaseScene{
         
         /** Get the root node for the sks file or else crash the app
          **/
+        
+        /**
+        guard let scene = SceneFileCacheHelper.sharedHelper.getScene(forLetterScene: self.letterScene) else {
+            
+            fatalError("Error: failed to retrieve the SKS file from the dictionary cache")
+        }
+        **/
+        
+        
         guard let rootNode = SKScene(fileNamed: skSceneFileName)?.childNode(withName: "RootNode") else {
             fatalError("Error: the SKS file must have a root node in order to be loaded into the present scene")
         }
@@ -120,19 +129,19 @@ extension BaseScene{
             
             if nodeName.contains("Gold"){
                
-                let coin = Coin(coinType: .Gold, position: position, nodeName: "coin/gold/\(position)", scalingFactor: 0.50)
+                let coin = Coin(coinType: .Gold, position: position, nodeName: "coin/gold/\(position)", scalingFactor: 1.00)
                 entityManager.addToWorld(coin)
                 
                 }
             
             if nodeName.contains("Silver"){
-                let coin = Coin(coinType: .Silver, position: position, nodeName: "coin/silver/\(position)", scalingFactor: 0.50)
+                let coin = Coin(coinType: .Silver, position: position, nodeName: "coin/silver/\(position)", scalingFactor: 1.00)
                 entityManager.addToWorld(coin)
                 
             }
             
             if nodeName.contains("Bronze"){
-                let coin = Coin(coinType: .Bronze, position: position, nodeName: "coin/bronze/\(position)", scalingFactor: 0.50)
+                let coin = Coin(coinType: .Bronze, position: position, nodeName: "coin/bronze/\(position)", scalingFactor: 1.00)
                 entityManager.addToWorld(coin)
                 
             }
@@ -246,7 +255,7 @@ extension BaseScene{
         
             
             if nodeName.contains("Spikeman"){
-                let spikeman = Spikeman(position: position, nodeName: "spikeman\(position)", horizontalVelocity: -80, scalingFactor: 0.50)
+                let spikeman = Spikeman(position: position, nodeName: "spikeman\(position)", horizontalVelocity: -80, scalingFactor: 1.00)
                 
                 entityManager.addToWorld(spikeman)
             }
@@ -342,7 +351,7 @@ extension BaseScene{
             
             if nodeName.contains("Fly"){
             
-                let fly = Fly(position: position, nodeName: "fly\(position)", scalingFactor: 0.80)
+                let fly = Fly(position: position, nodeName: "fly\(position)", scalingFactor: 0.60)
                 entityManager.addToWorld(fly)
                 
             }
@@ -350,14 +359,14 @@ extension BaseScene{
         
             if nodeName.contains("Spikeball"){
                 
-                let spikeball = Spikeball(position: position, nodeName: "spikeball\(position)", scalingFactor: 0.50)
+                let spikeball = Spikeball(position: position, nodeName: "spikeball\(position)", scalingFactor: 0.80)
                 entityManager.addToWorld(spikeball)
                 
             }
             
             if nodeName.contains("EvilSun"){
                 
-                let evilSun = EvilSun(position: position, nodeName: "evilSun\(position)", scalingFactor: 0.50)
+                let evilSun = EvilSun(position: position, nodeName: "evilSun\(position)", scalingFactor: 0.80)
                 
                 if let renderNode = evilSun.component(ofType: RenderComponent.self)?.node,let fireNode = SKScene(fileNamed: "Fire.sks"), nodeName.contains("Fire"){
                     

@@ -24,7 +24,10 @@ class Spikeball: Enemy{
         
         
         
-        let spikeballTexture = SKTexture(image: #imageLiteral(resourceName: "spikeBall1"))
+        guard let spikeballTexture = TextureAtlasManager.sharedManager.spikeballTextureAtlas?.textureNamed("spikeball1") else {
+            fatalError("Fatal Error: spikeballTexture failed to load from texture atlas manager")
+        }
+        
         //The selected alien texture is used to initialize the sprite node for the render component as well as the physics body for the physics body component; position arguments is used to initialize the graph node component as well as to set the initial position of the render component
         
         let node = SKSpriteNode(texture: spikeballTexture)

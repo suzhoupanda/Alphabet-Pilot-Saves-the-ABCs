@@ -24,7 +24,10 @@ class Fly: Enemy{
         
         
         
-        let flyTexture = SKTexture(image: #imageLiteral(resourceName: "fly"))
+        guard let flyTexture = TextureAtlasManager.sharedManager.flyTextureAtlas?.textureNamed("fly") else {
+            fatalError("Error: fly texture failed to load from texture atlas manager")
+        }
+        
         //The selected alien texture is used to initialize the sprite node for the render component as well as the physics body for the physics body component; position arguments is used to initialize the graph node component as well as to set the initial position of the render component
         
         let node = SKSpriteNode(texture: flyTexture)

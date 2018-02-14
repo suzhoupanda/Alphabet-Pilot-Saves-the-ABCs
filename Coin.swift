@@ -13,13 +13,6 @@ import GameplayKit
 
 class Coin: GKEntity{
     
-    var powerUpSound1 = SKAction.playSoundFileNamed("powerUp1.wav", waitForCompletion: false)
-    
-    var powerUpSound2 = SKAction.playSoundFileNamed("powerUp2.wav", waitForCompletion: false)
-    
-    var powerUpSound3 = SKAction.playSoundFileNamed("powerUp3.wav", waitForCompletion: false)
-   
-    
     enum CoinType: String{
         case Gold, Silver, Bronze
         
@@ -94,22 +87,6 @@ class Coin: GKEntity{
             if otherBodyNodeName.contains("player"){
                 print("Contacted player...")
                 
-               
-                var powerUpSound: SKAction
-                
-                switch coinType{
-                    case .Gold:
-                         powerUpSound = self.powerUpSound1
-                        break
-                    case .Silver:
-                        powerUpSound = self.powerUpSound2
-                        break
-                    case .Bronze:
-                        powerUpSound = self.powerUpSound3
-                        break
-                }
-                
-                node.run(powerUpSound)
                 
                 physicsBody.categoryBitMask = 0
                 node.removeFromParent()

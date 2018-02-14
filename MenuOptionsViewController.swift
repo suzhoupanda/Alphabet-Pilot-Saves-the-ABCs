@@ -22,57 +22,88 @@ class MenuOptionsViewController: UIViewController{
     var canViewHelpContent: Bool = true
     var managedContext: NSManagedObjectContext!
     
-  
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
         
-        //Make sure the texture atlas manager singleton is instantiated
-       // TextureAtlasManager.sharedManager
-       // JSONManager.sharedHelper.printJSONData()
+        
+        //Clear the level-preview thumbnail cache in case it still contains loaded thumbnails
+        
+        LevelThumbnailCache.sharedCache.clearCache()
+        
+        
+        //If a game is currently running, dismiss the GameSceneController and perform all the  operations related to exiting the game...
+        
+        if let gameSceneViewController = presentedViewController as? GameSceneController{
+            
+            gameSceneViewController.dismiss(animated: true, completion: {
+                
+                
+                //Release the GameScene controller's view from memory and purge the currently-running base scene from memory cache, as well as the ReloadData (if any) and LevelScene configuration data used to initialize the Base Scene
+                
+                gameSceneViewController.view = nil
+                
+                
+                gameSceneViewController.baseScene = nil
+                
+                
+                gameSceneViewController.letterScene = nil
+                
+                gameSceneViewController.reloadData = nil
+                
+                /**
+                 if let bundleResourceRequest = gameSceneViewController.bundleResourceRequest{
+                 
+                 bundleResourceRequest.endAccessingResources()
+                 
+                 }
+                 **/
+                
+                //Once the Game Scene Controller is dismissed, it's no longer necessary to continue receiving motion updates for player position
+                
+                self.mainMotionManager.stopDeviceMotionUpdates()
+                
+                
+                
+                
+            })
+        }
+        
+
+        
         
     }
+    
+  
 
+    //MARK: ********* App LifeCycle Functions
+    
     override func viewWillLayoutSubviews() {
         
         super.viewWillLayoutSubviews()
         
-        let hasLaunchedApp = UserDefaults.standard.bool(forKey: "hasLaunchedApp")
         
-        if !hasLaunchedApp{
-            let alertController = UIAlertController(title: "User Alert", message: "Recording must be enabled in order for game audio to be available. You can enable or disable recording from the game level scene to turn audio on or off respectively", preferredStyle: .actionSheet)
-            
-            let dismissAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-            
-            alertController.addAction(dismissAction)
-            
-            self.present(alertController, animated: true, completion: {
-                
-                UserDefaults.standard.set(true, forKey: "hasLaunchedApp")
-                
-                ScreenRecorderHelper.sharedHelper.startScreenRecording()
-            })
-            
-            
-            
-        }
-    
        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         
         
-        
         super.viewWillAppear(animated)
         
         MusicHelper.sharedHelper.playBackgroundMusic(musicFileName: "Sad Town")
-        
-        
-        
-       
+    
         
     }
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        
+        
+    }
+
     
     override func didMove(toParentViewController parent: UIViewController?) {
         super.didMove(toParentViewController: parent)
@@ -95,6 +126,15 @@ class MenuOptionsViewController: UIViewController{
         
         MusicHelper.sharedHelper.turnOffBackgroundMusic()
     }
+    
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+
+    }
+    
+    //MARK: ******** Segue-Related Methods
     
     @IBAction func loadLevelViewControllerFromPortraitMenu(_ sender: UIButton) {
         segueToLevelController()
@@ -122,8 +162,18 @@ class MenuOptionsViewController: UIViewController{
         
         levelViewController.managedContext = managedContext
         levelViewController.collectionView?.backgroundColor = UIColor.GetCustomColor(customColor: .SharkFinWhite)
+        
+        
+        DispatchQueue.global().async {
+            
+            TextureAtlasManager.sharedManager.loadSecondaryTextureAtlases()
+            
+            DispatchQueue.main.async {
+                self.present(levelViewController, animated: true, completion: nil)
+
+            }
+        }
     
-        present(levelViewController, animated: true, completion: nil)
     }
     
     
@@ -186,201 +236,9 @@ class MenuOptionsViewController: UIViewController{
         }
     }
     
-    
-    
-    func loadGame(notification: Notification){
-        
-        print("Starting to load game...")
-        
-        
-        guard let letterSceneString = notification.userInfo?["letterScene"] as? String else {
-            print("Error: letter scene for selected level could not be retrieved from the LevelChosenNotification userInfo dictionary")
-            return
-        }
-        
-        
-        //Clear the level thumbnail cache, since user is not likely to be scrolling through collection view thumbnails while gameplay is in progress
-        
-        DispatchQueue.global().async {
-            
-        
-            UIDevice.current.beginGeneratingDeviceOrientationNotifications()
-        
-            self.mainMotionManager.startDeviceMotionUpdates()
-            self.mainMotionManager.deviceMotionUpdateInterval = 0.50
-        
-        
-            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-            let gscController = storyBoard.instantiateViewController(withIdentifier: "GameSceneControllerSB") as! GameSceneController
-        
-            //let gscController = GameSceneController(nibName: nil, bundle: nil)
-            
-            let letterScene = LetterScene(rawValue: letterSceneString)
-            
-            gscController.letterScene = letterScene
-            
-            let loadTexturesOperation = LoadSceneTexturesOperation(letterScene: letterScene!)
-            
-            loadTexturesOperation.start()
-            
-            
-            gscController.baseScene =  GameSceneController.GetSceneForLetterSceneType(letterScene: letterScene!, reloadData: nil)
-            
-            DispatchQueue.main.sync {
-                self.present(gscController, animated: true, completion: nil)
-
-            }
-        
-        }
-        
-        
-        
-    }
-    
-    
-    func reloadSavedGame(notification: Notification){
-        
-        
-        if presentedViewController != nil{
-            presentedViewController?.dismiss(animated: true, completion: nil)
-        }
-        
-        guard let reloadData = notification.userInfo?["reloadData"] as? ReloadData else {
-            print("Error: failed to retrieved reloadData from the ReloadSaveGameNotification's userInfo dict")
-            return
-        }
-        
-        
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        let gscController = storyBoard.instantiateViewController(withIdentifier: "GameSceneControllerSB") as! GameSceneController
-        
-        DispatchQueue.global().async {
-            
-        
-            UIDevice.current.beginGeneratingDeviceOrientationNotifications()
-        
-            self.mainMotionManager.startDeviceMotionUpdates()
-            self.mainMotionManager.deviceMotionUpdateInterval = 0.50
-        
-        
-            
-            let loadTexturesOperation = LoadSceneTexturesOperation(letterScene: reloadData.letterScene)
-            
-            loadTexturesOperation.start()
-        
-            //let gscController = GameSceneController(nibName: nil, bundle: nil)
-            gscController.letterScene = reloadData.letterScene
-            gscController.reloadData = reloadData
-            
-            gscController.baseScene =  GameSceneController.GetSceneForLetterSceneType(letterScene: reloadData.letterScene, reloadData: reloadData)
-            
-            DispatchQueue.main.sync {
-            
-                self.present(gscController, animated: true, completion: nil)
-            }
-        }
-        
-        
-        
-    }
-    
-    
-    func reloadSavedGame(reloadData: ReloadData){
-        
-        
-        
-        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
-        
-        self.mainMotionManager.startDeviceMotionUpdates()
-        self.mainMotionManager.deviceMotionUpdateInterval = 0.50
-        
-        
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        let gscController = storyBoard.instantiateViewController(withIdentifier: "GameSceneControllerSB") as! GameSceneController
-        
-        //let gscController = GameSceneController(nibName: nil, bundle: nil)
-        gscController.letterScene = reloadData.letterScene
-        gscController.reloadData = reloadData
-        
-        self.present(gscController, animated: true, completion: nil)
-        
-        
-        
-    }
-
   
-    
-    
-    
-    func reloadCurrentGame(notification: Notification){
-        
-        guard let presentedViewController = presentedViewController as? GameSceneController else {
-            print("Error: There is no Game Scene controller currently being presented")
-            return
-        }
-        
-        let presentingView = presentedViewController.view as! SKView
-        
-        
-        let transition = SKTransition.crossFade(withDuration: 2.00)
-        
-        
-        if let letterScene = presentedViewController.letterScene{
-            
-            
-            
-            DispatchQueue.global().async {
-                
-                
-                presentedViewController.baseScene = nil
-                
-                
-                let baseScene = GameSceneController.GetSceneForLetterSceneType(letterScene: letterScene, reloadData: nil)
-                
-                DispatchQueue.main.sync {
-                    presentingView.presentScene(baseScene, transition: transition)
-                    
-                }
-            }
-            
-            
-        }
-        
-    }
 
-    
-    
-    
-    func exitGame(notification: Notification){
-        
-        
-        if let gameSceneViewController = presentedViewController as? GameSceneController{
-            
-            gameSceneViewController.dismiss(animated: true, completion: {
-                
-                
-                //Release the GameScene controller's view from memory and purge the currently-running base scene from memory cache, as well as the ReloadData (if any) and LevelScene configuration data used to initialize the Base Scene
-                
-                gameSceneViewController.view = nil
-                
-                gameSceneViewController.baseScene = nil
-                
-                gameSceneViewController.letterScene = nil
-                
-                gameSceneViewController.reloadData = nil
-                
-                //Once the Game Scene Controller is dismissed, it's no longer necessary to continue receiving motion updates for player position
-                
-                self.mainMotionManager.stopDeviceMotionUpdates()
-                
-                
-            
-                
-            })
-        }
-        
-    }
-
+    //MARK: ******* Register for notificaitons
    
     func registerForNotifications(){
         
@@ -394,6 +252,9 @@ class MenuOptionsViewController: UIViewController{
         
     }
     
+    //MARK: ******* Override variables device orientation variables
+    
+
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask{
         return .landscape
     }
@@ -401,5 +262,5 @@ class MenuOptionsViewController: UIViewController{
     override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation{
         return .landscapeLeft
     }
-    
+
 }

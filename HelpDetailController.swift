@@ -214,7 +214,7 @@ extension HelpDetailController{
         
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.distribution = .fillProportionally
+        stackView.distribution = .fillEqually
         stackView.addArrangedSubview(questionLabel)
         stackView.addArrangedSubview(answerLabel)
         

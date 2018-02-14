@@ -33,6 +33,9 @@ class TextureAtlasManager{
     
     static let sharedManager = TextureAtlasManager()
     
+    var secondaryTexturesLoaded: Bool = false
+    
+    
     static let allTextureAtlasNames: [String] = [
         TextureAtlasCategory.Alien.rawValue,
         TextureAtlasCategory.Animal.rawValue,
@@ -81,6 +84,7 @@ class TextureAtlasManager{
         "RegularExplosion",
         "Letter",
         "Coins"
+
     ]
     
     //MARK: ********* Texture atlases below are pre-loaded at the start of the app because of recurring usage throughout different scene-levels (i.e. UI texture atlas)
@@ -101,6 +105,7 @@ class TextureAtlasManager{
     var animalTextureAtlas: SKTextureAtlas?
     var backgroundsTextureAtlas: SKTextureAtlas?
     var backgroundElementsTextureAtlas: SKTextureAtlas?
+    var barnacleTextureAtlas: SKTextureAtlas?
     var beeTextureAtlas: SKTextureAtlas?
     var batTextureAtlas: SKTextureAtlas?
     var beamsTextureAtlas: SKTextureAtlas?
@@ -127,9 +132,8 @@ class TextureAtlasManager{
     var wormTextureAtlas: SKTextureAtlas?
     
     private init(){
-        loadCommonTextureAtlases()
-
         
+        loadCommonTextureAtlases()
     }
     
     private func loadAllTextureAtlases(){
@@ -181,9 +185,18 @@ class TextureAtlasManager{
         
     }
     
-    private func loadCommonTextureAtlases(){
+    
+    
+     func loadCommonTextureAtlases(){
         print("Loading common texture atlases...")
         
+        
+        self.planeTextureAtlas = SKTextureAtlas(named: "Planes")
+        self.regularExplosionTextureAtlas = SKTextureAtlas(named: "RegularExplosion")
+        self.letterTextureAtlas = SKTextureAtlas(named: "Letter")
+        self.coinTextureAtlas = SKTextureAtlas(named: "Coins")
+        
+        /**
         SKTextureAtlas.preloadTextureAtlasesNamed(TextureAtlasManager.commonTextureAtlases, withCompletionHandler: {
         
             error, commonTextureAtlases in
@@ -196,9 +209,28 @@ class TextureAtlasManager{
             self.regularExplosionTextureAtlas = commonTextureAtlases[1]
             self.letterTextureAtlas = commonTextureAtlases[2]
             self.coinTextureAtlas = commonTextureAtlases[3]
-
+           
         })
-        
+    
+        **/
+
         print("Common texture atlases loaded!")
     }
+    
+    func loadSecondaryTextureAtlases(){
+        
+        if !secondaryTexturesLoaded{
+            
+            self.beeTextureAtlas = SKTextureAtlas(named: "Bee")
+            self.bombTextureAtlas = SKTextureAtlas(named: "Bomb")
+            self.beamsTextureAtlas = SKTextureAtlas(named: "Beams")
+            self.wormTextureAtlas = SKTextureAtlas(named: "Worm")
+            self.rocksTextureAtlas = SKTextureAtlas(named: "Rocks")
+            self.flyTextureAtlas = SKTextureAtlas(named: "Fly")
+            
+            
+            secondaryTexturesLoaded = true
+        }
+    }
+    
 }

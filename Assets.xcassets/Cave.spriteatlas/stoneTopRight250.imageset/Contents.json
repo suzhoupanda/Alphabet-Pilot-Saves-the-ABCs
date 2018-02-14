@@ -7,10 +7,12 @@
     },
     {
       "idiom" : "universal",
+      "filename" : "stoneTopRight500.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "stoneTopRight750a.png",
       "scale" : "3x"
     }
   ],

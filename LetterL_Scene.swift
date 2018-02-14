@@ -45,7 +45,7 @@ class LetterL_Scene: BaseScene{
                 
                 if nodeName.contains("Panda"){
                     
-                    let panda = Animal(animalType: .Panda, position: position, nodeName: "panda\(position)", scalingFactor: 0.20)
+                    let panda = Animal(animalType: .Panda, position: position, nodeName: "panda\(position)", scalingFactor: 0.50)
                     
                     entityManager.addToWorld(panda)
                 }

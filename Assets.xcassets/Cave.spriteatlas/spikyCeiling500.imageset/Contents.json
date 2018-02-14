@@ -7,10 +7,12 @@
     },
     {
       "idiom" : "universal",
+      "filename" : "spikeCeiling1000.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "spikeCeiling1500.png",
       "scale" : "3x"
     }
   ],

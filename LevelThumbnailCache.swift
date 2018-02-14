@@ -35,6 +35,13 @@ class LevelThumbnailCache{
     
     }
     
+    func cachePercentageOccupied() -> Double{
+        
+        let numberKeysOccupied = LetterScene.allLetterScenes.filter{ return self.levelThumbnailDict[$0] != nil }.count
+        
+        return Double(numberKeysOccupied)/Double(LetterScene.allLetterScenes.count)
+    }
+    
     func clearCache(){
         for letterScene in LetterScene.allLetterScenes{
             self.levelThumbnailDict[letterScene] = nil

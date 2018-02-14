@@ -19,10 +19,6 @@ class BaseScene: SKScene {
     var reloadData: ReloadData? = nil
     
    
-
-    
-     
-    
     var worldNode: SKSpriteNode!
     var overlayNode: SKSpriteNode!
     var hudManager = HUDManager.sharedHUDManager
@@ -43,6 +39,25 @@ class BaseScene: SKScene {
     
     /**  The letter is attained when the player flies past the x-position of the letter.  Upon attaining the letter, the scene's state machine enter the LevelSceneSuccessState
  
+    **/
+    
+    
+    //MARK: *********** Cached sound effects for player contact with various collision bodies
+    
+    /**
+    var powerUpSound1 = SKAction.playSoundFileNamed("powerUp1.wav", waitForCompletion: false)
+    
+    var powerUpSound2 = SKAction.playSoundFileNamed("powerUp2.wav", waitForCompletion: false)
+    
+    var powerUpSound3 = SKAction.playSoundFileNamed("powerUp3.wav", waitForCompletion: false)
+    
+    var hitEnemySound = SKAction.playSoundFileNamed("stoneHit1.wav", waitForCompletion: false)
+    
+    var hitBarrierSound = SKAction.playSoundFileNamed("stoneHit2.wav", waitForCompletion: false)
+    
+    var playerIsContactingEnemy: Bool = false
+    var playerIsContactingBarrier: Bool = false
+    
     **/
     
     lazy var stateMachine : GKStateMachine = GKStateMachine(states: [

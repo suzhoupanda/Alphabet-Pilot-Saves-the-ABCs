@@ -51,7 +51,7 @@ class LetterG_Scene: BaseScene{
                 
                 if nodeName.contains("Giraffe"){
                     
-                    let giraffe = Animal(animalType: .Giraffe, position: position, nodeName: "elephant\(position)", scalingFactor: 0.20)
+                    let giraffe = Animal(animalType: .Giraffe, position: position, nodeName: "elephant\(position)", scalingFactor: 0.50)
                     
                     entityManager.addToWorld(giraffe)
                 }
